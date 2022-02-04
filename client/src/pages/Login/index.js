@@ -42,7 +42,7 @@ const Login = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-        ></input>
+        />
         <label label="password" aria-label="password">
           Email
         </label>
@@ -51,10 +51,8 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-        ></input>
-        <input type="submit" id="login-btn" className="submit-btn">
-          Sign In
-        </input>
+        />
+        <input type="submit" id="login-btn" className="submit-btn" value="Sign In" />
         <button onClick={() => navigate("/register")}>Register</button>
       </form>
     </div>

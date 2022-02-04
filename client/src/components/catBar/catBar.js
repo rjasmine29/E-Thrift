@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import { AiFillSkin, AiFillShopping, AiTwotoneCustomerService, AiTwotoneExperiment, AiTwotoneGift } from 'react-icons/ai';
+import { AiFillSkin, AiFillShopping, AiTwotoneCustomerService, AiTwotoneExperiment, AiTwotoneGift } from 'react-icons/ai'
 
 export const CatBar = () => {
 
@@ -32,5 +32,3 @@ export const CatBar = () => {
     </div>
     );
 };
-
-export default CatBar;

@@ -2,7 +2,7 @@ const axios = require('axios');
 
 async function postLogin(data) {
     try {
-        const resp = await axios.post(`${process.env.DB_URL}login`, data);
+        const resp = await axios.post(`http://localhost/login`, data);
         const tokenData = resp.json();
         if (tokenData.err) { throw Error(tokenData.err) }
         return tokenData;
@@ -11,13 +11,14 @@ async function postLogin(data) {
     }
 }
 
-async function postProfileImage(formData) {
+async function postRegister(data) {
     try {
-        const resp = await axios.post(process.env.CLOUDINARY_URL, formData);
-        console.log(resp);
+        const resp = await axios.post("http://localhost/register", data);
+        const newUser = resp.json();
+        return newUser;
     } catch (err) {
-        console.warm(`Error posting profile image: ${err}`);
+        console.warn(`Error posting profile image: ${err}`);
     }
 }
 
-export { postLogin, postProfileImage }
+export { postLogin, postRegister }
