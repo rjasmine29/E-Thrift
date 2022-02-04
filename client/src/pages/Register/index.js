@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
-import { postRegister } from "../../helpers/requests";
+import { postRegister, postLogin } from "../../helpers/requests";
 import defaultProfileImg from "../../../assets/default-profile.png";
 import "./style.css";
 
@@ -14,20 +16,9 @@ const Register = () => {
   const [phoneNumber, setPhoneNumber] = useState();
   const [avatarImg, setAvatarImg] = useState();
   const [previewImg, setPreviewImg] = useState(defaultProfileImg);
-  const fileInputRef = useRef();
 
-  useEffect(() => {
-    if (avatarImg) {
-      const reader = new FileReader();
-      // set the preview image once avatarImg url has been read
-      reader.onloadend = () => {
-        setPreviewImg(reader.result);
-      }
-      reader.readAsDataURL(avatarImg);
-    } else {
-      setPreviewImg(defaultProfileImg);
-    }
-  }, [avatarImg])
+  const navigate = useNavigate();
+  const fileInputRef = useRef();
 
   const openFiles = e => {
     e.preventDefault();
@@ -44,9 +35,62 @@ const Register = () => {
     }
   }
 
-  const submitRegister = e => {
+  const submitRegister = async (e) => {
+    try {
+      e.preventDefault();
 
+      const data = {
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+        email: email,
+        password: password,
+        passwordConfirm: passwordConfirm,
+        phoneNumber: phoneNumber,
+        avatarImg: avatarImg
+      }
+      // register the user
+      await postRegister(data);
+      // log the user in upon successful register
+      await requestLogin();
+    } catch (err) {
+      console.warn(`Error registering user: ${err}`);
+    }
   }
+
+    /**
+   * Requests an authorized log in. Sets local storage user variables
+   * upon success and navigates to the home page.
+   */
+     async function requestLogin() {
+      try {
+        // obtain access and refresh tokens
+        const { accessToken, refreshToken } = await postLogin({
+          email,
+          password,
+        });
+        const user = jwt_decode(accessToken);
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("email", user.username);
+        navigate('/');
+      } catch (err) {
+        console.warn(`Error requesting login: ${err}`);
+      }
+    }
+
+  useEffect(() => {
+    if (avatarImg) {
+      const reader = new FileReader();
+      // set the preview image once avatarImg url has been read
+      reader.onloadend = () => {
+        setPreviewImg(reader.result);
+      }
+      reader.readAsDataURL(avatarImg);
+    } else {
+      setPreviewImg(defaultProfileImg);
+    }
+  }, [avatarImg])
 
   return (
     <div className="register-page">
