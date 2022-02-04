@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'items.apps.ItemsConfig',
     'images.apps.ImagesConfig'
+    'favourites.apps.FavouritesConfig'
 ]
 
 AUTH_USER_MODEL = 'users.User'

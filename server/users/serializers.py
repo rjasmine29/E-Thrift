@@ -1,7 +1,7 @@
 from rest_framework import serializers
 # from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from .models import User
+from .models import Rating, User
 User = get_user_model()
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
@@ -37,3 +37,11 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    user_id = serializers.ReadOnlyField(source='user_id.username')
+
+    class Meta:
+        model = Rating
+        fields = ('id', 'user_id', 'rating')

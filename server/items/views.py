@@ -21,17 +21,18 @@ def get_all_items(req):
         data = {'data': serializer.data}
         return Response(data)
     except Exception as e:
-        return Response({'Error': e})
+        return Response({'Error': f"{e}"})
 
-@api_view(['GET '])
+@api_view(['GET'])
 def get_by_username(req, username):
     try:
         user = User.objects.get(username=username)
         items = Item.objects.filter(seller=user)
         serializer = ItemSerialzer(items, many=True)
+        print(serializer.data)
         data = {'data': serializer.data}
         return Response(data)
-    except NotFoundErr:
+    except Exception:
         return Response({'Error': 'Provided username doesnt exist'})
 
 @api_view(['GET'])
@@ -41,7 +42,7 @@ def get_by_item_id(req, item_id):
         serializer = ItemSerialzer(item)
         data = {'data': serializer.item}
         return Response(data)
-    except NotFoundErr:
+    except Exception:
         return Response({'Error': 'Item Not Found'})
 
 @api_view(['POST'])
@@ -51,11 +52,12 @@ def create(req):
         new_item = Item.objects.create( name = req.data['name'],
                                         description = req.data['description'],
                                         address = req.data['address'],
+                                        # img_url = req.data['img_url'],
                                         category = req.data['category'],
                                         seller = seller)
         return Response({'Success': f'Created new listing with id: {new_item.id} and name {new_item.name}'})
     except Exception as e:
-        return Response({'Error': e})
+        return Response({'Error': f"{e}"})
 
 # updates whole item, maybe make new to ba able to update certain features
 @api_view(['POST'])
@@ -92,7 +94,7 @@ def delete(req):
         #     cloudinary.
         item.delete()
         return Response({'Success': 'Listing Deleted'})
-    except NotFoundErr:
+    except Exception:
         return Response({'Error': 'Item not found'})
 
 @api_view(['POST'])
