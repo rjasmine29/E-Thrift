@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'rest_framework.authtoken',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'items.apps.ItemsConfig'
 ]
 
 AUTH_USER_MODEL = 'users.User'
