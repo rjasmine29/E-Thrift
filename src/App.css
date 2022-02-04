@@ -1,0 +1,67 @@
+.home-container {
+  margin-top: 20px;
+  text-align: center;
+  background-color: #87A3CE;
+  background-size: cover;
+  font-size: 16pt;
+  padding: 20px;
+  text-align: left;
+  color: #000000;
+}
+
+.home-container > p{
+  font-family:'Lucida Sans', 'Lucida Sans Regular';
+  font-size: 20px;
+  padding: 20px;
+  margin: auto;
+}
+
+@media screen and (max-width: 800px) {
+  .App {
+      width: 100%;
+  }
+}
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 20%;
+  padding: 0 80px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {margin: 0 -65px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 50%;
+    
+    display: block;
+    margin-bottom: 50px;
+  }
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2);
+  
+  padding: 20px;
+  text-align: center;
+  background-color: #f1f1f1;
+  transition: 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0);
+}
+
+.navbar> nav {
+ margin: auto;
+}
