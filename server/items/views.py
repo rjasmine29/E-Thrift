@@ -92,9 +92,9 @@ def delete(req):
     except NotFoundErr:
         return Response({'Error': 'Item not found'})
 
-def claim(req, id):
+def claim_item(req, item_id):
     try:
-        item = Item.objects.get(pk=id)
+        item = Item.objects.get(pk=item_id)
         buyer = User.objects.get(username=req.data['username'])
         if not item.is_claimed:
             item.buyer = buyer
