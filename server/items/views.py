@@ -13,6 +13,8 @@ def index(req):
     return HttpResponse('<h1>Root items page</h1>')
 
 # Create your views here.
+
+
 @api_view(['GET'])
 def get_all_items(req):
     try:
@@ -22,6 +24,7 @@ def get_all_items(req):
         return Response(data)
     except Exception as e:
         return Response({'Error': f"{e}"})
+
 
 @api_view(['GET'])
 def get_by_username(req, username):
@@ -34,6 +37,7 @@ def get_by_username(req, username):
     except Exception:
         return Response({'Error': 'Provided username doesnt exist'})
 
+
 @api_view(['GET'])
 def get_by_item_id(req, item_id):
     try:
@@ -44,21 +48,27 @@ def get_by_item_id(req, item_id):
     except Exception:
         return Response({'Error': 'Item Not Found'})
 
+
 @api_view(['POST'])
 def create(req):
     try:
+
         seller = User.objects.get(username=req.data['seller'])
-        new_item = Item.objects.create( name = req.data['name'],
-                                        description = req.data['description'],
-                                        address = req.data['address'],
-                                        # img_url = req.data['img_url'],
-                                        category = req.data['category'],
-                                        seller = seller)
+    
+        new_item = Item.objects.create(name=req.data['name'],
+                                       description=req.data['description'],
+                                       address=req.data['address'],
+                                       # img_url = req.data['img_url'],
+                                       category=req.data['category'],
+                                       seller=seller)
+        print("here1")
         return Response({'Success': f'Created new listing with id: {new_item.id} and name {new_item.name}'})
     except Exception as e:
-        return Response({'Error': f"{e}"})
+        return Response({'Error!': f"{e}"})
 
 # updates whole item, maybe make new to ba able to update certain features
+
+
 @api_view(['POST'])
 def update_listing(req):
     try:
@@ -66,14 +76,14 @@ def update_listing(req):
         item.name = req.data['name']
         item.description = req.data['description']
         item.address = req.data['address']
-        item.save() #this may update time not sure
+        item.save()  # this may update time not sure
 
         # if req.data["image"]:
         #     if item.img_url:
         #         cloudinary.uploader.destroy(item.image.public_id)
         #     item.img_url = req.data["image"]
         #     item.save()
-            
+
         # if req.data["deleteImages"]:
         #     cloudinary.uploader.destroy(item.image.public_id)
         #     item.image = None
@@ -83,18 +93,20 @@ def update_listing(req):
     except Exception as e:
         return Response({'Error': e})
 
+
 @api_view(['POST'])
 def delete(req):
     try:
-        item = Item.objects.get(pk=req.data['id']) #pk vs id?
-        
-        #delete image form cloudinary
+        item = Item.objects.get(pk=req.data['id'])  # pk vs id?
+
+        # delete image form cloudinary
         # if item.img_url:
         #     cloudinary.
         item.delete()
         return Response({'Success': 'Listing Deleted'})
     except Exception:
         return Response({'Error': 'Item not found'})
+
 
 @api_view(['POST'])
 def claim_item(req, item_id):
@@ -108,6 +120,3 @@ def claim_item(req, item_id):
         return Response({"Success": 'Successfully claimed item'})
     except Exception as e:
         return Response({'Error': f'error claiming item: {e}'})
-
-
-

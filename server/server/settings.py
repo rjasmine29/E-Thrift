@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'users.apps.UsersConfig',
     'items.apps.ItemsConfig',
-    'images.apps.ImagesConfig'
+    'images.apps.ImagesConfig',
     'favourites.apps.FavouritesConfig'
 ]
 

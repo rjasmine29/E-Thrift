@@ -27,7 +27,6 @@ def favourites_by_username(request, username):
 @api_view(['POST'])
 def add_favourite(request, username, item_id):
     try:
-        print("USERNAME = ",username)
         user = User.objects.get(username=username)
         item = Item.objects.get(id=item_id)
         creation = Favourite.objects.create(user_id=user, item_id=item)
@@ -40,7 +39,6 @@ def remove_favourite(request, username, item_id):
     try:
         user = User.objects.get(username=username)
         item = Item.objects.get(id=item_id)
-        print(item)
         value = Favourite.objects.filter(user_id=user, item_id=item)
         value.delete()
         return Response({"Success": f"Successfully deleted a favourite"})
