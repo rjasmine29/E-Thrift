@@ -3,9 +3,9 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from .models import Item
 from .serializers import ItemSerialzer
-from ..users.models import User
+from users.models import User
 from rest_framework.decorators import api_view
-from rest_framework.repsonse import Response
+from rest_framework.response import Response
 import cloudinary
 
 
@@ -23,6 +23,7 @@ def get_all_items(req):
     except Exception as e:
         return Response({'Error': e})
 
+@api_view(['GET '])
 def get_by_username(req, username):
     try:
         user = User.objects.get(username=username)
@@ -33,6 +34,7 @@ def get_by_username(req, username):
     except NotFoundErr:
         return Response({'Error': 'Provided username doesnt exist'})
 
+@api_view(['GET'])
 def get_by_item_id(req, item_id):
     try:
         item = Item.objects.get(id=item_id)
@@ -49,7 +51,6 @@ def create(req):
         new_item = Item.objects.create( name = req.data['name'],
                                         description = req.data['description'],
                                         address = req.data['address'],
-                                        img_url = req.data['img_url'],
                                         category = req.data['category'],
                                         seller = seller)
         return Response({'Success': f'Created new listing with id: {new_item.id} and name {new_item.name}'})
@@ -57,6 +58,7 @@ def create(req):
         return Response({'Error': e})
 
 # updates whole item, maybe make new to ba able to update certain features
+@api_view(['POST'])
 def update_listing(req):
     try:
         item = Item.objects.get(pk=req.data['id'])
@@ -80,6 +82,7 @@ def update_listing(req):
     except Exception as e:
         return Response({'Error': e})
 
+@api_view(['POST'])
 def delete(req):
     try:
         item = Item.objects.get(pk=req.data['id']) #pk vs id?
@@ -92,6 +95,7 @@ def delete(req):
     except NotFoundErr:
         return Response({'Error': 'Item not found'})
 
+@api_view(['POST'])
 def claim_item(req, item_id):
     try:
         item = Item.objects.get(pk=item_id)

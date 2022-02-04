@@ -8,5 +8,5 @@ class ItemSerialzer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ('id','name','price','charity', 'category','description','img_url', 'is_claimed','time', 'address')
+        fields = ('id','name','category','description','is_claimed','time', 'address')
 
