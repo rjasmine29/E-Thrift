@@ -29,7 +29,6 @@ def get_by_username(req, username):
         user = User.objects.get(username=username)
         items = Item.objects.filter(seller=user)
         serializer = ItemSerialzer(items, many=True)
-        print(serializer.data)
         data = {'data': serializer.data}
         return Response(data)
     except Exception:
