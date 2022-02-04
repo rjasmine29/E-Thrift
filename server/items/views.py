@@ -59,6 +59,7 @@ def create(req):
         return Response({'Error': f"{e}"})
 
 # updates whole item, maybe make new to ba able to update certain features
+@api_view(['POST'])
 def update_listing(req):
     try:
         item = Item.objects.get(pk=req.data['id'])
@@ -82,6 +83,7 @@ def update_listing(req):
     except Exception as e:
         return Response({'Error': e})
 
+@api_view(['POST'])
 def delete(req):
     try:
         item = Item.objects.get(pk=req.data['id']) #pk vs id?
@@ -94,6 +96,7 @@ def delete(req):
     except Exception:
         return Response({'Error': 'Item not found'})
 
+@api_view(['POST'])
 def claim_item(req, item_id):
     try:
         item = Item.objects.get(pk=item_id)
