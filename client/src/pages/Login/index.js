@@ -8,6 +8,7 @@ import "./style.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
 
   /**
@@ -16,6 +17,7 @@ const Login = () => {
    */
   async function requestLogin() {
     try {
+      // obtain access and refresh tokens
       const { accessToken, refreshToken } = await postLogin({
         email,
         password,
@@ -44,7 +46,7 @@ const Login = () => {
           required
         />
         <label label="password" aria-label="password">
-          Email
+          Password
         </label>
         <input
           type="text"
