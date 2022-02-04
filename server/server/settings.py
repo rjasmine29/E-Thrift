@@ -52,7 +52,11 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'rest_framework.authtoken',
     'users.apps.UsersConfig',
+<<<<<<< HEAD
     'favourites.apps.FavouritesConfig'
+=======
+    'items.apps.ItemsConfig'
+>>>>>>> 4f6ccd3ee6420ade02c086b3d5dc41262c965325
 ]
 
 AUTH_USER_MODEL = 'users.User'
