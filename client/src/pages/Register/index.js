@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+
+import { postRegister } from "../../helpers/requests";
 import defaultProfileImg from "../../../assets/default-profile.png";
 import "./style.css";
 
@@ -10,30 +12,54 @@ const Register = () => {
   const [password, setPassword] = useState();
   const [passwordConfirm, setPasswordConfirm] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
-  const [avatarUrl, setAvatarUrl] = useState();
-  const [avatarImg, setAvatarImg] = useState(defaultProfileImg);
+  const [avatarImg, setAvatarImg] = useState();
+  const [previewImg, setPreviewImg] = useState(defaultProfileImg);
+  const fileInputRef = useRef();
 
-  const uploadImage = () => {
-    console.log(avatarImg);
-    const formData = new FormData();
-    formData.append("file", avatarImg);
-    formData.append("upload_preset", "xw4yr");
-  };
+  useEffect(() => {
+    if (avatarImg) {
+      const reader = new FileReader();
+      // set the preview image once avatarImg url has been read
+      reader.onloadend = () => {
+        setPreviewImg(reader.result);
+      }
+      reader.readAsDataURL(avatarImg);
+    } else {
+      setPreviewImg(defaultProfileImg);
+    }
+  }, [avatarImg])
 
-  const submitRegister = () => {
+  const openFiles = e => {
+    e.preventDefault();
+    fileInputRef.current.click();
+  }
+
+  const onFileSelected = e => {
+    const file = e.target.files[0];
+    // assert that selected file is an image
+    if (file && file.type.substr(0, 5) === "image") {
+      setAvatarImg(file);
+    } else {
+      setAvatarImg(defaultProfileImg);
+    }
+  }
+
+  const submitRegister = e => {
 
   }
 
   return (
     <div className="register-page">
       <form onSubmit={submitRegister}>
+        <img src={previewImg} alt="Profile" onClick={e => openFiles(e)}/>
         <input
-          src={avatarImg}
           type="file"
-          onChange={(e) => setAvatarImg(e.target.files[0])}
+          accept="image/*"
+          ref={fileInputRef}
           className="profile-img"
           aria-label="profile-input"
           alt="Input Profile Image"
+          onChange={e => onFileSelected(e)}
         />
         <label label="first-name" aria-label="first-name">
           First name
@@ -98,9 +124,7 @@ const Register = () => {
           onChange={(e) => setPhoneNumber(e.target.value)}
           required
         />
-        <input type="submit" id="register-btn" className="submit-btn">
-          Create your E-Thrift account
-        </input>
+        <input type="submit" id="register-btn" className="submit-btn" input="Create your E-Thrift account" />
       </form>
     </div>
   );
