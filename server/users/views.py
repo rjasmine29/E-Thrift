@@ -1,9 +1,10 @@
 from rest_framework.views import APIView
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from .models import User
 from rest_framework.response import Response
 from rest_framework import status
 
-from .serializers import UserRegistrationSerializer
+from .serializers import UserRegistrationSerializer, UserSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -46,3 +47,8 @@ class BlacklistRefreshView(APIView):
 
 
 
+@api_view(['GET'])
+def get_all_user(request):
+    all = User.objects.all()
+    serializer = UserSerializer(all, many=True)
+    return Response(serializer.data)

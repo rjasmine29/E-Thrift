@@ -1,5 +1,9 @@
 from django.contrib import admin
 from rest_framework_simplejwt import token_blacklist
+from django.contrib.auth.admin import UserAdmin
+from .models import User
+
+admin.site.register(User, UserAdmin)
 
 class OutstandingTokenAdmin(token_blacklist.admin.OutstandingTokenAdmin):
 
