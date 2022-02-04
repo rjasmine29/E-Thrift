@@ -44,7 +44,9 @@ def add(req, item_id):
 def delete(req):
     try:
         item = Item.objects.get(pk=req.data['id'])
-        Images.objects.filter(item=item, image=req.data['image']).delete()
+        image = Images.objects.get(item=item, image=req.data['image'])
+        cloudinary.uploader.destroy(image.image.public_id)
+        image.delete()
         return Response({'Success': 'Image deletion successful'})
     except Exception as e:
         return Response({'Error': f'e'})
