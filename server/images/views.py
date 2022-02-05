@@ -33,7 +33,6 @@ def get_by_item(req, item_id):
 @api_view(['POST'])
 def add(req, item_id):
     try:
-        print(req.data["image"])
         item = Item.objects.get(pk=item_id)
         Images.objects.create(  item=item,
                                 img_url=req.data['image'])
