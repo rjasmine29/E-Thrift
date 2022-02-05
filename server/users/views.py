@@ -57,10 +57,7 @@ def get_all_user(request):
 
 @api_view(['GET'])
 def get_all_ratings(request):
-    print("HERE")
     all = Rating.objects.all()
-    print("HERE2")
-    print(all)
     serializer = RatingSerializer(all, many=True)
     return Response(serializer.data)
 

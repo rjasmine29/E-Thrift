@@ -61,7 +61,6 @@ def create(req):
                                        # img_url = req.data['img_url'],
                                        category=req.data['category'],
                                        seller=seller)
-        print("here1")
         return Response({'Success': f'Created new listing with id: {new_item.id} and name {new_item.name}'})
     except Exception as e:
         return Response({'Error!': f"{e}"})
