@@ -43,7 +43,7 @@ def get_by_item_id(req, item_id):
     try:
         item = Item.objects.get(id=item_id)
         serializer = ItemSerialzer(item)
-        data = {'data': serializer.item}
+        data = {'data': serializer.data}
         return Response(data)
     except Exception:
         return Response({'Error': 'Item Not Found'})
@@ -91,7 +91,7 @@ def update_listing(req):
 
         return Response({"Success": "Updated the post!"})
     except Exception as e:
-        return Response({'Error': e})
+        return Response({'Error': f"{e}"})
 
 
 @api_view(['POST'])
