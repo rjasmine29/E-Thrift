@@ -2,11 +2,16 @@ import { default as Register } from '.'
 import { screen, render, cleanup } from '@testing-library/react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('Register', () => {
 
     test('it renders the register form', () => {
-        const registerPage = shallow(<Register />)
+        const registerPage = shallow(
+            <BrowserRouter>
+                <Register />
+            </BrowserRouter>
+        )
         const tree = toJson(registerPage);
         expect(tree).toMatchSnapshot();        
     });
