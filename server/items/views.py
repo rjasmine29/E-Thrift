@@ -1,8 +1,9 @@
+from math import dist
 from xml.dom import NotFoundErr
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
-from .models import Item
-from .serializers import ItemSerialzer
+from .models import Item, RecentlyViewed
+from .serializers import ItemSerializer, RecentlyViewedSerializer
 from users.models import User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -21,8 +22,12 @@ def index(req):
 def get_all_items(req):
     try:
         data = Item.objects.all()
-        serializer = ItemSerialzer(data, many=True)
-        data = {'data': serializer.data}
+        photos = Images.objects.all().order_by('item_id').distinct()
+        
+        serializer = ItemSerializer(data, many=True)
+        serializer_img = ImagesSerializer(photos, many=True)
+
+        data = {'data': serializer.data, 'image': serializer_img.data}
         return Response(data)
     except Exception as e:
         return Response({'Error': f"{e}"})
@@ -33,7 +38,7 @@ def get_by_username(req, username):
     try:
         user = User.objects.get(username=username)
         items = Item.objects.filter(seller=user)
-        serializer = ItemSerialzer(items, many=True)
+        serializer = ItemSerializer(items, many=True)
         data = {'data': serializer.data}
         return Response(data)
     except Exception:
@@ -44,13 +49,29 @@ def get_by_username(req, username):
 def get_by_item_id(req, item_id):
     try:
         item = Item.objects.get(id=item_id)
-        serializer = ItemSerialzer(item)
+        serializer = ItemSerializer(item)
         photos = Images.objects.filter(item_id=item)
         serializer_img = ImagesSerializer(photos, many=True)
+
+        if req.data != {}:
+            user = User.objects.get(username=req.data["username"])
+
+            if user is not None:
+                last_item = RecentlyViewed.objects.filter(user_id=user).last()
+                
+                if last_item is not None:
+                    # Prevents the recently viewed list from being spammed with the same item
+                    if (last_item.item_id.id != item_id):
+                        RecentlyViewed.objects.create(user_id=user, item_id=item)
+                else:
+                    RecentlyViewed.objects.create(user_id=user, item_id=item)
+                    
+
+
         data = {'data': serializer.data, 'photo': serializer_img.data}
         return Response(data)
-    except Exception:
-        return Response({'Error': 'Item Not Found'})
+    except Exception as e:
+        return Response({'Error': f'Item Not Found - {e}'})
 
 
 @api_view(['POST'])
@@ -123,3 +144,16 @@ def claim_item(req, item_id):
         return Response({"Success": 'Successfully claimed item'})
     except Exception as e:
         return Response({'Error': f'error claiming item: {e}'})
+
+
+@api_view(['GET'])
+def recently_viewed_by_username(req, username):
+    try:
+        user = User.objects.get(username=username)
+        all = RecentlyViewed.objects.filter(user_id=user)
+        serialized = RecentlyViewedSerializer(all, many=True)
+        data = {'data': serialized.data}
+        return Response(data)
+
+    except Exception as e:
+        return Response({'Error': f'Cannot get all recently viewed items - {e}'})

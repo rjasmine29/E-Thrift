@@ -20,6 +20,11 @@ class Item(models.Model):
 
 
 class RecentlyViewed(models.Model):
-    pass
+    user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    item_id = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Item id: {self.item_id}, timestamp: {self.timestamp}"
 
 
