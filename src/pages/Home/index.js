@@ -1,13 +1,27 @@
 import React from 'react';
+import Carousel from 'react-elastic-Carousel'
+import styled from 'styled-components'
+import Card from '../../components/Card';
+import "../../App.css"
+import { breakpoints } from '@mui/system';
 
 
-const Home = () => {
+
+
+function Home() {
+  const breakPoints = [
+    {width: 1, itemsToShow:1},
+    {width: 500, itemsToShow:2},
+    {width: 700, itemsToShow:3},
+    { width: 1000, itemsToShow: 4}
+  
+  ];
     return (
         <div className='home-container'>
             <h1>THRIFT & DONATE.</h1>
       <p> Sell your items here...</p>
      
-     
+{/*    DO CAROUSEL INSTEAD  
       <div class="card">
       <p> Recently viewed </p>
       <div class="row">
@@ -38,10 +52,22 @@ const Home = () => {
 </div>
 
 
-</div>
+</div> */}
+
+ 
+    <Carousel breakPoints={breakPoints}>
+      <Card number="1" />
+      <Card number= "2" />
+      <Card number= "3"/>
+      <Card number= "4"/>
+      <Card number= "5"/>
+    
+    </Carousel>
+
 
         </div>
+
     )
 }
 
-export default Home;
+export default Home; breakpoints;

@@ -6,6 +6,7 @@ import { CreateListing, Home, Login, Product, Profile, Register, Search } from "
 import './App.css';
 import './pages'
 
+
 const App = () => {
   return (
     <Router>
@@ -20,6 +21,8 @@ const App = () => {
           <Route path="/register" element={<Register />}></Route>
           <Route path="/search" element={<Search />}></Route>
         </Routes>
+
+        
       </div>
     </Router>
   );
