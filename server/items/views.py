@@ -6,6 +6,8 @@ from .serializers import ItemSerialzer
 from users.models import User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from images.models import Images
+from images.serializer import ImagesSerializer
 import cloudinary
 
 
@@ -43,7 +45,9 @@ def get_by_item_id(req, item_id):
     try:
         item = Item.objects.get(id=item_id)
         serializer = ItemSerialzer(item)
-        data = {'data': serializer.data}
+        photos = Images.objects.filter(item_id=item)
+        serializer_img = ImagesSerializer(photos, many=True)
+        data = {'data': serializer.data, 'photo': serializer_img.data}
         return Response(data)
     except Exception:
         return Response({'Error': 'Item Not Found'})

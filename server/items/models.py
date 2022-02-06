@@ -19,4 +19,7 @@ class Item(models.Model):
         return f'Listing name:{self.name}, desc: {self.description}, seller:{self.seller}'
 
 
+class RecentlyViewed(models.Model):
+    pass
+
 

@@ -34,8 +34,11 @@ def get_by_item(req, item_id):
 def add(req, item_id):
     try:
         item = Item.objects.get(pk=item_id)
-        Images.objects.create(  item=item,
-                                img_url=req.data['image'])
+        images = req.FILES.getlist('image')
+
+        for image in images:
+            Images.objects.create(  item=item,
+                                    img_url=image)
         return Response({'Success': 'Added image to item'})
     except Exception as e:
         return Response({'Error': f'{e}'})
