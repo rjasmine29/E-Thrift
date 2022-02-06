@@ -1,6 +1,6 @@
 import { default as Register } from '.'
-import { screen, render, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { screen, render, waitFor, act } from '@testing-library/react';
+import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
 describe('Register', () => {
@@ -14,17 +14,19 @@ describe('Register', () => {
         render(<Register />, { wrapper: MemoryRouter });
         const profileImg = screen.getByRole('img', { name: "Profile" });
         userEvent.click(profileImg);
-        // assert 'openFiles' toHaveBeenCalled() 
     });
 
-    test('it updates the preview image when the user inputs an image', () => {
+    test('it updates the preview image when the user inputs an image', async () => {
         render(<Register />, { wrapper: MemoryRouter });
         const profileImg = screen.getByRole('img', { name: "Profile" });
-        const profileInput = screen.getAllByRole('profile-input', { hidden: true }); // ERROR: Cannot find the profile input
+        const profileInput = screen.getByLabelText("profile-input", { hidden: true }); // ERROR: Cannot find the profile input
         const testFile = new File(['test'], 'test.png', { type: 'image/png' });
         const defaultImageSrc = profileImg.src;
         userEvent.upload(profileInput, testFile);
-        expect(defaultImageSrc).not.toBe(profileImg.src);
+
+        await waitFor(() => {
+            expect(defaultImageSrc).not.toBe(profileImg.src);
+        });
     });
 
 
