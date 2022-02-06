@@ -29,6 +29,7 @@
     "start": "react-scripts start",
     "build": "webpack --config config/webpack.config.production.js",
     "test": "react-scripts test --setupFilesAfterEnv ./src/test/setupTests.js",
+    "coverage": "npm test -- --coverage",
     "eject": "react-scripts eject"
   },
   "jest": {
