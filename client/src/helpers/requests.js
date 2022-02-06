@@ -17,7 +17,7 @@ async function postRegister(data) {
         const newUser = resp.json();
         return newUser;
     } catch (err) {
-        console.warn(`Error posting profile image: ${err}`);
+        console.warn(`Error requesting user registration: ${err}`);
     }
 }
 
