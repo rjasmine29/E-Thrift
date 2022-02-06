@@ -127,7 +127,7 @@ const Register = () => {
 
   return (
     <div className="register-page">
-      <form onSubmit={submitRegister}>
+      <form onSubmit={submitRegister} aria-label="form">
         <div className="profile-image-container">
           <CancelOutlinedIcon className="cancel-icon" onClick={removeSelectedImage} />
           <img className="profile-img" src={previewImg} alt="Profile" onClick={e => openFiles(e)} />
