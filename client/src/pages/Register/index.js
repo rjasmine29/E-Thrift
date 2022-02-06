@@ -8,14 +8,16 @@ import defaultProfileImg from "../../../assets/default-profile.png";
 import "./style.css";
 
 const Register = () => {
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [username, setUsername] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [passwordConfirm, setPasswordConfirm] = useState();
-  const [phoneNumber, setPhoneNumber] = useState();
-  const [avatarImg, setAvatarImg] = useState();
+  const [isLoadingRegister, setIsLoadingRegister] = useState(false);
+  const [isLoadingLogin, setIsLoadingLogin] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [avatarImg, setAvatarImg] = useState(null);
   const [previewImg, setPreviewImg] = useState(defaultProfileImg);
 
   const navigate = useNavigate();
@@ -125,11 +127,25 @@ const Register = () => {
     }
   }, [avatarImg]);
 
+  useEffect(() => {
+    let isMounted = true;
+    return () => {
+
+    }
+  }, [isLoadingRegister]);
+
+  useEffect(() => {
+    let isMounted = true;
+    return () => {
+
+    }
+  }, [isLoadingLogin]);
+
   return (
     <div className="register-page">
-      <form onSubmit={submitRegister}>
+      <form onSubmit={submitRegister} aria-label="form">
         <div className="profile-image-container">
-          <CancelOutlinedIcon className="cancel-icon" onClick={removeSelectedImage} />
+          <CancelOutlinedIcon className="cancel-icon" aria-label="remove-image" onClick={removeSelectedImage} />
           <img className="profile-img" src={previewImg} alt="Profile" onClick={e => openFiles(e)} />
           <input
             type="file"
@@ -148,6 +164,7 @@ const Register = () => {
           type="text"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
+          aria-label="first-name-input"
           required
         />
 
@@ -158,6 +175,7 @@ const Register = () => {
           type="text"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
+          aria-label="last-name-input"
           required
         />
 
@@ -168,6 +186,7 @@ const Register = () => {
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          aria-label="username-input"
           required
         />
 
@@ -175,9 +194,10 @@ const Register = () => {
           Email address
         </label>
         <input
-          type="text"
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          aria-label="email-input"
           required
         />
 
@@ -185,9 +205,10 @@ const Register = () => {
           Password
         </label>
         <input
-          type="text"
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          aria-label="password-input"
           required
         />
 
@@ -195,9 +216,10 @@ const Register = () => {
           Confirm password
         </label>
         <input
-          type="text"
+          type="password"
           value={passwordConfirm}
           onChange={(e) => setPasswordConfirm(e.target.value)}
+          aria-label="password-confirm-input"
           required
         />
 
@@ -208,6 +230,7 @@ const Register = () => {
           type="text"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
+          aria-label="phone-number-input"
           required
         />
 
