@@ -51,3 +51,7 @@ class TestViewsCase(TestCase):
     def test_add_rating(self):
         response = self.client.post("/user/rating/test/5")
         self.assertEqual(response.status_code, 200)
+
+    def test_get_rating_for_username(self):
+        response = self.client.get("/user/rating/test/")
+        self.assertEqual(response.status_code, 200)
