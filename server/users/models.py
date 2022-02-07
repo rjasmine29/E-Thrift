@@ -8,9 +8,11 @@ class User(AbstractUser):
     username = models.CharField(max_length=150, unique=True)
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
-    email = models.EmailField(_('email address'), unique=True)
+    email = models.EmailField(unique=True)
     phone_number = models.IntegerField(null=True, blank=True)
-    avatar_url = CloudinaryField('image', blank=True, null=True)
+    avatar_url = CloudinaryField('image', null=True, blank=True)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
 # class Address(models.Model):
 class Rating(models.Model):

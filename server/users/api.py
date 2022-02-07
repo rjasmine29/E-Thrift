@@ -8,9 +8,12 @@ class RegisterAPI(generics.GenericAPIView):
 
   def post(self, request, *args, **kwargs):
     serializer = self.get_serializer(data=request.data)
-    serializer.is_valid(raise_exception=True)
-    user = serializer.save()
-    return Response({
-      'user_id': user.pk,
-      'username': user.username
-    })
+    if serializer.is_valid():
+      serializer.is_valid(raise_exception=True)
+      user = serializer.save()
+      return Response({
+        'user_id': user.pk,
+        'username': user.username
+      })
+    else:
+      return Response({'Error': f'Error registering!'})

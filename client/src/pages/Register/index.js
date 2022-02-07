@@ -68,21 +68,33 @@ const Register = () => {
     try {
       if (isMounted) {
         e.preventDefault();
+        let data = new FormData(e.target)
 
-        const data = {
-          firstName: firstName,
-          lastName: lastName,
-          username: username,
-          email: email,
-          password: password,
-          passwordConfirm: passwordConfirm,
-          phoneNumber: phoneNumber,
-          avatarImg: avatarImg,
-        };
+        data.append('first_name', firstName)
+        data.append('last_name', lastName)
+        data.append('username', username)
+        data.append('email', email)
+        data.append('password', password)
+        data.append('password_confirmation', passwordConfirm)
+        data.append('phone_number', phoneNumber)
+        console.log(e.target.image.files.length)
+        if (e.target.image.files.length > 0) {
+
+          data.append('avatar_url', e.target.image.files[0])
+        }
+        
         // register the user
-        await postRegister(data);
-        // log the user in upon successful register
-        await requestLogin();
+        let output = await postRegister(data);
+        
+        if (output !== "Error registering!") {
+          
+          localStorage.clear()
+          // log the user in upon successful register
+          await requestLogin();
+        } else {
+          
+          localStorage.clear()
+        }
       }
     } catch (err) {
       console.warn(`Error registering user: ${err}`);
@@ -97,14 +109,13 @@ const Register = () => {
     try {
       if(isMounted) {
         // obtain access and refresh tokens
-        const { accessToken, refreshToken } = await postLogin({
+        const { data } = await postLogin({
           email,
           password,
         });
-        const user = jwt_decode(accessToken);
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
-        localStorage.setItem("email", user.username);
+        const user = jwt_decode(data.access);
+        localStorage.setItem('authTokens', JSON.stringify(data))
+        localStorage.setItem("username", user.username);
         navigate("/");
       }
     } catch (err) {
@@ -148,6 +159,7 @@ const Register = () => {
             accept="image/*"
             ref={fileInputRef}
             aria-label="profile-input"
+            name="image"
             hidden={true}
             onChange={e => onFileSelected(e)}
           />
