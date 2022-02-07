@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 
 import { postRegister, postLogin } from "../../helpers/requests";
-import defaultProfileImg from "../../../assets/default-profile.png";
+import defaultProfileImg from "../../assets/default-profile.png";
 import "./style.css";
 
 const Register = () => {

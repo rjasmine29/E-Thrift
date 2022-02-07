@@ -21,4 +21,15 @@ async function postRegister(data) {
     }
 }
 
-export { postLogin, postRegister }
+async function getSearch(data){
+    try {
+        const resp = await axios.get(`http://localhost/search/${data}`);
+        console.log(resp.data);
+        const result = resp.json();
+        return result;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+export { postLogin, postRegister, getSearch }
