@@ -24,7 +24,7 @@ async function postRegister(data) {
 
 async function getProfile(username) {
     try {
-        const resp = await axios.get(`http://localhost/users/${username}`);
+        const resp = await axios.get(`http://127.0.0.1:8000/user/${username}`);
         const user = resp.json();
         return user;
     } catch (err) {
@@ -34,7 +34,7 @@ async function getProfile(username) {
 
 async function getRating(username) {
     try {
-        const resp = await axios.get(`http://localhost/ratings/${username}`);
+        const resp = await axios.get(`http://127.0.0.1:8000/ratings/${username}`);
         const rating = resp.json();
         return rating;
     } catch (err) {
