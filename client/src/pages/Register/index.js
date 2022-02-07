@@ -4,12 +4,10 @@ import jwt_decode from "jwt-decode";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 
 import { postRegister, postLogin } from "../../helpers/requests";
-import defaultProfileImg from "../../../assets/default-profile.png";
+import defaultProfileImg from "../../assets/default-profile.png"
 import "./style.css";
 
 const Register = () => {
-  const [isLoadingRegister, setIsLoadingRegister] = useState(false);
-  const [isLoadingLogin, setIsLoadingLogin] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -22,6 +20,7 @@ const Register = () => {
 
   const navigate = useNavigate();
   const fileInputRef = useRef();
+  const isMounted = useRef(true);
 
   /**
    * Opens the file explorer to select an image.
@@ -67,22 +66,24 @@ const Register = () => {
    */
   const submitRegister = async (e) => {
     try {
-      e.preventDefault();
+      if (isMounted) {
+        e.preventDefault();
 
-      const data = {
-        firstName: firstName,
-        lastName: lastName,
-        username: username,
-        email: email,
-        password: password,
-        passwordConfirm: passwordConfirm,
-        phoneNumber: phoneNumber,
-        avatarImg: avatarImg,
-      };
-      // register the user
-      await postRegister(data);
-      // log the user in upon successful register
-      await requestLogin();
+        const data = {
+          firstName: firstName,
+          lastName: lastName,
+          username: username,
+          email: email,
+          password: password,
+          passwordConfirm: passwordConfirm,
+          phoneNumber: phoneNumber,
+          avatarImg: avatarImg,
+        };
+        // register the user
+        await postRegister(data);
+        // log the user in upon successful register
+        await requestLogin();
+      }
     } catch (err) {
       console.warn(`Error registering user: ${err}`);
     }
@@ -94,16 +95,18 @@ const Register = () => {
    */
   async function requestLogin() {
     try {
-      // obtain access and refresh tokens
-      const { accessToken, refreshToken } = await postLogin({
-        email,
-        password,
-      });
-      const user = jwt_decode(accessToken);
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      localStorage.setItem("email", user.username);
-      navigate("/");
+      if(isMounted) {
+        // obtain access and refresh tokens
+        const { accessToken, refreshToken } = await postLogin({
+          email,
+          password,
+        });
+        const user = jwt_decode(accessToken);
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("email", user.username);
+        navigate("/");
+      }
     } catch (err) {
       console.warn(`Error requesting login: ${err}`);
     }
@@ -114,8 +117,7 @@ const Register = () => {
    * is changed by the user.
    */
   useEffect(() => {
-    console.log("Avatar Image Selected:", avatarImg);
-    if (avatarImg && avatarImg !== defaultProfileImg) {
+    if (avatarImg && avatarImg !== defaultProfileImg && isMounted) {
       const reader = new FileReader();
       // set the preview image once avatarImg url has been read
       reader.onloadend = () => {
@@ -127,22 +129,16 @@ const Register = () => {
     }
   }, [avatarImg]);
 
+  /**
+   * Clean up component after unmounting to avoid memory leaks.
+   */
   useEffect(() => {
-    let isMounted = true;
-    return () => {
-
-    }
-  }, [isLoadingRegister]);
-
-  useEffect(() => {
-    let isMounted = true;
-    return () => {
-
-    }
-  }, [isLoadingLogin]);
+    return () => { isMounted.current = false }
+  })
 
   return (
     <div className="register-page">
+      <h1>Register</h1>
       <form onSubmit={submitRegister} aria-label="form">
         <div className="profile-image-container">
           <CancelOutlinedIcon className="cancel-icon" aria-label="remove-image" onClick={removeSelectedImage} />
