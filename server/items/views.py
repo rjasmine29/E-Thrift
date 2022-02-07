@@ -53,7 +53,6 @@ def get_by_category(req, category):
     except Exception as e:
         return Response({'Error': f'Provided username doesnt exist - {e}'})
 
-
 @api_view(['GET'])
 def get_by_username(req, username):
     try:

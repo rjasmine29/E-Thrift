@@ -23,3 +23,4 @@ urlpatterns = [
     path('items/', include('items.urls')),
     path('images/', include("images.urls"))
 ]
+# pipenv install -r requirements.txt
