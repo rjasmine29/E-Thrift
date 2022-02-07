@@ -16,9 +16,9 @@ class User(AbstractUser):
 
 # class Address(models.Model):
 class Rating(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="user_ids", default=None, blank=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="user_ids", default=None, blank=True)
     rating = models.IntegerField()
 
     def __str__(self):
         return f"{self.user_id} - {self.rating}"
-    
+

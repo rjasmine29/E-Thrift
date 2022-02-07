@@ -3,8 +3,8 @@ from users.models import User
 
 # Create your models here.
 class Item(models.Model):
-    seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='seller')
-    buyer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='buyer_id', default=None, blank=True)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='seller')
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='buyer_id', default=None, blank=True)
     name = models.CharField(max_length=200)
     #price = models.PositiveIntegerField()
     #charity = models.CharField(max_length=100)
@@ -20,8 +20,8 @@ class Item(models.Model):
 
 
 class RecentlyViewed(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    item_id = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    item_id = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

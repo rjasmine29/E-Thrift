@@ -22,6 +22,17 @@ async function postRegister(data) {
     }
 }
 
+async function getSearch(data){
+    try {
+        const resp = await axios.get(`http://localhost/search/${data}`);
+        console.log(resp.data);
+        const result = resp.json();
+        return result;
+    } catch (err) {
+        console.warn(`Error retrieving search results for ${data}: ${err}`);
+    }
+}
+
 async function getProfile(username) {
     try {
         const resp = await axios.get(`http://127.0.0.1:8000/user/${username}`);
@@ -62,4 +73,4 @@ async function getClaimedItems(username) {
     }
 }
 
-export { postLogin, postRegister, getProfile, getRating, getActiveItems, getClaimedItems }
+export { postLogin, postRegister, getSearch, getProfile, getRating, getActiveItems, getClaimedItems }
