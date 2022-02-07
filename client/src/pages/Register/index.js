@@ -4,12 +4,10 @@ import jwt_decode from "jwt-decode";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 
 import { postRegister, postLogin } from "../../helpers/requests";
-import defaultProfileImg from "../../assets/default-profile.png";
+import defaultProfileImg from "../../assets/default-profile.png"
 import "./style.css";
 
 const Register = () => {
-  const [isLoadingRegister, setIsLoadingRegister] = useState(false);
-  const [isLoadingLogin, setIsLoadingLogin] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -22,6 +20,7 @@ const Register = () => {
 
   const navigate = useNavigate();
   const fileInputRef = useRef();
+  const isMounted = useRef(true);
 
   /**
    * Opens the file explorer to select an image.
@@ -67,22 +66,35 @@ const Register = () => {
    */
   const submitRegister = async (e) => {
     try {
-      e.preventDefault();
+      if (isMounted) {
+        e.preventDefault();
+        let data = new FormData(e.target)
 
-      const data = {
-        firstName: firstName,
-        lastName: lastName,
-        username: username,
-        email: email,
-        password: password,
-        passwordConfirm: passwordConfirm,
-        phoneNumber: phoneNumber,
-        avatarImg: avatarImg,
-      };
-      // register the user
-      await postRegister(data);
-      // log the user in upon successful register
-      await requestLogin();
+        data.append('first_name', firstName)
+        data.append('last_name', lastName)
+        data.append('username', username)
+        data.append('email', email)
+        data.append('password', password)
+        data.append('password_confirmation', passwordConfirm)
+        data.append('phone_number', phoneNumber)
+        
+        if (e.target.image.files.length > 0) {
+          data.append('avatar_url', e.target.image.files[0])
+        }
+        
+        // register the user
+        let output = await postRegister(data);
+        
+        if (output !== "Error registering!") {
+          
+          localStorage.clear()
+          // log the user in upon successful register
+          await requestLogin();
+        } else {
+          
+          localStorage.clear()
+        }
+      }
     } catch (err) {
       console.warn(`Error registering user: ${err}`);
     }
@@ -94,16 +106,17 @@ const Register = () => {
    */
   async function requestLogin() {
     try {
-      // obtain access and refresh tokens
-      const { accessToken, refreshToken } = await postLogin({
-        email,
-        password,
-      });
-      const user = jwt_decode(accessToken);
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      localStorage.setItem("email", user.username);
-      navigate("/");
+      if(isMounted) {
+        // obtain access and refresh tokens
+        const { data } = await postLogin({
+          email,
+          password,
+        });
+        const user = jwt_decode(data.access);
+        localStorage.setItem('authTokens', JSON.stringify(data))
+        localStorage.setItem("username", user.username);
+        navigate("/");
+      }
     } catch (err) {
       console.warn(`Error requesting login: ${err}`);
     }
@@ -114,8 +127,7 @@ const Register = () => {
    * is changed by the user.
    */
   useEffect(() => {
-    console.log("Avatar Image Selected:", avatarImg);
-    if (avatarImg && avatarImg !== defaultProfileImg) {
+    if (avatarImg && avatarImg !== defaultProfileImg && isMounted) {
       const reader = new FileReader();
       // set the preview image once avatarImg url has been read
       reader.onloadend = () => {
@@ -127,22 +139,16 @@ const Register = () => {
     }
   }, [avatarImg]);
 
+  /**
+   * Clean up component after unmounting to avoid memory leaks.
+   */
   useEffect(() => {
-    let isMounted = true;
-    return () => {
-
-    }
-  }, [isLoadingRegister]);
-
-  useEffect(() => {
-    let isMounted = true;
-    return () => {
-
-    }
-  }, [isLoadingLogin]);
+    return () => { isMounted.current = false }
+  })
 
   return (
     <div className="register-page">
+      <h1>Register</h1>
       <form onSubmit={submitRegister} aria-label="form">
         <div className="profile-image-container">
           <CancelOutlinedIcon className="cancel-icon" aria-label="remove-image" onClick={removeSelectedImage} />
@@ -152,6 +158,7 @@ const Register = () => {
             accept="image/*"
             ref={fileInputRef}
             aria-label="profile-input"
+            name="image"
             hidden={true}
             onChange={e => onFileSelected(e)}
           />

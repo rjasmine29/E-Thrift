@@ -22,13 +22,14 @@
     "react-icons": "^4.3.1",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "react-simple-star-rating": "^4.0.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "dev": "webpack-cli serve --mode development --config config/webpack.config.dev.js",
     "start": "react-scripts start",
     "build": "webpack --config config/webpack.config.production.js",
-    "test": "react-scripts test --setupFilesAfterEnv ./src/test/setupTests.js",
+    "test": "react-scripts test --watchAll --setupFilesAfterEnv ./src/test/setupTests.js",
     "coverage": "npm test -- --coverage",
     "eject": "react-scripts eject"
   },

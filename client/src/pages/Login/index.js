@@ -15,19 +15,24 @@ const Login = () => {
    * Requests an authorized log in. Sets local storage user variables
    * upon success and navigates to previous page user was on.
    */
-  async function requestLogin() {
+  
+  async function requestLogin(e) {
+    e.preventDefault()
+    
     try {
+      e.preventDefault();
       // obtain access and refresh tokens
-      const { accessToken, refreshToken } = await postLogin({
+      const {data} = await postLogin({
         email,
         password,
       });
-      const user = jwt_decode(accessToken);
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      localStorage.setItem("email", user.username);
-      navigate(-1);
+      
+      const user = jwt_decode(data.access);
+      localStorage.setItem('authTokens', JSON.stringify(data))
+      localStorage.setItem("username", user.username);
+      navigate("/");
     } catch (err) {
+      localStorage.clear()
       console.warn(`Error requesting login: ${err}`);
     }
   }
@@ -40,22 +45,24 @@ const Login = () => {
           Email
         </label>
         <input
-          type="text"
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          aria-label="email-input"
           required
         />
-        <label label="password" aria-label="password">
+        <label label="password" aria-label="password" type="password">
           Password
         </label>
         <input
           type="text"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          aria-label="password-input"
           required
         />
         <input type="submit" id="login-btn" className="submit-btn" value="Sign In" />
-        <button onClick={() => navigate("/register")}>Register</button>
+        <button className="register-btn" value="Register" Click={() => navigate("/register")}>Register</button>
       </form>
     </div>
   );

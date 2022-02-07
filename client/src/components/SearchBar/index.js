@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 const SearchBar = () => {
     const query = useRef();
-    const [category, setCategory] = useState('');
+    const [category, setCategory] = useState('All');
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -58,6 +58,7 @@ const SearchBar = () => {
                             label="Category"
                             onChange={handleChange}
                         >
+                            
                            <MenuItem value='All'>All</MenuItem>
                            <MenuItem value='Clothes'>Clothes</MenuItem> 
                            <MenuItem value='Furniture'>Furniture</MenuItem> 
