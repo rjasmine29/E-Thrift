@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { NavBar, CatBar, Mapbox, SearchBar } from '../../components';
 import ProductCard from '../../components/productCard';
+import { getSearch } from "../../helpers/requests";
+
 
 function Search() {
   const [cat, setCat] = useState('all')
+  const [result, setResult]=useState(getSearch.result)
 
   useEffect(() => {
-    
+
   }, [cat])
 
   return (
