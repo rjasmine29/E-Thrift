@@ -21,5 +21,9 @@ urlpatterns = [
     path('user/', include("users.urls")),
     path('favourite/', include("favourites.urls")),
     path('items/', include('items.urls')),
+<<<<<<< HEAD
+    path('images/', include('images.urls'))
+=======
     path('images/', include("images.urls"))
+>>>>>>> 780d3a7010f206994addabd7a9f42ea80c056278
 ]

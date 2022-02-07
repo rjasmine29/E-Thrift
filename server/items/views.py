@@ -37,14 +37,12 @@ def get_all_items(req):
 def get_by_username(req, username):
     try:
         user = User.objects.get(username=username)
-
         items = Item.objects.filter(seller=user)
         serializer = ItemSerializer(items, many=True)
         
         lists = []
         for item in items:
             
-
             photos = Images.objects.filter(item_id=item)
             
             for photo in photos:
@@ -65,8 +63,13 @@ def get_by_item_id(req, item_id):
         serializer = ItemSerializer(item)
         photos = Images.objects.filter(item_id=item)
         serializer_img = ImagesSerializer(photos, many=True)
+<<<<<<< HEAD
+        print(req.GET.get("username") == "null")
+        if req.GET.get("username") is not None and req.GET.get('username') != '':
+=======
         
         if req.GET.get("username") is not None and req.GET.get("username") != "":
+>>>>>>> 29c82c6b396d80e5b13a1ebe3f1820c78c685599
             user = User.objects.get(username=req.GET.get("username"))
             
             if user is not None:
@@ -93,13 +96,11 @@ def create(req):
     try:
 
         seller = User.objects.get(username=req.data['seller'])
-    
-        new_item = Item.objects.create(name=req.data['name'],
-                                       description=req.data['description'],
-                                       address=req.data['address'],
-                                       # img_url = req.data['img_url'],
-                                       category=req.data['category'],
-                                       seller=seller)
+        new_item = Item.objects.create( name = req.data['name'],
+                                        description = req.data['description'],
+                                        address = req.data['address'],
+                                        category = req.data['category'],
+                                        seller = seller)
         return Response({'Success': f'Created new listing with id: {new_item.id} and name {new_item.name}'})
     except Exception as e:
         return Response({'Error!': f"{e}"})
@@ -114,19 +115,7 @@ def update_listing(req):
         item.name = req.data['name']
         item.description = req.data['description']
         item.address = req.data['address']
-        item.save()  # this may update time not sure
-
-        # if req.data["image"]:
-        #     if item.img_url:
-        #         cloudinary.uploader.destroy(item.image.public_id)
-        #     item.img_url = req.data["image"]
-        #     item.save()
-
-        # if req.data["deleteImages"]:
-        #     cloudinary.uploader.destroy(item.image.public_id)
-        #     item.image = None
-        #     item.save()
-
+        item.save() #this may update time not sure
         return Response({"Success": "Updated the post!"})
     except Exception as e:
         return Response({'Error': f"{e}"})
@@ -135,11 +124,7 @@ def update_listing(req):
 @api_view(['POST'])
 def delete(req):
     try:
-        item = Item.objects.get(pk=req.data['id'])  # pk vs id?
-
-        # delete image form cloudinary
-        # if item.img_url:
-        #     cloudinary.
+        item = Item.objects.get(pk=req.data['id']) #pk vs id?
         item.delete()
         return Response({'Success': 'Listing Deleted'})
     except Exception:
