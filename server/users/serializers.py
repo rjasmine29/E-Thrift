@@ -28,6 +28,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create(username=validated_data['username'], first_name=validated_data['first_name'], email=validated_data["email"], last_name=validated_data["last_name"], phone_number=validated_data["phone_number"], avatar_url=validated_data["avatar_url"])
+        
         password = validated_data['password']
         password_confirmation = validated_data['password_confirmation']
 
