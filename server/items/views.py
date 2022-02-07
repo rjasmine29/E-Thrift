@@ -32,6 +32,49 @@ def get_all_items(req):
     except Exception as e:
         return Response({'Error': f"{e}"})
 
+@api_view(['GET'])
+def get_unclaimed_items(req):
+    try:
+        items = Item.objects.filter(is_claimed=False)
+        serializer = ItemSerializer(items, many=True)
+        
+        lists = []
+        for item in items:
+            
+            photos = Images.objects.filter(item_id=item)
+            
+            for photo in photos:
+                print(photo)
+                lists.append(photo)
+        
+        serializer_img = ImagesSerializer(lists, many=True)
+        data = {'data': serializer.data, 'image': serializer_img.data}
+        return Response(data)
+    except Exception as e:
+        return Response({'Error': f"{e}"})
+
+@api_view(['GET'])
+def claimed_by_username(req, username):
+    try:
+        items = Item.objects.filter(buyer=username)
+        serializer = ItemSerializer(items, many=True)
+
+        lists = []
+        for item in items:
+            
+            photos = Images.objects.filter(item_id=item)
+            
+            for photo in photos:
+                print(photo)
+                lists.append(photo)
+        
+        serializer_img = ImagesSerializer(lists, many=True)
+
+        data = {'data': serializer.data, 'image': serializer_img.data}
+        return Response(data)
+    except Exception as e:
+        return Response({'Error': f"{e}"})
+
 
 @api_view(['GET'])
 def get_by_username(req, username):
@@ -55,7 +98,7 @@ def get_by_username(req, username):
     except Exception as e:
         return Response({'Error': f'Provided username doesnt exist - {e}'})
 
-@api_view({'GET'})
+@api_view(['GET'])
 def get_by_category(req, category):
     try:
         items = Item.objects.filter(category=category)

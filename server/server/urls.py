@@ -21,5 +21,5 @@ urlpatterns = [
     path('user/', include("users.urls")),
     path('favourite/', include("favourites.urls")),
     path('items/', include('items.urls')),
-    path('images/', include("images.urls"))
+    path('images/', include('images.urls'))
 ]
