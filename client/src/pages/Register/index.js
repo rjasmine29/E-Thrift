@@ -92,7 +92,6 @@ const Register = () => {
           // log the user in upon successful register
           await requestLogin();
         } else {
-          
           localStorage.clear()
         }
       }
