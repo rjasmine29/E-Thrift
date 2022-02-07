@@ -5,11 +5,15 @@ from cloudinary.models import CloudinaryField
 # Create your models here.
 class Images(models.Model):
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, related_name='seller_id' )
     img_url = models.CharField(max_length=500)
 =======
     item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, related_name='item')
+=======
+    item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True)
+>>>>>>> 414fb03590213f167ba70d0408956e00d09b599a
     img_url = CloudinaryField('image', blank=True, null=True)
 >>>>>>> 780d3a7010f206994addabd7a9f42ea80c056278
 
