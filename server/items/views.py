@@ -32,6 +32,27 @@ def get_all_items(req):
     except Exception as e:
         return Response({'Error': f"{e}"})
 
+@api_view(['GET'])
+def get_by_category(req, category):
+    try:
+        items = Item.objects.filter(category=category)
+        serializer = ItemSerializer(items, many=True)
+        
+        lists = []
+        for item in items:
+            
+            photos = Images.objects.filter(item_id=item)
+            
+            for photo in photos:
+                print(photo)
+                lists.append(photo)
+        
+        serializer_img = ImagesSerializer(lists, many=True)
+        data = {'data': serializer.data, 'photos': serializer_img.data}
+        return Response(data)
+    except Exception as e:
+        return Response({'Error': f'Provided username doesnt exist - {e}'})
+
 
 @api_view(['GET'])
 def get_by_username(req, username):
