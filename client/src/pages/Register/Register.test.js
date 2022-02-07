@@ -4,8 +4,9 @@ import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
 import * as helpers from '../../helpers/requests';
+import jwtDecode from 'jwt-decode';
 
-jest.mock("jwt-decode", () => jest.fn());
+jest.mock("jwt-decode");
 
 const mockUser = { 
     "firstName": "John",
@@ -21,6 +22,11 @@ const mockLoginResponse = {
 }
 
 describe('Register', () => {
+    test('it renders the page', () => {
+        render(<Register />, { wrapper: MemoryRouter });
+        const heading = screen.getByRole("heading");
+        expect(heading.textContent).toMatch("Register");
+    })
     test('it renders a form', () => {
         render(<Register />, { wrapper: MemoryRouter });
         const form = screen.getByRole("form");
@@ -95,41 +101,48 @@ describe('Register', () => {
         render(<Register />, { wrapper: MemoryRouter });
         const firstNameInput = screen.getByLabelText("first-name-input");
         fireEvent.change(firstNameInput, { target: { value: "test"} });
+        expect(firstNameInput.value).toBe("test");
     });
 
     test('it allows users to input last name', () => {
         render(<Register />, { wrapper: MemoryRouter });
         const lastNameInput = screen.getByLabelText("last-name-input");
         fireEvent.change(lastNameInput, { target: { value: "test"} });
+        expect(lastNameInput.value).toBe("test");
     });
 
     test('it allows users to input username', () => {
         render(<Register />, { wrapper: MemoryRouter });
         const usernameInput = screen.getByLabelText("username-input");
         fireEvent.change(usernameInput, { target: { value: "test"} });
+        expect(usernameInput.value).toBe("test");
     });
 
     test('it allows users to input email', () => {
         render(<Register />, { wrapper: MemoryRouter });
         const emailInput = screen.getByLabelText("email-input");
         fireEvent.change(emailInput, { target: { value: "test@email.com"} });
+        expect(emailInput.value).toBe("test@email.com");
     });
 
     test('it allows users to input password', () => {
         render(<Register />, { wrapper: MemoryRouter });
         const passwordInput = screen.getByLabelText("password-input");
         fireEvent.change(passwordInput, { target: { value: "test password"} });
+        expect(passwordInput.value).toBe("test password");
     });
 
     test('it allows users to input password-confirm', () => {
         render(<Register />, { wrapper: MemoryRouter });
         const passwordConfirmInput = screen.getByLabelText("password-confirm-input");
         fireEvent.change(passwordConfirmInput, { target: { value: "test password"} });
+        expect(passwordConfirmInput.value).toBe("test password");
     });
 
     test('it allows users to input phone-number', () => {
         render(<Register />, { wrapper: MemoryRouter });
         const phoneNumberInput = screen.getByLabelText("phone-number-input");
         fireEvent.change(phoneNumberInput, { target: { value: "0800001066"} });
+        expect(phoneNumberInput.value).toBe("0800001066");
     });
 });
