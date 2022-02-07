@@ -15,14 +15,18 @@ const Login = () => {
    * Requests an authorized log in. Sets local storage user variables
    * upon success and navigates to previous page user was on.
    */
+  
   async function requestLogin(e) {
     e.preventDefault()
+    
     try {
+      e.preventDefault();
       // obtain access and refresh tokens
       const {data} = await postLogin({
         email,
         password,
       });
+      
       const user = jwt_decode(data.access);
       localStorage.setItem('authTokens', JSON.stringify(data))
       localStorage.setItem("username", user.username);
@@ -58,7 +62,7 @@ const Login = () => {
           required
         />
         <input type="submit" id="login-btn" className="submit-btn" value="Sign In" />
-        <button onClick={() => navigate("/register")}>Register</button>
+        <button className="register-btn" value="Register" Click={() => navigate("/register")}>Register</button>
       </form>
     </div>
   );
