@@ -1,40 +1,56 @@
-import React, { useEffect } from 'react';
-import { Routes, Route } from "react-router-dom";
-
+import { getRatingUtilityClass } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getProfile } from '../../helpers/requests';
 
 const Profile = () => {
-    //states to use
+    const [isLoading, setIsLoading] = useState(false);
+    const [username, setUsername] = useState();
+    const [firstName, setFirstName] = useState();
+    const [lastName, setLastName] = useState();
+    const [phoneNumber, setPhoneNumber] = useState();
+    const [avatarUrl, setAvatarUrl] = useState();
 
-    const [name, setName] = useState('');
-    const [rating, setRating] = useState({});
+    const isMounted = useRef(true);
+    const params = useParams();
+    const currentUser = params.currentUser;
 
-    //check token to see if profile is urs or another persons
-
-    //useEffect with fetch request from server for users info on page load
-    useEffect(async ()=>{
-        const {data} = await axios.get(get_user_info)
-        setName(data.name)
-        getRatings
-    },[])
-
-    const showListings = async () =>{
-        const {data} = await axios.get() //find listings by username
-        // redirect to show listings by username page
-    }
-
-    const getRatings = async () =>{
-        const {data} = await axios.get(get_rating_by_username)
-        setRating(data)
-    }
-
+    useEffect(() => {
+        if(isMounted) {
+            const getProfileData = async () => {
+                setIsLoading(true);
+                setUsername(localStorage.getItem('username'));
+                const user = await getProfile(username);
+                const rating = await getRatingUtilityClass(username);
+                setFirstName(user.firstName);
+                setLastName(user.lastName);
+                setPhoneNumber(user.phoneNumber);
+                setAvatarUrl(user.avatarUrl);
+                setIsLoading(false);
+            }
+            getProfileData();
+        }
+        return(() => {
+            isMounted.current = false;
+        })
+    });
     return (
         <div className='profile-page'>
-            <h1>{name}</h1>
-            <img href='' alt='profile-pic'/>
-            <h2>{rating.average_rating}, {rating.total}</h2>
-            <button>Settings</button>
-            <button>Messages</button>
-            <button onClick={showListings}>Active Listings</button>
+            {isLoading &&
+                <div className='loading'>
+                    ...loading
+                </div>
+            }
+            {!isLoading && 
+                <div className='profile-container'>
+                    <div className='header'>
+                        <h1>{username}</h1>
+                    </div>
+                    <div className="avatar-container">
+                        <img src={avatarUrl} alt="Profile" className="avatar-img" />
+                    </div>
+                </div>
+            }
         </div>
     )
 }
