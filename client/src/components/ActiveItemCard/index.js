@@ -15,7 +15,7 @@ function ActiveItemCard({ id, name, price, category, description, image_url, ima
     }
 
   return (
-    <Card sx={{ maxWidth: 345 }} onClick={handleCardClick}>
+    <Card sx={{ maxWidth: 345 }} onClick={handleCardClick} aria-label='active-item-card'>
       <CardMedia
         component="img"
         height="140"
