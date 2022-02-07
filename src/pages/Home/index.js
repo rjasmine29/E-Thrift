@@ -8,6 +8,7 @@ import { breakpoints } from '@mui/system';
 
 
 
+
 function Home() {
   const breakPoints = [
     {width: 1, itemsToShow:1},
@@ -20,6 +21,9 @@ function Home() {
         <div className='home-container'>
             <h1>THRIFT & DONATE.</h1>
       <p> Sell your items here...</p>
+     
+      <img src="../../images/homeImage.png" alt="frontimage" />
+      
      
 {/*    DO CAROUSEL INSTEAD  
       <div class="card">
@@ -53,9 +57,15 @@ function Home() {
 
 
 </div> */}
+<div class="description">
+  <p> Description: E-THRIFT is a...</p>
+</div>
 
- 
-    <Carousel breakPoints={breakPoints}>
+ <div className='carousel'>
+ <h3>Popular items..</h3>
+
+    <Carousel  breakPoints={breakPoints}>
+     
       <Card number="1" />
       <Card number= "2" />
       <Card number= "3"/>
@@ -63,10 +73,11 @@ function Home() {
       <Card number= "5"/>
     
     </Carousel>
-
-
-        </div>
-
+    </div>
+   
+    
+    </div>
+        
     )
 }
 
