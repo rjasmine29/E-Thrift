@@ -77,14 +77,23 @@ const Register = () => {
         data.append('password', password)
         data.append('password_confirmation', passwordConfirm)
         data.append('phone_number', phoneNumber)
-        data.append('avatar_url', e.target.image.files[0])
+        console.log(e.target.image.files.length)
+        if (e.target.image.files.length > 0) {
+
+          data.append('avatar_url', e.target.image.files[0])
+        }
         
         // register the user
         let output = await postRegister(data);
         
         if (output !== "Error registering!") {
+          
+          localStorage.clear()
           // log the user in upon successful register
           await requestLogin();
+        } else {
+          
+          localStorage.clear()
         }
       }
     } catch (err) {
