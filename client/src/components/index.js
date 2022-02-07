@@ -1,6 +1,8 @@
 export { default as ActiveListings } from './ActiveListings';
+export { default as ActiveItemCard } from './ActiveItemCard';
 export { default as CatBar } from './CatBar';
 export { default as ClaimedItems } from './ClaimedItems';
+export { default as ClaimedItemCard } from './ClaimedItemCard';
 export { default as EditProfile } from './EditProfile';
 export { default as Mapbox } from './Mapbox';
 export { default as Messages } from './Messages';
