@@ -15,21 +15,24 @@ const Login = () => {
    * Requests an authorized log in. Sets local storage user variables
    * upon success and navigates to previous page user was on.
    */
-  const requestLogin = async (e) => {
+  
+  async function requestLogin(e) {
+    e.preventDefault()
+    
     try {
       e.preventDefault();
       // obtain access and refresh tokens
-      const { accessToken, refreshToken } = await postLogin({
+      const {data} = await postLogin({
         email,
         password,
       });
-
-      const user = jwt_decode(accessToken);
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
+      
+      const user = jwt_decode(data.access);
+      localStorage.setItem('authTokens', JSON.stringify(data))
       localStorage.setItem("username", user.username);
-      navigate(-1);
+      navigate("/");
     } catch (err) {
+      localStorage.clear()
       console.warn(`Error requesting login: ${err}`);
     }
   }
@@ -42,13 +45,13 @@ const Login = () => {
           Email
         </label>
         <input
-          type="text"
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           aria-label="email-input"
           required
         />
-        <label label="password" aria-label="password">
+        <label label="password" aria-label="password" type="password">
           Password
         </label>
         <input
