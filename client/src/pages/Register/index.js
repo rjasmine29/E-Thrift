@@ -77,9 +77,8 @@ const Register = () => {
         data.append('password', password)
         data.append('password_confirmation', passwordConfirm)
         data.append('phone_number', phoneNumber)
-        console.log(e.target.image.files.length)
+        
         if (e.target.image.files.length > 0) {
-
           data.append('avatar_url', e.target.image.files[0])
         }
         
