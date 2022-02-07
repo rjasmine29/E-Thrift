@@ -65,10 +65,10 @@ def get_by_item_id(req, item_id):
         serializer = ItemSerializer(item)
         photos = Images.objects.filter(item_id=item)
         serializer_img = ImagesSerializer(photos, many=True)
-        print(req.GET.get("username") == "null")
-        if req.GET.get("username") != "null":
+        
+        if req.GET.get("username") is not None and req.GET.get("username") != "":
             user = User.objects.get(username=req.GET.get("username"))
-
+            
             if user is not None:
                 last_item = RecentlyViewed.objects.filter(user_id=user).last()
                 
@@ -78,8 +78,9 @@ def get_by_item_id(req, item_id):
                         RecentlyViewed.objects.create(user_id=user, item_id=item)
                 else:
                     RecentlyViewed.objects.create(user_id=user, item_id=item)
-                    
-
+            else:
+                print("here")
+               
 
         data = {'data': serializer.data, 'photo': serializer_img.data}
         return Response(data)
