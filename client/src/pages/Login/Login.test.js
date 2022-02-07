@@ -1,14 +1,17 @@
 import { default as Login } from '.'
-import { screen, render, fireEvent } from '@testing-library/react';
+import { screen, render, fireEvent, waitFor } from '@testing-library/react';
 import * as ReactRouterDom from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
+import jwt_decode from 'jwt-decode';
 
 import * as helpers from '../../helpers/requests';
 
 jest.mock("jwt-decode");
 
+const mockNavigate = jest.fn();
+
 jest.mock('react-router-dom', () => ({
-    useNavigate: jest.fn()
+    useNavigate: () => mockNavigate
 }));
 
 const mockLoginResponse = {
@@ -23,25 +26,30 @@ describe('Login', () => {
         expect(heading.textContent).toMatch("Sign-in");
     });
 
-    test('it allows a user to make a log in request', () => {
+    test('it allows a user to make a log in request', async () => {
         render(<Login />, { wrapper: ReactRouterDom.MemoryRouter });
         const submitBtn = screen.getByRole("button", { name: "Sign In" });
         const loginSpy = jest.spyOn(helpers, 'postLogin');
-        const registerSpy = jest.spyOn(ReactRouterDom, 'useNavigate');
-        
         loginSpy.mockReturnValue(mockLoginResponse);
-
         userEvent.click(submitBtn);
-        expect(registerSpy).toHaveBeenCalled();
+
+        await waitFor(() => {
+            expect(jwt_decode).toHaveBeenCalled();
+        })
+
+        await waitFor(() => {
+            expect(mockNavigate).toHaveBeenCalled();
+        });
     });
 
-    test('it navigates to the register page on button click', () => {
+    test('it navigates to the register page on button click', async () => {
         render(<Login />, { wrapper: ReactRouterDom.MemoryRouter });
         const registerBtn = screen.getByRole("button", { name: "Register" });
-        const spy = jest.spyOn(ReactRouterDom, 'useNavigate');
-
         userEvent.click(registerBtn);
-        expect(spy).toHaveBeenCalled();
+
+        await waitFor(() => {
+            expect(mockNavigate).toHaveBeenCalled();
+        });
     });
 
     test('it allows users to input email', () => {
