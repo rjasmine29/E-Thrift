@@ -43,7 +43,6 @@ def get_by_username(req, username):
         lists = []
         for item in items:
             
-
             photos = Images.objects.filter(item_id=item)
             
             for photo in photos:
@@ -65,7 +64,7 @@ def get_by_item_id(req, item_id):
         photos = Images.objects.filter(item_id=item)
         serializer_img = ImagesSerializer(photos, many=True)
         print(req.GET.get("username") == "null")
-        if req.GET.get("username") != "null":
+        if req.GET.get("username") is not None and req.GET.get('username') != '':
             user = User.objects.get(username=req.GET.get("username"))
 
             if user is not None:
@@ -91,21 +90,11 @@ def create(req):
     try:
 
         seller = User.objects.get(username=req.data['seller'])
-<<<<<<< HEAD
         new_item = Item.objects.create( name = req.data['name'],
                                         description = req.data['description'],
                                         address = req.data['address'],
                                         category = req.data['category'],
                                         seller = seller)
-=======
-    
-        new_item = Item.objects.create(name=req.data['name'],
-                                       description=req.data['description'],
-                                       address=req.data['address'],
-                                       # img_url = req.data['img_url'],
-                                       category=req.data['category'],
-                                       seller=seller)
->>>>>>> 780d3a7010f206994addabd7a9f42ea80c056278
         return Response({'Success': f'Created new listing with id: {new_item.id} and name {new_item.name}'})
     except Exception as e:
         return Response({'Error!': f"{e}"})
@@ -120,23 +109,7 @@ def update_listing(req):
         item.name = req.data['name']
         item.description = req.data['description']
         item.address = req.data['address']
-<<<<<<< HEAD
         item.save() #this may update time not sure
-=======
-        item.save()  # this may update time not sure
-
-        # if req.data["image"]:
-        #     if item.img_url:
-        #         cloudinary.uploader.destroy(item.image.public_id)
-        #     item.img_url = req.data["image"]
-        #     item.save()
-
-        # if req.data["deleteImages"]:
-        #     cloudinary.uploader.destroy(item.image.public_id)
-        #     item.image = None
-        #     item.save()
-
->>>>>>> 780d3a7010f206994addabd7a9f42ea80c056278
         return Response({"Success": "Updated the post!"})
     except Exception as e:
         return Response({'Error': f"{e}"})
@@ -145,15 +118,7 @@ def update_listing(req):
 @api_view(['POST'])
 def delete(req):
     try:
-<<<<<<< HEAD
         item = Item.objects.get(pk=req.data['id']) #pk vs id?
-=======
-        item = Item.objects.get(pk=req.data['id'])  # pk vs id?
-
-        # delete image form cloudinary
-        # if item.img_url:
-        #     cloudinary.
->>>>>>> 780d3a7010f206994addabd7a9f42ea80c056278
         item.delete()
         return Response({'Success': 'Listing Deleted'})
     except Exception:
