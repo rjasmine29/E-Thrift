@@ -48,7 +48,7 @@ def get_by_category(req, category):
                 lists.append(photo)
         
         serializer_img = ImagesSerializer(lists, many=True)
-        data = {'data': serializer.data, 'photos': serializer_img.data}
+        data = {'data': serializer.data, 'image': serializer_img.data}
         return Response(data)
     except Exception as e:
         return Response({'Error': f'Provided username doesnt exist - {e}'})
@@ -70,7 +70,7 @@ def get_by_username(req, username):
                 lists.append(photo)
         
         serializer_img = ImagesSerializer(lists, many=True)
-        data = {'data': serializer.data, 'photos': serializer_img.data}
+        data = {'data': serializer.data, 'image': serializer_img.data}
         return Response(data)
     except Exception as e:
         return Response({'Error': f'Provided username doesnt exist - {e}'})
