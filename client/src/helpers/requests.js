@@ -21,4 +21,24 @@ async function postRegister(data) {
     }
 }
 
-export { postLogin, postRegister }
+async function getProfile(username) {
+    try {
+        const resp = await axios.get(`http://localhost/users/${username}`);
+        const user = resp.json();
+        return user;
+    } catch (err) {
+        console.warn(`Error getting profile for ${username}: ${err}`);
+    }
+}
+
+async function getRating(username) {
+    try {
+        const resp = await axios.get(`http://localhost/ratings/${username}`);
+        const rating = resp.json();
+        return rating;
+    } catch (err) {
+        console.warn(`Error getting rating for ${username}: ${err} `)
+    }
+}
+
+export { postLogin, postRegister, getProfile, getRating }
