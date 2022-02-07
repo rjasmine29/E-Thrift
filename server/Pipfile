@@ -4,16 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-<<<<<<< HEAD
-=======
-django = "*"
 djangorestframework = "*"
 djangorestframework-simplejwt = "*"
-pillow = "*"
 cloudinary = "*"
 python-dotenv = "*"
 django-cors-headers = "*"
->>>>>>> upstream/main
+Django = "*"
+Pillow = "*"
 
 [dev-packages]
 

@@ -14,6 +14,7 @@ function Search() {
 
   return (
     <div>
+        {/* <NavBar /> */}
         {/* <Mapbox /> */}
         <SearchBar />
         <CatBar />

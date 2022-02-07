@@ -1,4 +1,4 @@
-import  React, { useRef, useState } from 'react';
+import  React, { useRef, useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
@@ -11,6 +11,8 @@ import MenuItem from '@mui/material/MenuItem';
 const SearchBar = () => {
     const query = useRef();
     const [category, setCategory] = useState('All');
+
+    
 
     const handleSearch = (e) => {
         e.preventDefault();
