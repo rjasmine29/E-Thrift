@@ -62,7 +62,7 @@ const Login = () => {
           required
         />
         <input type="submit" id="login-btn" className="submit-btn" value="Sign In" />
-        <button className="register-btn" value="Register" Click={() => navigate("/register")}>Register</button>
+        <button className="register-btn" value="Register" onClick={() => navigate("/register")}>Register</button>
       </form>
     </div>
   );
