@@ -22,6 +22,17 @@ async function postRegister(data) {
     }
 }
 
+async function getSearch(data){
+    try {
+        const resp = await axios.get(`http://localhost/search/${data}`);
+        console.log(resp.data);
+        const result = resp.json();
+        return result;
+    } catch (err) {
+        console.warn(`Error retrieving search results for ${data}: ${err}`);
+    }
+}
+
 async function getProfile(username) {
     try {
         const resp = await axios.get(`http://localhost/users/${username}`);
@@ -42,4 +53,4 @@ async function getRating(username) {
     }
 }
 
-export { postLogin, postRegister, getProfile, getRating }
+export { postLogin, postRegister, getProfile, getRating, getSearch }

@@ -1,7 +1,11 @@
 {
     "_meta": {
         "hash": {
+<<<<<<< HEAD
+            "sha256": "fedbd2ab7afd84cf16f128af0619749267b62277b4cb6989ef16d4bef6e4eef2"
+=======
             "sha256": "72fc8abf482aa1754d9b4870a0b828db300e89c31bcfaad83dd338d497e5d4f9"
+>>>>>>> upstream/main
         },
         "pipfile-spec": 6,
         "requires": {
@@ -15,6 +19,9 @@
             }
         ]
     },
+<<<<<<< HEAD
+    "default": {},
+=======
     "default": {
         "asgiref": {
             "hashes": [
@@ -167,5 +174,6 @@
             "version": "==1.26.8"
         }
     },
+>>>>>>> upstream/main
     "develop": {}
 }
