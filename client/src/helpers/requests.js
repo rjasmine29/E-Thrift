@@ -34,7 +34,7 @@ async function getProfile(username) {
 
 async function getRating(username) {
     try {
-        const resp = await axios.get(`http://127.0.0.1:8000/ratings/${username}`);
+        const resp = await axios.get(`http://127.0.0.1:8000/user/rating/${username}`);
         const rating = resp.json();
         return rating;
     } catch (err) {
@@ -42,4 +42,24 @@ async function getRating(username) {
     }
 }
 
-export { postLogin, postRegister, getProfile, getRating }
+async function getActiveItems(username) {
+    try {
+        const resp = await axios.get(`http://127.0.0.1:8000/items/get_by_username/${username}`);
+        const items = resp.json();
+        return items;
+    } catch (err) {
+        console.warn(`Error getting active items for ${username}: ${err}`);
+    }
+}
+
+async function getClaimedItems(username) {
+    try {
+        const resp = await axios.get(`http://127.0.0.1:8000/items/get_by_username/claimed${username}`);
+        const items = resp.json();
+        return items;
+    } catch (err) {
+        console.warn(`Error getting claimed items for ${username}: ${err}`);
+    }
+}
+
+export { postLogin, postRegister, getProfile, getRating, getActiveItems, getClaimedItems }
