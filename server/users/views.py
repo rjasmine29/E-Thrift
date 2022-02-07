@@ -69,8 +69,10 @@ def avg_rating_by_username(request, username):
     try:
         specific_user = User.objects.get(username=username)
         user = Rating.objects.filter(user_id=specific_user)
-        avg_figure = user.aggregate(Avg("rating"))
-        return Response(avg_figure)
+        total_rating = len(user)
+        avg_figure = user.aggregate(Avg("rating"))["rating__avg"]
+   
+        return Response({"average_rating": avg_figure, "total":total_rating})
     except Exception as e:
         return Response({"Error": f"Cannot retreive ratings for this user! - {e}"})
 
