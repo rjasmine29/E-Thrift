@@ -8,5 +8,6 @@ urlpatterns = [
     path("create", views.create, name="create"),
     path("update", views.update_listing, name="update"),
     path("delete", views.delete, name="delete"),
-    path("claim/<int:item_id>", views.claim_item, name="claim_item")
+    path("claim/<int:item_id>", views.claim_item, name="claim_item"),
+    path("recently_viewed/<str:username>/", views.recently_viewed_by_username, name="recently_viewed_by_username")
 ]

@@ -79,5 +79,7 @@ def add_rating(request, username, rating):
         if rating > 0 and rating < 6:
             rating = Rating.objects.create(user_id=find_username, rating=rating)
             return Response({'Success': 'Successfully added a rating'})
+        else:
+            return Response({'Error': 'Rating must be between 1-5'})
     except Exception as e:
-        return Response({'Error': 'Cannot add a rating - {e}'})
+        return Response({'Error': f'Cannot add a rating - {e}'})

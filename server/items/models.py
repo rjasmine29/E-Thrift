@@ -3,7 +3,7 @@ from users.models import User
 
 # Create your models here.
 class Item(models.Model):
-    seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='seller_id')
+    seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='seller')
     buyer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='buyer_id', default=None, blank=True)
     name = models.CharField(max_length=200)
     #price = models.PositiveIntegerField()
@@ -16,7 +16,15 @@ class Item(models.Model):
     address = models.CharField(max_length = 100)
 
     def __str__(self):
-        return f'Listing name:{self.name}, desc: {self.description}, selller:{self.seller_id}'
+        return f'Listing name:{self.name}, desc: {self.description}, seller:{self.seller}'
 
+
+class RecentlyViewed(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    item_id = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Item id: {self.item_id}, timestamp: {self.timestamp}"
 
 

@@ -34,20 +34,23 @@ def get_by_item(req, item_id):
 def add(req, item_id):
     try:
         item = Item.objects.get(pk=item_id)
-        Images.objects.create(  item=item,
-                                image=req.data['image'])
+        images = req.FILES.getlist('image')
+
+        for image in images:
+            Images.objects.create(  item=item,
+                                    img_url=image)
         return Response({'Success': 'Added image to item'})
     except Exception as e:
-        return Response({'Error': f'e'})
+        return Response({'Error': f'{e}'})
 
 @api_view(['PUT'])
 def delete(req):
     try:
         item = Item.objects.get(pk=req.data['id'])
-        image = Images.objects.get(item=item, image=req.data['image'])
-        cloudinary.uploader.destroy(image.image.public_id)
-        image.delete()
+        images = Images.objects.get(item=item, img_url=req.data["image"])
+        cloudinary.uploader.destroy(images.img_url.public_id)
+        images.delete()
         return Response({'Success': 'Image deletion successful'})
     except Exception as e:
-        return Response({'Error': f'e'})
+        return Response({'Error:': f'{e}'})
 
