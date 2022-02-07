@@ -104,7 +104,7 @@ const Register = () => {
         const user = jwt_decode(accessToken);
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
-        localStorage.setItem("email", user.username);
+        localStorage.setItem("username", user.username);
         navigate("/");
       }
     } catch (err) {
