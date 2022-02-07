@@ -55,6 +55,28 @@ def get_by_username(req, username):
     except Exception as e:
         return Response({'Error': f'Provided username doesnt exist - {e}'})
 
+@api_view({'GET'})
+def get_by_category(req, category):
+    try:
+        items = Item.objects.filter(category=category)
+        serializer = ItemSerializer(items, many=True)
+        
+        lists = []
+        for item in items:
+            
+            photos = Images.objects.filter(item_id=item)
+            
+            for photo in photos:
+                print(photo)
+                lists.append(photo)
+        
+        serializer_img = ImagesSerializer(lists, many=True)
+        data = {'data': serializer.data, 'photos': serializer_img.data}
+        return Response(data)
+    except Exception as e:
+        return Response({'Error': f'Provided username doesnt exist - {e}'})
+
+
 
 @api_view(['GET'])
 def get_by_item_id(req, item_id):
@@ -63,15 +85,10 @@ def get_by_item_id(req, item_id):
         serializer = ItemSerializer(item)
         photos = Images.objects.filter(item_id=item)
         serializer_img = ImagesSerializer(photos, many=True)
-<<<<<<< HEAD
         print(req.GET.get("username") == "null")
         if req.GET.get("username") is not None and req.GET.get('username') != '':
-=======
-        
-        if req.GET.get("username") is not None and req.GET.get("username") != "":
->>>>>>> 29c82c6b396d80e5b13a1ebe3f1820c78c685599
             user = User.objects.get(username=req.GET.get("username"))
-            
+
             if user is not None:
                 last_item = RecentlyViewed.objects.filter(user_id=user).last()
                 
@@ -81,10 +98,7 @@ def get_by_item_id(req, item_id):
                         RecentlyViewed.objects.create(user_id=user, item_id=item)
                 else:
                     RecentlyViewed.objects.create(user_id=user, item_id=item)
-            else:
-                print("here")
-               
-
+                    
         data = {'data': serializer.data, 'photo': serializer_img.data}
         return Response(data)
     except Exception as e:
@@ -94,7 +108,6 @@ def get_by_item_id(req, item_id):
 @api_view(['POST'])
 def create(req):
     try:
-
         seller = User.objects.get(username=req.data['seller'])
         new_item = Item.objects.create( name = req.data['name'],
                                         description = req.data['description'],
