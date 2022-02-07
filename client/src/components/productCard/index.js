@@ -10,7 +10,7 @@ import CardHeader from '@mui/material/CardHeader';
 import IconButton from '@mui/material/IconButton';
 import { BsFillGeoAltFill } from 'react-icons/bs'
 
-export default function MediaCard() {
+export default function ProductCard() {
     // required item information: item.id, item.name, item.price, item.category, item.address_id
     // image information: image.image_url, image.image_id
 
@@ -21,7 +21,7 @@ export default function MediaCard() {
       <CardMedia
         component="img"
         height="140"
-        image="/static/images/cards/contemplative-reptile.jpg"
+        image="https://static.wikia.nocookie.net/ssb-tourney/images/2/2e/Oogway-white.png"
         alt="item-image"
       />
       <CardContent>
