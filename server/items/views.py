@@ -63,13 +63,8 @@ def get_by_item_id(req, item_id):
         serializer = ItemSerializer(item)
         photos = Images.objects.filter(item_id=item)
         serializer_img = ImagesSerializer(photos, many=True)
-<<<<<<< HEAD
-        print(req.GET.get("username") == "null")
-        if req.GET.get("username") is not None and req.GET.get('username') != '':
-=======
         
         if req.GET.get("username") is not None and req.GET.get("username") != "":
->>>>>>> 29c82c6b396d80e5b13a1ebe3f1820c78c685599
             user = User.objects.get(username=req.GET.get("username"))
             
             if user is not None:
