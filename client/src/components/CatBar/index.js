@@ -4,49 +4,58 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { AiFillSkin, AiFillShopping, AiTwotoneCustomerService, AiTwotoneExperiment, AiTwotoneGift } from 'react-icons/ai';
 
-export const CatBar = () => {
-    const [category, setCategory] = useState('All')
-    console.log(category)
+export const CatBar = ({setCategory}) => {
+
+    const [cat, setCat] = useState('All')
+  
     useEffect(() => {
         const getCategory = async () => {
 
-            if (category == 'All') {
+            if (cat == 'All') {
                 const cat = await fetch(`http://127.0.0.1:8000/items`)
                 const jsonCat = await cat.json();
-                console.log(jsonCat)
+                return jsonCat
+                // setCat(jsonCat)
+               
             } else {
-                const cat = await fetch(`http://127.0.0.1:8000/items/get_by_category/${category}/`)
-                const jsonCat = await cat.json();
-                console.log(jsonCat)
+                const cate = await fetch(`http://127.0.0.1:8000/items/get_by_category/${cat}/`)
+                const jsonCat = await cate.json();
+                return jsonCat
+                // setCat(jsonCat)
             }
         }
-        getCategory()
+        (async () => {
+            const data = await getCategory();
+            setCategory(data)
+        })()
 
-    }, [category])
+    }, [cat])
+    
 
   return (
     <div className='cat_container' id='categories'>
 
         <Stack direction='row' spacing={2}>
             {/* <Link to='/categories/all'> */}
-                <Button variant='text' onClick={(e) => setCategory("All")}><AiFillShopping/>All</Button>
+                <Button variant='text' onClick={() => setCat("All")}><AiFillShopping/>All</Button>
             {/* </Link>
             <Link to='/categories/clothes'> */}
-                <Button variant='text'  onClick={(e) => setCategory("Clothes")}><AiFillSkin/>Clothes</Button>
+                <Button variant='text'  onClick={() => setCat("Clothes")}><AiFillSkin/>Clothes</Button>
             {/* </Link>
             <Link to='/categories/furniture'> */}
-                <Button variant='text' onClick={(e) => setCategory("Furniture")}>Furniture</Button>
+                <Button variant='text' onClick={() => setCat("Furniture")}>Furniture</Button>
             {/* </Link>
             <Link to='/categories/entertainment'> */}
-                <Button variant='text' onClick={(e) => setCategory("Entertainment")}><AiTwotoneCustomerService/>Entertainment</Button>
+                <Button variant='text' onClick={() => setCat("Entertainment")}><AiTwotoneCustomerService/>Entertainment</Button>
             {/* </Link>
             <Link to='/categories/misc'> */}
-                <Button variant='text' onClick={(e) => setCategory("Mischelaneous")}><AiTwotoneExperiment/>Mischelaneous</Button>
+                <Button variant='text' onClick={() => setCat("Mischelaneous")}><AiTwotoneExperiment/>Mischelaneous</Button>
             {/* </Link>
             <Link to='/categories/ornaments'> */}
-                <Button variant='text' onClick={(e) => setCategory("Ornaments")}><AiTwotoneGift/>Ornaments</Button>
+                <Button variant='text' onClick={() => setCat("Ornaments")}><AiTwotoneGift/>Ornaments</Button>
             {/* </Link> */}
         </Stack>
+
 
     </div>
     );
