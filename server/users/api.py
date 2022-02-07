@@ -16,5 +16,4 @@ class RegisterAPI(generics.GenericAPIView):
         'username': user.username
       })
     else:
-      print("here")
       return Response({'Error': f'Error registering!'})

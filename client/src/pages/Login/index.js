@@ -25,8 +25,8 @@ const Login = () => {
       });
       const user = jwt_decode(data.access);
       localStorage.setItem('authTokens', JSON.stringify(data))
-      localStorage.setItem("email", user.username);
-      navigate(-1);
+      localStorage.setItem("username", user.username);
+      navigate("/");
     } catch (err) {
       localStorage.clear()
       console.warn(`Error requesting login: ${err}`);

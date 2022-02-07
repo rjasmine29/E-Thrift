@@ -82,7 +82,7 @@ const Register = () => {
         // register the user
         let output = await postRegister(data);
         
-        if (output != "Error registering!") {
+        if (output !== "Error registering!") {
           // log the user in upon successful register
           await requestLogin();
         }
@@ -100,14 +100,13 @@ const Register = () => {
     try {
       if(isMounted) {
         // obtain access and refresh tokens
-        const { accessToken, refreshToken } = await postLogin({
+        const { data } = await postLogin({
           email,
           password,
         });
-        const user = jwt_decode(accessToken);
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
-        localStorage.setItem("email", user.username);
+        const user = jwt_decode(data.access);
+        localStorage.setItem('authTokens', JSON.stringify(data))
+        localStorage.setItem("username", user.username);
         navigate("/");
       }
     } catch (err) {
