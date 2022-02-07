@@ -77,7 +77,6 @@ def get_by_category(req, category):
         return Response({'Error': f'Provided username doesnt exist - {e}'})
 
 
-
 @api_view(['GET'])
 def get_by_item_id(req, item_id):
     try:
@@ -85,7 +84,6 @@ def get_by_item_id(req, item_id):
         serializer = ItemSerializer(item)
         photos = Images.objects.filter(item_id=item)
         serializer_img = ImagesSerializer(photos, many=True)
-        print(req.GET.get("username") == "null")
         if req.GET.get("username") is not None and req.GET.get('username') != '':
             user = User.objects.get(username=req.GET.get("username"))
 
@@ -119,7 +117,6 @@ def create(req):
         return Response({'Error!': f"{e}"})
 
 # updates whole item, maybe make new to ba able to update certain features
-
 
 @api_view(['POST'])
 def update_listing(req):
