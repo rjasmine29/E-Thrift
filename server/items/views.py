@@ -37,12 +37,25 @@ def get_all_items(req):
 def get_by_username(req, username):
     try:
         user = User.objects.get(username=username)
+
         items = Item.objects.filter(seller=user)
         serializer = ItemSerializer(items, many=True)
-        data = {'data': serializer.data}
+        
+        lists = []
+        for item in items:
+            
+
+            photos = Images.objects.filter(item_id=item)
+            
+            for photo in photos:
+                print(photo)
+                lists.append(photo)
+        
+        serializer_img = ImagesSerializer(lists, many=True)
+        data = {'data': serializer.data, 'photos': serializer_img.data}
         return Response(data)
-    except Exception:
-        return Response({'Error': 'Provided username doesnt exist'})
+    except Exception as e:
+        return Response({'Error': f'Provided username doesnt exist - {e}'})
 
 
 @api_view(['GET'])
