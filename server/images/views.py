@@ -22,7 +22,7 @@ def index(req):
 @api_view(['GET'])
 def get_by_item(req, item_id):
     try:
-        item = Item.objects.filter(pk=item_id)
+        item = Item.objects.get(pk=item_id)
         images = Images.objects.filter(item=item)
         serializer = ImagesSerializer(images, many=True)
         return Response({'data': serializer.data})

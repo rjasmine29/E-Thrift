@@ -52,7 +52,6 @@ def create(req):
         new_item = Item.objects.create( name = req.data['name'],
                                         description = req.data['description'],
                                         address = req.data['address'],
-                                        # img_url = req.data['img_url'],
                                         category = req.data['category'],
                                         seller = seller)
         return Response({'Success': f'Created new listing with id: {new_item.id} and name {new_item.name}'})
@@ -68,18 +67,6 @@ def update_listing(req):
         item.description = req.data['description']
         item.address = req.data['address']
         item.save() #this may update time not sure
-
-        # if req.data["image"]:
-        #     if item.img_url:
-        #         cloudinary.uploader.destroy(item.image.public_id)
-        #     item.img_url = req.data["image"]
-        #     item.save()
-            
-        # if req.data["deleteImages"]:
-        #     cloudinary.uploader.destroy(item.image.public_id)
-        #     item.image = None
-        #     item.save()
-
         return Response({"Success": "Updated the post!"})
     except Exception as e:
         return Response({'Error': e})
@@ -88,10 +75,6 @@ def update_listing(req):
 def delete(req):
     try:
         item = Item.objects.get(pk=req.data['id']) #pk vs id?
-        
-        #delete image form cloudinary
-        # if item.img_url:
-        #     cloudinary.
         item.delete()
         return Response({'Success': 'Listing Deleted'})
     except Exception:

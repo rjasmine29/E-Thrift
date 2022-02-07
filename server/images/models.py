@@ -4,7 +4,7 @@ from items.models import Item
 # Create your models here.
 class Images(models.Model):
 
-    item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, relalted_name='seller-id' )
+    item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, related_name='seller_id' )
     img_url = models.CharField(max_length=500)
 
     def __str__(self):
