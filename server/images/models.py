@@ -4,8 +4,7 @@ from cloudinary.models import CloudinaryField
 
 # Create your models here.
 class Images(models.Model):
-    img_url = models.CharField(max_length=500)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True, related_name='item')
     img_url = CloudinaryField('image', blank=True, null=True)
 
     def __str__(self):

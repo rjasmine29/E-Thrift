@@ -10,5 +10,7 @@ urlpatterns = [
     path("delete", views.delete, name="delete"),
     path("claim/<int:item_id>", views.claim_item, name="claim_item"),
     path("recently_viewed/<str:username>/", views.recently_viewed_by_username, name="recently_viewed_by_username"),
-    path("get_by_category/<str:category>/", views.get_by_category, name="get_by_category")
+    path("get_by_category/<str:catefory>/", views.get_by_category, name='get_by_category'),
+    path("get_unclaimed/", views.get_unclaimed_items, name='get_unclaimed_items'),
+    path("claimed_by_username/<str:username>", views.claimed_by_username, name='claim_by_username')
 ]
