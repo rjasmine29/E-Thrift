@@ -6,12 +6,18 @@ import ClaimedIcon from '../../assets/claimed_icon.png';
 import CurrentlyListedIcon from '../../assets/currently_listed_icon.png';
 import EditIcon from '../../assets/edit_icon.svg.png';
 import MessageIcon from '../../assets/message_icon.png';
-import { getProfile, getRating } from '../../helpers/requests';
+import { getActiveItems, getClaimedItems, getProfile, getRating } from '../../helpers/requests';
 import { ActiveListings, ClaimedItems, EditProfile, Messages } from '../../components';
 
 const Profile = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingActiveItems, setIsLoadingActiveItems] = useState(false);
+    const [isLoadingClaimedItems, setIsLoadingClaimedItems] = useState(false);
+    const [isLoadingMessages, setIsloadingMessages] = useState(false);
     const [activeFragment, setActiveFragment] = useState('');
+    const [activeItems, setActiveItems] = useState([]);
+    const [claimedItems, setClaimedItems] = useState([]);
+    const [messages, setMessages] = useState([]);
     const [username, setUsername] = useState();
     const [firstName, setFirstName] = useState();
     const [lastName, setLastName] = useState();
@@ -19,6 +25,7 @@ const Profile = () => {
     const [avatarUrl, setAvatarUrl] = useState();
     const [bio, setBio] = useState();
     const [rating, setRating] = useState();
+    const [ratingCount, setRatingCount] = useState();
 
     const isMounted = useRef(true);
     const params = useParams();
@@ -36,7 +43,8 @@ const Profile = () => {
                 setPhoneNumber(user.phoneNumber);
                 setAvatarUrl(user.avatarUrl);
                 setBio(user.bio);
-                setRating(fetchedRating);
+                setRating(fetchedRating.rating);
+                setRatingCount(fetchedRating.count);
                 setIsLoading(false);
             }
             getProfileData();
@@ -45,6 +53,36 @@ const Profile = () => {
             isMounted.current = false;
         })
     });
+
+    useEffect(() => {
+        if (isMounted) {
+            const fetchFragmentData = async () => {
+                switch (activeFragment) {
+                    case 'active':
+                        setIsLoadingActiveItems(true);
+                        const activeItems = await getActiveItems(username);
+                        setActiveItems(activeItems);
+                        setIsLoadingActiveItems(false);
+                        return;
+                    case 'claimed':
+                        setIsLoadingClaimedItems(true);
+                        const claimedItems = await getClaimedItems(username);
+                        setClaimedItems(claimedItems);
+                        setIsLoadingClaimedItems(false);
+                        return;
+                    case 'messages':
+                        setIsloadingMessages(true);
+                        // TODO: messages
+                        // const messages = await getMessages(username)
+                        setIsloadingMessages(false);
+                        return;
+                    default:
+                        return;
+                }
+            }
+            fetchFragmentData();
+        }
+    }, [activeFragment, username])
     return (
         <div className='profile-page'>
             {isLoading &&
@@ -60,6 +98,7 @@ const Profile = () => {
                     <div className="avatar-container">
                         <img src={avatarUrl} alt="Profile" className="avatar-img" />
                         <Rating ratingValue={rating} />
+                        <span>{ratingCount}</span>
                     </div>
                     <div className="bio-container">
                         <p>{bio}</p>
@@ -90,16 +129,38 @@ const Profile = () => {
                 </div>
             }
             {activeFragment === 'messages' &&
-                <Messages />
+                <Messages 
+                    isLoading={isLoadingMessages}
+                    messages={messages}
+                />
             }
             {activeFragment === 'active' &&
-                <ActiveListings />
+                <ActiveListings 
+                    isLoading={isLoadingActiveItems} 
+                    activeItems={activeItems}
+                />
             }
             {activeFragment === 'claimed' &&
-                <ClaimedItems />
+                <ClaimedItems 
+                    isLoading={isLoadingClaimedItems} 
+                    claimedItems={claimedItems}
+                />
             }
             {activeFragment === 'edit' &&
-                <EditProfile />
+                <EditProfile 
+                    firstName={firstName} 
+                    setFirstName={setFirstName}
+                    lastName={lastName}
+                    setLastName={setLastName}
+                    username={username}
+                    setUsername={setUsername}
+                    phoneNumber={phoneNumber}
+                    setPhoneNumber={setPhoneNumber}
+                    avatarUrl={avatarUrl}
+                    setAvatarUrl={setAvatarUrl}
+                    bio={bio}
+                    setBio={setBio}
+                />
             }
         </div>
     )
