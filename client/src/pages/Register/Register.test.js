@@ -82,25 +82,25 @@ describe('Register', () => {
         });
     });
 
-    // test('it registers and logs the user in', async () => {
-    //     render(<Register />, { wrapper: ReactRouterDom.MemoryRouter });
-    //     const submitBtn = screen.getByRole("button", { name: "Submit" });
-    //     const registerSpy = jest.spyOn(helpers, 'postRegister');
-    //     const loginSpy = jest.spyOn(helpers, 'postLogin');
-    //     registerSpy.mockReturnValue(mockUser);
-    //     loginSpy.mockReturnValue(mockLoginResponse);
+    test('it registers and logs the user in', async () => {
+        render(<Register />, { wrapper: ReactRouterDom.MemoryRouter });
+        const submitBtn = screen.getByRole("button", { name: "Submit" });
+        const registerSpy = jest.spyOn(helpers, 'postRegister');
+        const loginSpy = jest.spyOn(helpers, 'postLogin');
+        registerSpy.mockReturnValue(mockUser);
+        loginSpy.mockReturnValue(mockLoginResponse);
 
-    //     userEvent.click(submitBtn);
+        userEvent.click(submitBtn);
         
-    //     await waitFor(() => {
-    //         expect(registerSpy).toHaveBeenCalled();
-    //     });
+        await waitFor(() => {
+            expect(registerSpy).toHaveBeenCalled();
+        });
     
-    //     await waitFor(() => {
-    //         expect(loginSpy).toHaveBeenCalled();
-    //     });
+        await waitFor(() => {
+            expect(loginSpy).toHaveBeenCalled();
+        });
        
-    // });
+    });
 
     test('it allows users to input first name', () => {
         render(<Register />, { wrapper: ReactRouterDom.MemoryRouter });
