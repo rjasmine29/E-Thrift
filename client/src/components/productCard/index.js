@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography, CardHeader, ToggleButtonGroup, IconGroup, IconButton, Grid  } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { ThemeProvider, createMuiTheme, makeStyles } from '@mui/styles'; 
-import { createTheme } from '@mui/material/styles';
 import { BsFillGeoAltFill } from 'react-icons/bs'
 
 import { LikeButton } from '../likeButton';
