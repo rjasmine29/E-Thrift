@@ -35,8 +35,8 @@ async function getSearch(data, category){
 
 async function getProfile(username) {
   try {
-    const resp = await axios.get(`http://127.0.0.1:8000/user/${username}`);
-    const user = resp.json();
+    const {data} = await axios.get(`http://127.0.0.1:8000/user/get_by_username/${username}`);
+    const user = data
     return user;
   } catch (err) {
     console.warn(`Error getting profile for ${username}: ${err}`);
@@ -45,11 +45,12 @@ async function getProfile(username) {
 
 async function getRating(username) {
   try {
-    const resp = await axios.get(
+    const {data} = await axios.get(
       `http://127.0.0.1:8000/user/rating/${username}`
     );
-    const rating = resp.json();
-    return rating;
+    //const rating = resp.data
+    console.log(data)
+    return data;
   } catch (err) {
     console.warn(`Error getting rating for ${username}: ${err} `);
   }
@@ -60,7 +61,7 @@ async function getActiveItems(username) {
     const resp = await axios.get(
       `http://127.0.0.1:8000/items/get_by_username/${username}`
     );
-    const items = resp.json();
+    const items = resp.data;
     return items;
   } catch (err) {
     console.warn(`Error getting active items for ${username}: ${err}`);
@@ -72,7 +73,7 @@ async function getClaimedItems(username) {
     const resp = await axios.get(
       `http://127.0.0.1:8000/items/get_by_username/claimed${username}`
     );
-    const items = resp.json();
+    const items = resp.data;
     return items;
   } catch (err) {
     console.warn(`Error getting claimed items for ${username}: ${err}`);
