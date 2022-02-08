@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { postLogOut } from "../../helpers/requests";
+import "../../App.css"
+import 'bootstrap/dist/css/bootstrap.css'
+import {Nav, Navbar} from 'react-bootstrap';
 
 function NavBar({ username, setUsername }) {
 
@@ -26,11 +29,12 @@ function NavBar({ username, setUsername }) {
   };
 
   return (
-    <nav className="navbar">
-      <NavLink to="">Logo</NavLink>
+    <Navbar expand="lg" bg="dark" variant="dark">
+      
+      <Nav.Link as={NavLink}  to="">Logo</Nav.Link>
       {username !== null && (
         <>
-          <NavLink to="/create">Create Listing</NavLink>
+          <Nav.Link  as={NavLink} to="/create">Create Listing</Nav.Link>
           <div className="nav-option">
             <span className="nav-option-text"></span>
             <button id="logout-btn" onClick={logOut}>
@@ -41,11 +45,11 @@ function NavBar({ username, setUsername }) {
       )}
       {username === null && (
         <>
-          <NavLink to="/register">Sign Up</NavLink>
-          <NavLink to="/login">Login </NavLink>
+          <Nav.Link as={NavLink} to="/register">Sign Up</Nav.Link>
+          <Nav.Link as={NavLink} to="/login">Login </Nav.Link>
         </>
       )}
-    </nav>
+    </Navbar>
   );
 }
 
