@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography, CardHeader, ToggleButtonGroup, IconGroup, IconButton } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { BsFillGeoAltFill } from 'react-icons/bs'
-import { likeButton } from '../likeButton';
+import { LikeButton } from '../likeButton';
 import "./productCard.css"
 
 export default function ProductCard({ category, map, mapboxgl }) {
@@ -129,7 +129,7 @@ export default function ProductCard({ category, map, mapboxgl }) {
           
           </IconButton> */}
 
-            <likeButton />
+            <LikeButton />
 
 
             <Button size="small">Share</Button>
