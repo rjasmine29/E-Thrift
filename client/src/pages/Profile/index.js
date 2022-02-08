@@ -32,6 +32,7 @@ const Profile = () => {
     const currentUser = params.currentUser;
     useEffect(() => {
         console.log(`page load`)
+        isMounted.current = true;
 
         if(isMounted) {
             const getProfileData = async () => {
@@ -60,6 +61,7 @@ const Profile = () => {
     },[]);
 
     useEffect(() => {
+        isMounted.current = true;
         console.log(`changes active fragment. ${activeFragment}`)
         if (isMounted) {
             const fetchFragmentData = async () => {
@@ -89,11 +91,11 @@ const Profile = () => {
                         default:
                             return;
                     }
-                            
-            
             }
         }
         fetchFragmentData();
+
+        return(() => { isMounted.current = false });
     }}, [activeFragment])
 
     return (

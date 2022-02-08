@@ -6,10 +6,10 @@ import "./style.css";
 
 const ActiveListings = ({ setActiveFragment, activeItems, isLoading }) => {
   const [renderItems, setRenderItems] = useState(null);
-  
-  useEffect(() => {
-    if (activeItems) {
-      const renderItems = activeItems.data.map((item, index) => {
+
+  if (renderItems === null) {
+    if (activeItems.data) {
+      const items = activeItems.data.map((item, index) => {
         const img = activeItems.image.find(
           (image) => image.item_id === item.id
         );
@@ -27,9 +27,9 @@ const ActiveListings = ({ setActiveFragment, activeItems, isLoading }) => {
           />
         );
       });
-      setRenderItems(renderItems);
+      setRenderItems(items);
     }
-  }, [activeItems]);
+  }
 
   return (
     <>
