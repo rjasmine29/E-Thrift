@@ -1,9 +1,10 @@
 import React from 'react';
 import ActiveItemCard from '../ActiveItemCard';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import './style.css';
 
-const ActiveListings = ({ activeItems, isLoading }) => {
+const ActiveListings = ({ setActiveFragment, activeItems, isLoading }) => {
 
     const renderItems = activeItems.map((item) => { 
         return (
@@ -21,6 +22,7 @@ const ActiveListings = ({ activeItems, isLoading }) => {
 
     return (
         <>
+            <h1>Active Items</h1>
             {isLoading &&
                 <div className='loading-listings'>
                     ...loading
@@ -31,6 +33,7 @@ const ActiveListings = ({ activeItems, isLoading }) => {
                     {renderItems}
                 </div>
             }
+            <ArrowBackIcon onClick={setActiveFragment("")} />
         </>
     )
 }

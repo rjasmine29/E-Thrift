@@ -6,7 +6,7 @@ import jwt_decode from 'jwt-decode';
 
 import * as helpers from '../../helpers/requests';
 
-jest.mock("jwt-decode");
+jest.mock("jwt-decode", () => jest.fn());
 
 const mockNavigate = jest.fn();
 
@@ -15,8 +15,10 @@ jest.mock('react-router-dom', () => ({
 }));
 
 const mockLoginResponse = {
-    "accessToken": "gjreogjiperog",
-    "refreshToken": "ewiogjwopiegj"
+    data: {
+        access: 'jreogjiperog',
+        refresh: 'ewiogjwopiew'
+    }
 }
 
 describe('Login', () => {
@@ -30,12 +32,16 @@ describe('Login', () => {
         render(<Login />, { wrapper: ReactRouterDom.MemoryRouter });
         const submitBtn = screen.getByRole("button", { name: "Sign In" });
         const loginSpy = jest.spyOn(helpers, 'postLogin');
-        loginSpy.mockReturnValue(mockLoginResponse);
+        loginSpy.mockResolvedValue(mockLoginResponse);
         userEvent.click(submitBtn);
 
         await waitFor(() => {
+            expect(loginSpy).toHaveBeenCalled();
+        });
+
+        await waitFor(() => {
             expect(jwt_decode).toHaveBeenCalled();
-        })
+        });
 
         await waitFor(() => {
             expect(mockNavigate).toHaveBeenCalled();
