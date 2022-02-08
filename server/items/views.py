@@ -180,7 +180,7 @@ def create(req):
                                         address = req.data['address'],
                                         category = req.data['category'],
                                         seller = seller)
-        return Response({'Success': f'Created new listing with id: {new_item.id} and name {new_item.name}'})
+        return Response({'Success': f'Created new listing with id: {new_item.id}'})
     except Exception as e:
         return Response({'Error!': f"{e}"})
 
