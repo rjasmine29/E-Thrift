@@ -1,11 +1,7 @@
 {
     "_meta": {
         "hash": {
-<<<<<<< HEAD
-            "sha256": "fedbd2ab7afd84cf16f128af0619749267b62277b4cb6989ef16d4bef6e4eef2"
-=======
-            "sha256": "72fc8abf482aa1754d9b4870a0b828db300e89c31bcfaad83dd338d497e5d4f9"
->>>>>>> upstream/main
+            "sha256": "c4e64ca256ab3ffb3d46fb6e32feb3bf105b5136bda03c50578a07c5f0b2ea74"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -19,9 +15,6 @@
             }
         ]
     },
-<<<<<<< HEAD
-    "default": {},
-=======
     "default": {
         "asgiref": {
             "hashes": [
@@ -157,14 +150,6 @@
             "markers": "python_version >= '3.5'",
             "version": "==0.4.2"
         },
-        "tzdata": {
-            "hashes": [
-                "sha256:3eee491e22ebfe1e5cfcc97a4137cd70f092ce59144d81f8924a844de05ba8f5",
-                "sha256:68dbe41afd01b867894bbdfd54fa03f468cfa4f0086bfb4adcd8de8f24f3ee21"
-            ],
-            "markers": "sys_platform == 'win32'",
-            "version": "==2021.5"
-        },
         "urllib3": {
             "hashes": [
                 "sha256:000ca7f471a233c2251c6c7023ee85305721bfdf18621ebff4fd17a8653427ed",
@@ -174,6 +159,5 @@
             "version": "==1.26.8"
         }
     },
->>>>>>> upstream/main
     "develop": {}
 }
