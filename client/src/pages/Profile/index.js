@@ -30,6 +30,7 @@ const Profile = () => {
     const isMounted = useRef(true);
     const params = useParams();
     const currentUser = params.currentUser;
+    const email = localStorage.getItem('email');
 
     useEffect(() => {
         if(isMounted) {
@@ -131,23 +132,28 @@ const Profile = () => {
             {activeFragment === 'messages' &&
                 <Messages 
                     isLoading={isLoadingMessages}
+                    setActiveFragment={setActiveFragment}
                     messages={messages}
                 />
             }
             {activeFragment === 'active' &&
                 <ActiveListings 
                     isLoading={isLoadingActiveItems} 
+                    setActiveFragment={setActiveFragment}
                     activeItems={activeItems}
                 />
             }
             {activeFragment === 'claimed' &&
                 <ClaimedItems 
-                    isLoading={isLoadingClaimedItems} 
+                    isLoading={isLoadingClaimedItems}
+                    setActiveFragment={setActiveFragment}
                     claimedItems={claimedItems}
                 />
             }
             {activeFragment === 'edit' &&
                 <EditProfile 
+                    setActiveFragment={setActiveFragment}
+                    email={email}
                     firstName={firstName} 
                     setFirstName={setFirstName}
                     lastName={lastName}
