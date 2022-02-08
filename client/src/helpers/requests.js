@@ -94,6 +94,19 @@ async function postEditProfile(data) {
   }
 }
 
+async function postLogOut(data) {
+  try {
+    const resp = await axios.post("http://127.0.0.1:8000/user/logout", data);
+    if (resp.data.Error) {
+      return resp.data.Error;
+    } else {
+      return resp;
+    }
+  } catch (err) {
+    console.warn(`Error logging out ${data}`)
+  }
+}
+
 export {
   postLogin,
   postRegister,
@@ -102,5 +115,6 @@ export {
   getRating,
   getActiveItems,
   getClaimedItems,
-  postEditProfile
+  postEditProfile,
+  postLogOut
 };

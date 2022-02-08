@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 import { postLogin } from "../../helpers/requests";
+import { UserContext } from "../../App";
 import "./style.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { setUsername } = useContext(UserContext)
   const navigate = useNavigate();
 
   /**
@@ -29,6 +31,7 @@ const Login = () => {
       localStorage.setItem('authTokens', JSON.stringify(data))
       localStorage.setItem("username", user.username);
       localStorage.setItem('email', user.email);
+      setUsername(user.username);
       navigate("/");
     } catch (err) {
       localStorage.clear()
