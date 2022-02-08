@@ -49,7 +49,7 @@ async function getRating(username) {
       `http://127.0.0.1:8000/user/rating/${username}`
     );
     //const rating = resp.data
-    console.log(data)
+    //console.log(data)
     return data;
   } catch (err) {
     console.warn(`Error getting rating for ${username}: ${err} `);
@@ -61,6 +61,7 @@ async function getActiveItems(username) {
     const resp = await axios.get(
       `http://127.0.0.1:8000/items/get_by_username/${username}`
     );
+    console.log(resp.data)
     const items = resp.data;
     return items;
   } catch (err) {
