@@ -57,6 +57,11 @@ def get_all_user(request):
     serializer = UserSerializer(all, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def get_by_username(request, username):
+    find = User.objects.get(username=username)
+    serializer = UserSerializer(find)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def get_all_ratings(request):

@@ -19,7 +19,7 @@ const SearchBar = () => {
         const queryVal = query.current.value;
         console.log(queryVal)
         // send value to the fetch function 
-        getSearch(queryVal)
+        getSearch(queryVal, category)
     }
 
     const handleChange = (e) => {

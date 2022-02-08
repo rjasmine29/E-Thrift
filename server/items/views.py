@@ -145,6 +145,17 @@ def get_by_item_id(req, item_id):
     except Exception as e:
         return Response({'Error': f'Item Not Found - {e}'})
 
+@api_view(['GET'])
+def search_term(req, search_term, category):
+    try:
+        item = Item.objects.filter(name__icontains=search_term, category=category)
+        print(item)
+        serializer = ItemSerializer(item, many=True)
+        return Response({'Success': serializer.data})
+
+    
+    except Exception as e:
+        return Response({'Error': f'Cannot find values in this search term - {e}'})
 
 @api_view(['POST'])
 def create(req):
