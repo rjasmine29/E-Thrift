@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import defaultProfileImg from "../../assets/default-profile.png";
 import "./style.css";
@@ -177,6 +178,7 @@ const EditProfile = ({
           input="Create your E-Thrift account"
         />
       </form>
+      <ArrowBackIcon onClick={setActiveFragment("")} />
     </div>
   );
 };
