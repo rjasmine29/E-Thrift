@@ -24,7 +24,7 @@ function Search() {
     <div>
         {/* <NavBar /> */}
         <Mapbox setMap={handleMap} setMapboxGl={setMapboxGl}/>
-        <SearchBar />
+        <SearchBar setCategory={setCategory} />
        
         <CatBar setCategory={setCategory} />
         <h3>Number of results goes here - {length}</h3>

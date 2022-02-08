@@ -8,23 +8,25 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 
-const SearchBar = () => {
+const SearchBar = ({setCategory}) => {
     const query = useRef();
-    const [category, setCategory] = useState('All');
+    const [category, setCat] = useState('All');
 
     
 
-    const handleSearch = (e) => {
+    const handleSearch = async (e) => {
         e.preventDefault();
         const queryVal = query.current.value;
         console.log(queryVal)
         // send value to the fetch function 
-        getSearch(queryVal, category)
+        let data = await getSearch(queryVal, category) 
+        console.log("data = ", data)
+        setCategory(data)
     }
 
     const handleChange = (e) => {
         console.log(e.target.value)
-        setCategory(e.target.value);
+        setCat(e.target.value);
     };
 
 

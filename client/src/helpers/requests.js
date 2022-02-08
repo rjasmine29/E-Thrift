@@ -25,9 +25,7 @@ async function postRegister(data) {
 async function getSearch(data, category){
     try {
         const resp = await axios.get(`http://127.0.0.1:8000/items/search/${data}/${category}/`);
-        console.log(resp.data);
-        const result = resp.json();
-        return result;
+        return resp.data;
     } catch (err) {
         console.warn(`Error retrieving search results for ${data}: ${err}`);
     }

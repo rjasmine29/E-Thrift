@@ -148,10 +148,28 @@ def get_by_item_id(req, item_id):
 @api_view(['GET'])
 def search_term(req, search_term, category):
     try:
-        item = Item.objects.filter(name__icontains=search_term, category=category)
-        print(item)
+        if category == 'All':
+            if len(search_term.strip()) == 0:
+                item = Item.objects.all()
+            else:
+                item = Item.objects.filter(name__icontains=search_term.strip())
+        else:
+            if len(search_term.strip()) == 0:
+                item = Item.objects.filter(category=category)
+            else:
+                item = Item.objects.filter(name__icontains=search_term.strip(), category=category)
+        
+        lists = []
+        for ite in item:
+            
+            photos = Images.objects.filter(item_id=ite)
+            
+            for photo in photos:
+                lists.append(photo)
+        
+        serializer_img = ImagesSerializer(lists, many=True)
         serializer = ItemSerializer(item, many=True)
-        return Response({'Success': serializer.data})
+        return Response({'data': serializer.data, 'image': serializer_img.data})
 
     
     except Exception as e:
