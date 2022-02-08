@@ -1,0 +1,9 @@
+.productCard {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.productCard > div > div > img {
+    height: 200px;
+}

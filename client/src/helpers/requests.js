@@ -22,12 +22,10 @@ async function postRegister(data) {
     }
 }
 
-async function getSearch(data){
+async function getSearch(data, category){
     try {
-        const resp = await axios.get(`http://localhost/search/${data}`);
-        console.log(resp.data);
-        const result = resp.json();
-        return result;
+        const resp = await axios.get(`http://127.0.0.1:8000/items/search/${data}/${category}/`);
+        return resp.data;
     } catch (err) {
         console.warn(`Error retrieving search results for ${data}: ${err}`);
     }
@@ -35,7 +33,7 @@ async function getSearch(data){
 
 async function getProfile(username) {
     try {
-        const resp = await axios.get(`http://localhost/users/${username}`);
+        const resp = await axios.get(`http://127.0.0.1:8000/user/${username}`);
         const user = resp.json();
         return user;
     } catch (err) {
@@ -45,7 +43,7 @@ async function getProfile(username) {
 
 async function getRating(username) {
     try {
-        const resp = await axios.get(`http://localhost/ratings/${username}`);
+        const resp = await axios.get(`http://127.0.0.1:8000/user/rating/${username}`);
         const rating = resp.json();
         return rating;
     } catch (err) {
@@ -53,4 +51,24 @@ async function getRating(username) {
     }
 }
 
-export { postLogin, postRegister, getProfile, getRating, getSearch }
+async function getActiveItems(username) {
+    try {
+        const resp = await axios.get(`http://127.0.0.1:8000/items/get_by_username/${username}`);
+        const items = resp.json();
+        return items;
+    } catch (err) {
+        console.warn(`Error getting active items for ${username}: ${err}`);
+    }
+}
+
+async function getClaimedItems(username) {
+    try {
+        const resp = await axios.get(`http://127.0.0.1:8000/items/get_by_username/claimed${username}`);
+        const items = resp.json();
+        return items;
+    } catch (err) {
+        console.warn(`Error getting claimed items for ${username}: ${err}`);
+    }
+}
+
+export { postLogin, postRegister, getSearch, getProfile, getRating, getActiveItems, getClaimedItems }

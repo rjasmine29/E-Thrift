@@ -33,9 +33,9 @@ def get_all_items(req):
         return Response({'Error': f"{e}"})
 
 @api_view(['GET'])
-def get_by_category(req, category):
+def get_unclaimed_items(req):
     try:
-        items = Item.objects.filter(category=category)
+        items = Item.objects.filter(is_claimed=False)
         serializer = ItemSerializer(items, many=True)
         
         lists = []
@@ -48,10 +48,33 @@ def get_by_category(req, category):
                 lists.append(photo)
         
         serializer_img = ImagesSerializer(lists, many=True)
-        data = {'data': serializer.data, 'photos': serializer_img.data}
+        data = {'data': serializer.data, 'image': serializer_img.data}
         return Response(data)
     except Exception as e:
-        return Response({'Error': f'Provided username doesnt exist - {e}'})
+        return Response({'Error': f"{e}"})
+
+@api_view(['GET'])
+def claimed_by_username(req, username):
+    try:
+        items = Item.objects.filter(buyer=username)
+        serializer = ItemSerializer(items, many=True)
+
+        lists = []
+        for item in items:
+            
+            photos = Images.objects.filter(item_id=item)
+            
+            for photo in photos:
+                print(photo)
+                lists.append(photo)
+        
+        serializer_img = ImagesSerializer(lists, many=True)
+
+        data = {'data': serializer.data, 'image': serializer_img.data}
+        return Response(data)
+    except Exception as e:
+        return Response({'Error': f"{e}"})
+
 
 @api_view(['GET'])
 def get_by_username(req, username):
@@ -70,7 +93,28 @@ def get_by_username(req, username):
                 lists.append(photo)
         
         serializer_img = ImagesSerializer(lists, many=True)
-        data = {'data': serializer.data, 'photos': serializer_img.data}
+        data = {'data': serializer.data, 'image': serializer_img.data}
+        return Response(data)
+    except Exception as e:
+        return Response({'Error': f'Provided username doesnt exist - {e}'})
+
+@api_view(['GET'])
+def get_by_category(req, category):
+    try:
+        items = Item.objects.filter(category=category)
+        serializer = ItemSerializer(items, many=True)
+        
+        lists = []
+        for item in items:
+            
+            photos = Images.objects.filter(item_id=item)
+            
+            for photo in photos:
+                print(photo)
+                lists.append(photo)
+        
+        serializer_img = ImagesSerializer(lists, many=True)
+        data = {'data': serializer.data, 'image': serializer_img.data}
         return Response(data)
     except Exception as e:
         return Response({'Error': f'Provided username doesnt exist - {e}'})
@@ -83,10 +127,9 @@ def get_by_item_id(req, item_id):
         serializer = ItemSerializer(item)
         photos = Images.objects.filter(item_id=item)
         serializer_img = ImagesSerializer(photos, many=True)
-        
-        if req.GET.get("username") is not None and req.GET.get("username") != "":
+        if req.GET.get("username") is not None and req.GET.get('username') != '':
             user = User.objects.get(username=req.GET.get("username"))
-            
+
             if user is not None:
                 last_item = RecentlyViewed.objects.filter(user_id=user).last()
                 
@@ -96,20 +139,45 @@ def get_by_item_id(req, item_id):
                         RecentlyViewed.objects.create(user_id=user, item_id=item)
                 else:
                     RecentlyViewed.objects.create(user_id=user, item_id=item)
-            else:
-                print("here")
-               
-
+                    
         data = {'data': serializer.data, 'photo': serializer_img.data}
         return Response(data)
     except Exception as e:
         return Response({'Error': f'Item Not Found - {e}'})
 
+@api_view(['GET'])
+def search_term(req, search_term, category):
+    try:
+        if category == 'All':
+            if len(search_term.strip()) == 0:
+                item = Item.objects.all()
+            else:
+                item = Item.objects.filter(name__icontains=search_term.strip())
+        else:
+            if len(search_term.strip()) == 0:
+                item = Item.objects.filter(category=category)
+            else:
+                item = Item.objects.filter(name__icontains=search_term.strip(), category=category)
+        
+        lists = []
+        for ite in item:
+            
+            photos = Images.objects.filter(item_id=ite)
+            
+            for photo in photos:
+                lists.append(photo)
+        
+        serializer_img = ImagesSerializer(lists, many=True)
+        serializer = ItemSerializer(item, many=True)
+        return Response({'data': serializer.data, 'image': serializer_img.data})
+
+    
+    except Exception as e:
+        return Response({'Error': f'Cannot find values in this search term - {e}'})
 
 @api_view(['POST'])
 def create(req):
     try:
-
         seller = User.objects.get(username=req.data['seller'])
         new_item = Item.objects.create( name = req.data['name'],
                                         description = req.data['description'],
@@ -121,7 +189,6 @@ def create(req):
         return Response({'Error!': f"{e}"})
 
 # updates whole item, maybe make new to ba able to update certain features
-
 
 @api_view(['POST'])
 def update_listing(req):
