@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ActiveItemCard from "../ActiveItemCard";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
@@ -32,14 +32,14 @@ const ActiveListings = ({ setActiveFragment, activeItems, isLoading }) => {
   }
 
   return (
-    <>
+    <div className="active-items-fragment">
       <h1>Active Items</h1>
       {isLoading && <div className="loading-listings">...loading</div>}
       {!isLoading && (
         <div className="active-listings-container">{renderItems}</div>
       )}
       <ArrowBackIcon onClick={() => setActiveFragment("")} />
-    </>
+    </div>
   );
 };
 
