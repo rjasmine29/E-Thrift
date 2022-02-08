@@ -11,10 +11,6 @@ from images.models import Images
 from images.serializer import ImagesSerializer
 import cloudinary
 
-
-def index(req):
-    return HttpResponse('<h1>Root items page</h1>')
-
 # Create your views here.
 
 
@@ -235,6 +231,5 @@ def recently_viewed_by_username(req, username):
         serialized = RecentlyViewedSerializer(all, many=True)
         data = {'data': serialized.data}
         return Response(data)
-
     except Exception as e:
         return Response({'Error': f'Cannot get all recently viewed items - {e}'})
