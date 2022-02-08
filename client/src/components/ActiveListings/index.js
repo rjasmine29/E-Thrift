@@ -6,19 +6,32 @@ import './style.css';
 
 const ActiveListings = ({ setActiveFragment, activeItems, isLoading }) => {
 
-    const renderItems = activeItems.map((item) => { 
-        return (
-            <ActiveItemCard 
-                id={item.id}
-                name={item.name}
-                price={item.price}
-                category={item.category}
-                description={item.description}
-                image_url={item.image_url}
-                image_id={item.image_id}
-            />
-        )
-    });
+    //const images = activeItems.image;
+    
+    if (activeItems) {
+        const items = activeItems.data;
+        // items.map(item => console.log(item))
+    }
+
+    // items.map(item => {
+    //     console.log(item)
+    //     console.log(images.find(img => img.item_id === item.id))
+    // })
+    //console.log(`items: ${items}`)
+    // const renderItems = items.map((item) => { 
+    //     // const img = images.find(img => img.item_id === item.id)
+    //     return (
+    //         <ActiveItemCard 
+    //             id={item.id}
+    //             name={item.name}
+    //             price={item.price}
+    //             category={item.category}
+    //             description={item.description}
+    //             // image_url={img.img_url}
+    //             image_id={item.image_id}
+    //         />
+    //     )
+    // });
 
     return (
         <>
@@ -28,9 +41,10 @@ const ActiveListings = ({ setActiveFragment, activeItems, isLoading }) => {
                     ...loading
                 </div>
             }
-            {!isLoading && 
+            {!activeItems && 
                 <div className="active-listings-container">
-                    {renderItems}
+                    {console.log(`items length is: ${activeItems.length}`)}
+                    {/* {renderItems} */}
                 </div>
             }
             <ArrowBackIcon onClick={()=>setActiveFragment("")} />
