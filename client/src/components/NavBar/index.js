@@ -8,9 +8,10 @@ function NavBar({ username, logOut }) {
   return (
     <Navbar expand="lg" bg="dark" variant="dark">
       
-      <Nav.Link as={NavLink}  to="">Logo</Nav.Link>
+      <Nav.Link as={NavLink} style={{color: "white"}}   to="">Logo</Nav.Link>
       {username !== null && (
         <>
+          <Nav.Link as={NavLink} to="/search">Find Products</Nav.Link>
           <Nav.Link as={NavLink} to="/create">Create Listing</Nav.Link>
           <Nav.Link as={NavLink} to={`/profile/:true`}>Profile</Nav.Link>
           <Nav.Link onClick={logOut} as={NavLink} to='/'>Sign Out</Nav.Link>
@@ -18,8 +19,8 @@ function NavBar({ username, logOut }) {
       )}
       {username === null && (
         <>
-          <Nav.Link as={NavLink} to="/register">Sign Up</Nav.Link>
-          <Nav.Link as={NavLink} to="/login">Login </Nav.Link>
+          <Nav.Link as={NavLink} style={{color: "white"}} to="/register">Sign Up</Nav.Link>
+          <Nav.Link as={NavLink} style={{color: "white"}} to="/login">Login </Nav.Link>
         </>
       )}
     </Navbar>

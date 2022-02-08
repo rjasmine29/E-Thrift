@@ -92,7 +92,7 @@ const App = () => {
       <div className="App">
         <NavBar username={username} logOut={logOut} />
         <Routes>
-          <Route path="/create-listing" element={<CreateListing />}></Route>
+          <Route path="/create" element={<CreateListing />}></Route>
           <Route exact path="/" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/product" element={<Product />}></Route>
