@@ -33,7 +33,7 @@ const ActiveListings = ({ setActiveFragment, activeItems, isLoading }) => {
                     {renderItems}
                 </div>
             }
-            <ArrowBackIcon onClick={setActiveFragment("")} />
+            <ArrowBackIcon onClick={()=>setActiveFragment("")} />
         </>
     )
 }

@@ -18,7 +18,7 @@ const Profile = () => {
     const [activeItems, setActiveItems] = useState([]);
     const [claimedItems, setClaimedItems] = useState([]);
     const [messages, setMessages] = useState([]);
-    const [username, setUsername] = useState();
+    const [username, setUsername] = useState('');
     const [firstName, setFirstName] = useState();
     const [lastName, setLastName] = useState();
     const [phoneNumber, setPhoneNumber] = useState();
@@ -26,64 +26,82 @@ const Profile = () => {
     const [bio, setBio] = useState();
     const [rating, setRating] = useState();
     const [ratingCount, setRatingCount] = useState();
+    const [email, setEmail] = useState()
 
     const isMounted = useRef(true);
     const params = useParams();
     const currentUser = params.currentUser;
-    const email = localStorage.getItem('email');
-
     useEffect(() => {
+        console.log(`page load`)
+
         if(isMounted) {
             const getProfileData = async () => {
-                setIsLoading(true);
-                setUsername(localStorage.getItem('username'));
-                const user = await getProfile(username);
-                const fetchedRating = await getRating(username);
-                setFirstName(user.firstName);
-                setLastName(user.lastName);
-                setPhoneNumber(user.phoneNumber);
-                setAvatarUrl(user.avatarUrl);
-                setBio(user.bio);
-                setRating(fetchedRating.rating);
-                setRatingCount(fetchedRating.count);
-                setIsLoading(false);
+                if(typeof window !== 'undefined'){
+                    const name = localStorage.getItem('username')
+
+                    setIsLoading(true);
+                    setEmail(localStorage.getItem('email'));
+                    //let name = localStorage.getItem('username');
+                    //console.log(`${localStorage.getItem('username')}`)
+                    //setUsername('kaskas')
+                    const user = await getProfile(name);
+                    const fetchedRating = await getRating(name);
+                    console.log(user)
+                    setFirstName(user.first_name);
+                    setLastName(user.last_name);
+                    setPhoneNumber(user.phone_number);
+                    setAvatarUrl(user.avatar_url);
+                    //setBio(user.bio);
+                    setRating(fetchedRating.average_rating);
+                    setRatingCount(fetchedRating.total);
+                    setIsLoading(false);
+                }
             }
-            getProfileData();
+                getProfileData();
         }
-        return(() => {
+            return(() => {
             isMounted.current = false;
         })
-    });
+    },[]);
 
     useEffect(() => {
+        console.log(`changes active fragment. ${activeFragment}`)
+        //setUsername('kaskas')
         if (isMounted) {
             const fetchFragmentData = async () => {
-                switch (activeFragment) {
-                    case 'active':
-                        setIsLoadingActiveItems(true);
-                        const activeItems = await getActiveItems(username);
-                        setActiveItems(activeItems);
-                        setIsLoadingActiveItems(false);
-                        return;
-                    case 'claimed':
-                        setIsLoadingClaimedItems(true);
-                        const claimedItems = await getClaimedItems(username);
-                        setClaimedItems(claimedItems);
-                        setIsLoadingClaimedItems(false);
-                        return;
-                    case 'messages':
-                        setIsloadingMessages(true);
-                        // TODO: messages
-                        // const messages = await getMessages(username)
-                        setIsloadingMessages(false);
-                        return;
-                    default:
-                        return;
-                }
+                if(typeof window !== 'undefined'){
+                    const name = localStorage.getItem('username')
+                    switch (activeFragment) {
+                        case '':
+                            return;
+                        case 'active':
+                            setIsLoadingActiveItems(true);
+                            const activeItems = await getActiveItems(name);
+                            setActiveItems(activeItems);
+                            setIsLoadingActiveItems(false);
+                            return;
+                        case 'claimed':
+                            setIsLoadingClaimedItems(true);
+                            const claimedItems = await getClaimedItems(name);
+                            setClaimedItems(claimedItems);
+                            setIsLoadingClaimedItems(false);
+                            return;
+                        case 'messages':
+                            setIsloadingMessages(true);
+                            // TODO: messages
+                            // const messages = await getMessages(username)
+                            setIsloadingMessages(false);
+                            return;
+                        default:
+                            return;
+                    }
+                            
+            
             }
             fetchFragmentData();
         }
-    }, [activeFragment, username])
+    }}, [activeFragment])
+
     return (
         <div className='profile-page'>
             {isLoading &&
@@ -91,6 +109,7 @@ const Profile = () => {
                     ...loading
                 </div>
             }
+
             {!isLoading && activeFragment === '' &&
                 <div className='profile-container'>
                     <div className='header'>
@@ -106,22 +125,22 @@ const Profile = () => {
                     </div>
 
                     <div className="profile-options">
-                        <div className="options-container" onClick={setActiveFragment('messages')}>
+                        <div className="options-container" onClick={()=>setActiveFragment('messages')}>
                             <img src={MessageIcon} alt='Messages'/>
                             <span>Messages</span>
                         </div>
                         <div className="options-container">
-                            <img src={CurrentlyListedIcon} alt='Active listings' onClick={setActiveFragment('active')}/>
+                            <img src={CurrentlyListedIcon} alt='Active listings' onClick={()=>setActiveFragment('active')}/>
                             <span>Active Listings</span>
                         </div>
                     </div>
                     {currentUser === 'true' &&
                         <div className="your-profile-options">
-                            <div className="options-container" onClick={setActiveFragment('claimed')}>
+                            <div className="options-container" onClick={()=>setActiveFragment('claimed')}>
                                 <img src={ClaimedIcon} alt='Claimed items'/>
                                 <span>Claimed Items</span>
                             </div>
-                            <div className="options-container" onClick={(setActiveFragment('edit'))}>
+                            <div className="options-container" onClick={()=>setActiveFragment('edit')}>
                                 <img src={EditIcon} alt='Edit profile'/>
                                 <span>Edit Profile</span>
                             </div>
