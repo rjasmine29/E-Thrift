@@ -17,8 +17,6 @@ const Login = () => {
    */
   
   async function requestLogin(e) {
-    e.preventDefault()
-    
     try {
       e.preventDefault();
       // obtain access and refresh tokens
@@ -26,10 +24,11 @@ const Login = () => {
         email,
         password,
       });
-      
+      console.log(data)
       const user = jwt_decode(data.access);
       localStorage.setItem('authTokens', JSON.stringify(data))
       localStorage.setItem("username", user.username);
+      localStorage.setItem('email', user.email);
       navigate("/");
     } catch (err) {
       localStorage.clear()
