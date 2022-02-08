@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { NavBar } from "./components";
@@ -13,16 +13,38 @@ import {
 } from "./pages";
 import "./App.css";
 import "./pages";
+import { postLogOut } from "./helpers/requests";
 
 export const UserContext = React.createContext(null);
 
 const App = () => {
-  const [username, setUsername] = useState({ username: null, setUsername: null });
+  const [username, setUsername] = useState();
 
   const providerValue = {
     username,
-    setUsername
-  }
+    setUsername,
+  };
+
+  const logOut = async () => {
+    try {
+      const tokens = JSON.parse(localStorage.getItem("authTokens"));
+      await postLogOut(tokens);
+      localStorage.clear();
+      setUsername(null);
+    } catch (err) {
+      console.warn(`Error logging out ${username}`);
+    }
+  };
+
+  useEffect(() => {
+    const storageEventHandler = () => {
+      console.log("storage updated");
+      setUsername(localStorage.getItem("username") || null);
+    };
+
+    setUsername(localStorage.getItem("username") || null);
+    window.addEventListener("storage", storageEventHandler);
+  }, [setUsername]);
 
   function isAuthenticated() {
     const token = localStorage.getItem("authTokens");
@@ -68,13 +90,13 @@ const App = () => {
   return (
     <UserContext.Provider value={providerValue}>
       <div className="App">
-        <NavBar username={username} setUsername={setUsername}/>
+        <NavBar username={username} logOut={logOut} />
         <Routes>
           <Route path="/create-listing" element={<CreateListing />}></Route>
           <Route exact path="/" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/product" element={<Product />}></Route>
-          <Route path="/profile" element={<Profile />}></Route>
+          <Route path="/profile/:username" element={<Profile />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/search" element={<Search />}></Route>
         </Routes>
