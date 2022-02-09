@@ -106,8 +106,8 @@ const EditListing = () => {
 
         }
 
-        const data2 = await fetch(`http://127.0.0.1:8000/images/add/${id}/`, options3)
-        const jsondata = await data2.json()
+        const {data} = await fetch(`http://127.0.0.1:8000/images/add/${id}/`, options3)
+        const jsondata = data;
         console.log("data =>", jsondata)
 
         let name = form.name.value.trim()
