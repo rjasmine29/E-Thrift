@@ -35,6 +35,8 @@ def add(req, item_id):
     try:
         item = Item.objects.get(pk=item_id)
         images = req.FILES.getlist('image')
+    
+        print("IMAGES = ", images)
 
         for image in images:
             Images.objects.create(  item=item,

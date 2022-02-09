@@ -70,13 +70,13 @@ const App = () => {
       <div className="App">
         <NavBar username={username} setUsername={setUsername}/>
         <Routes>
-          <Route path="/create-listing" element={<CreateListing />}></Route>
-          <Route exact path="/" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/product" element={<Product />}></Route>
-          <Route path="/profile" element={<Profile />}></Route>
-          <Route path="/register" element={<Register />}></Route>
-          <Route path="/search" element={<Search />}></Route>
+          <Route path="/" exact element={<Home />}></Route>
+          <Route path="/create" exact element={<CreateListing />}></Route>
+          <Route path="/login" exact element={<Login />}></Route>
+          <Route path="/product" exact element={<Product />}></Route>
+          <Route path="/profile" exact element={<Profile />}></Route>
+          <Route path="/register" exact element={<Register />}></Route>
+          <Route path="/search" exact element={<Search />}></Route>
         </Routes>
       </div>
     </UserContext.Provider>
