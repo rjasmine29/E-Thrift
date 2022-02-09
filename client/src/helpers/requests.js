@@ -61,7 +61,7 @@ async function getActiveItems(username) {
     const resp = await axios.get(
       `http://127.0.0.1:8000/items/get_by_username/${username}`
     );
-    console.log(resp.data)
+    //console.log(resp.data)
     const items = resp.data;
     return items;
   } catch (err) {

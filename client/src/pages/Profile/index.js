@@ -16,7 +16,7 @@ import {
   ActiveListings,
   ClaimedItems,
   EditProfile,
-  Messages,
+  // Messages,
 } from "../../components";
 import "./style.css";
 
@@ -87,6 +87,7 @@ const Profile = () => {
             case "active":
               setIsLoadingActiveItems(true);
               const activeItems = await getActiveItems(name);
+              //console.log(activeItems)
               setActiveItems(activeItems);
               setIsLoadingActiveItems(false);
               return;
@@ -96,12 +97,12 @@ const Profile = () => {
               setClaimedItems(claimedItems);
               setIsLoadingClaimedItems(false);
               return;
-            case "messages":
-              setIsloadingMessages(true);
-              // TODO: messages
-              // const messages = await getMessages(username)
-              setIsloadingMessages(false);
-              return;
+            // case "messages":
+            //   setIsloadingMessages(true);
+            //   // TODO: messages
+            //   // const messages = await getMessages(username)
+            //   setIsloadingMessages(false);
+            //   return;
             default:
               console.log("default");
               return;
@@ -188,13 +189,13 @@ const Profile = () => {
           )}
         </div>
       )}
-      {activeFragment === "messages" && (
+      {/* {activeFragment === "messages" && (
         <Messages
           isLoading={isLoadingMessages}
           setActiveFragment={setActiveFragment}
           messages={messages}
         />
-      )}
+      )} */}
       {activeFragment === "active" && (
         <ActiveListings
           isLoading={isLoadingActiveItems}
