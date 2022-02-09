@@ -200,7 +200,7 @@ const EditProfile = ({
         </div>
         <input
           type="submit"
-          id="register-btn"
+          id="edit-profile-btn"
           className="submit-btn"
           input="Create your E-Thrift account"
         />
