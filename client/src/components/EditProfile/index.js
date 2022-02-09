@@ -76,28 +76,24 @@ const EditProfile = ({
       setAvatarUrl(defaultProfileImg);
     }
   }, [avatarImg, setAvatarUrl]);
-  
+
   const submitEditProfile = async (e) => {
     try {
-
       if (isMounted) {
         e.preventDefault();
-        
+
         let data = new FormData();
         data.append("first_name", firstName);
         data.append("last_name", lastName);
-        data.append("current_username", localStorage.getItem("username"))
+        data.append("current_username", localStorage.getItem("username"));
         data.append("username", username);
         data.append("phone_number", phoneNumber);
-        
 
         if (e.target.image.files.length > 0) {
           data.append("avatar_url", e.target.image.files[0]);
         } else {
           data.append("avatar_url", null);
         }
-
-     
         
         // make a request to edit the user
         await postEditProfile(data);
@@ -165,7 +161,13 @@ const EditProfile = ({
           <label label="email" aria-label="email">
             Email
           </label>
-          <input type="email" value={email} aria-label="email-input" name="email" disabled />
+          <input
+            type="email"
+            value={email}
+            aria-label="email-input"
+            name="email"
+            disabled
+          />
         </div>
         <div>
           <label label="phone-number" aria-label="phone-number">
@@ -181,28 +183,29 @@ const EditProfile = ({
           />
         </div>
         <div className="change-image-container">
-          {/* <button
+          <button
             className="remove-profile-btn"
             onClick={removeCurrentImage}
             disabled={avatarUrl === defaultProfileImg}
           >
             Remove Current Image
-          </button> */}
-          <label htmlFor="image">Change profile picture</label>
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            aria-label="profile-input"
-            name="image"
-            onChange={(e) => onFileSelected(e)}
-          />
+          </button>
+          <div className="image-input-wrapper">
+            <label htmlFor="image">Change Profile Picture</label>
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              aria-label="profile-input"
+              name="image"
+              onChange={(e) => onFileSelected(e)}
+            />
+          </div>
         </div>
         <input
           type="submit"
           id="edit-profile-btn"
           className="submit-btn"
-          input="Create your E-Thrift account"
         />
       </form>
     </div>
