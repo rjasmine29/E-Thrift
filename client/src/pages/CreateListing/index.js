@@ -27,8 +27,7 @@ const CreateListing = () => {
         formData.append("seller", localStorage.getItem("username"))
 
         let formData2 = new FormData(e.target)
-        console.log(e.target.image.files[0])
-        formData2.append("image", e.target.image.files[0])
+        formData2.append("image", e.target.image.files)
 
         let name = form.name.value.trim()
         let description = form.description.value.trim()
@@ -53,12 +52,13 @@ const CreateListing = () => {
 
             const datas = await fetch("http://127.0.0.1:8000/items/create", options)
             const jsons = await datas.json();
-            console.log(jsons)
+            
             let split = JSON.stringify(jsons.Success).split("id: ")
 
             let options2 = {
                 method: "POST",
-                headers: { 'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' },
+                // headers: { 'Content-Type': 'multipart/form-data' },
+                // withCredentials: true,
                 body: formData2,
 
 
@@ -66,7 +66,6 @@ const CreateListing = () => {
             console.log(options2)
 
             const data2 = await fetch(`http://127.0.0.1:8000/images/add/${split[1].split('"')[0]}/`, options2)
-            console.log("data2 = ", data2)
             const jsondata = await data2.json()
             console.log("data =>", jsondata)
 
@@ -96,7 +95,7 @@ const CreateListing = () => {
         <div className="CreateListing">
 
 
-            <form onSubmit={newListing}>
+            <form onSubmit={newListing} encType="multipart/form-data">
                 <h1>Create a new listing</h1>
                 <div>
                     <label htmlFor="name">Item name</label>
@@ -127,7 +126,7 @@ const CreateListing = () => {
 
                 <div>
                     <label htmlFor="image">Image</label>
-                    <input type="file" id="img" name="image" accept="image/*" />
+                    <input type="file" id="img" name="image" accept="image/*" multiple />
                 </div>
 
                 <input type="submit" value="Create new listing" />

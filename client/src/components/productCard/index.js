@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardActions, CardContent, CardMedia, Button, Typography, CardHeader, ToggleButtonGroup, IconGroup, IconButton } from '@mui/material'
+import { Card, CardActions, CardContent, CardMedia, Button, Typography, CardHeader, ToggleButtonGroup, IconGroup, IconButton, Grid  } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { BsFillGeoAltFill } from 'react-icons/bs'
-import { likeButton } from '../likeButton';
+
+import { LikeButton } from '../likeButton';
 import "./productCard.css"
 
 export default function ProductCard({ category, map, mapboxgl }) {
@@ -41,10 +42,6 @@ export default function ProductCard({ category, map, mapboxgl }) {
   }, [])
 
   let set = new Set()
-  let set2 = new Set()
-  // const refId = useRef(category.data.map(React.createRef))
-
-
 
   const catMap = category.data && category.data?.map((cat, key) => {
 
@@ -101,8 +98,9 @@ export default function ProductCard({ category, map, mapboxgl }) {
     }
 
     return (
-      <div key={key}>
-        <Card sx={{ maxWidth: 345 }}>
+      <div key={key} className="cardStyle"> 
+      
+        <Card >
 
           <CardMedia
             component="img"
@@ -129,13 +127,14 @@ export default function ProductCard({ category, map, mapboxgl }) {
           
           </IconButton> */}
 
-            <likeButton />
+            {/* <LikeButton /> */}
 
 
             <Button size="small">Share</Button>
             <Button size="small">More Details</Button>
           </CardActions>
         </Card >
+       
 
       </div >
     )

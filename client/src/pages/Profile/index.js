@@ -23,7 +23,6 @@ const Profile = () => {
     const [lastName, setLastName] = useState();
     const [phoneNumber, setPhoneNumber] = useState();
     const [avatarUrl, setAvatarUrl] = useState();
-    const [bio, setBio] = useState();
     const [rating, setRating] = useState();
     const [ratingCount, setRatingCount] = useState();
     const [email, setEmail] = useState()
@@ -33,6 +32,7 @@ const Profile = () => {
     const currentUser = params.currentUser;
     useEffect(() => {
         console.log(`page load`)
+        isMounted.current = true;
 
         if(isMounted) {
             const getProfileData = async () => {
@@ -41,9 +41,6 @@ const Profile = () => {
 
                     setIsLoading(true);
                     setEmail(localStorage.getItem('email'));
-                    //let name = localStorage.getItem('username');
-                    //console.log(`${localStorage.getItem('username')}`)
-                    //setUsername('kaskas')
                     const user = await getProfile(name);
                     const fetchedRating = await getRating(name);
                     console.log(user)
@@ -51,7 +48,6 @@ const Profile = () => {
                     setLastName(user.last_name);
                     setPhoneNumber(user.phone_number);
                     setAvatarUrl(user.avatar_url);
-                    //setBio(user.bio);
                     setRating(fetchedRating.average_rating);
                     setRatingCount(fetchedRating.total);
                     setIsLoading(false);
@@ -65,8 +61,8 @@ const Profile = () => {
     },[]);
 
     useEffect(() => {
+        isMounted.current = true;
         console.log(`changes active fragment. ${activeFragment}`)
-        //setUsername('kaskas')
         if (isMounted) {
             const fetchFragmentData = async () => {
                 if(typeof window !== 'undefined'){
@@ -95,11 +91,11 @@ const Profile = () => {
                         default:
                             return;
                     }
-                            
-            
             }
-            fetchFragmentData();
         }
+        fetchFragmentData();
+
+        return(() => { isMounted.current = false });
     }}, [activeFragment])
 
     return (
@@ -120,27 +116,24 @@ const Profile = () => {
                         <Rating ratingValue={rating} />
                         <span>{ratingCount}</span>
                     </div>
-                    <div className="bio-container">
-                        <p>{bio}</p>
-                    </div>
 
                     <div className="profile-options">
-                        <div className="options-container" onClick={()=>setActiveFragment('messages')}>
+                        <div className="options-container" onClick={() => setActiveFragment('messages')}>
                             <img src={MessageIcon} alt='Messages'/>
                             <span>Messages</span>
                         </div>
                         <div className="options-container">
-                            <img src={CurrentlyListedIcon} alt='Active listings' onClick={()=>setActiveFragment('active')}/>
+                            <img src={CurrentlyListedIcon} alt='Active listings' onClick={() => setActiveFragment('active')}/>
                             <span>Active Listings</span>
                         </div>
                     </div>
                     {currentUser === 'true' &&
                         <div className="your-profile-options">
-                            <div className="options-container" onClick={()=>setActiveFragment('claimed')}>
+                            <div className="options-container" onClick={() => setActiveFragment('claimed')}>
                                 <img src={ClaimedIcon} alt='Claimed items'/>
                                 <span>Claimed Items</span>
                             </div>
-                            <div className="options-container" onClick={()=>setActiveFragment('edit')}>
+                            <div className="options-container" onClick={() => setActiveFragment('edit')}>
                                 <img src={EditIcon} alt='Edit profile'/>
                                 <span>Edit Profile</span>
                             </div>
@@ -183,8 +176,6 @@ const Profile = () => {
                     setPhoneNumber={setPhoneNumber}
                     avatarUrl={avatarUrl}
                     setAvatarUrl={setAvatarUrl}
-                    bio={bio}
-                    setBio={setBio}
                 />
             }
         </div>

@@ -39,6 +39,7 @@ def add(req, item_id):
         print("IMAGES = ", images)
 
         for image in images:
+            print(image)
             Images.objects.create(  item=item,
                                     img_url=image)
         return Response({'Success': 'Added image to item'})
