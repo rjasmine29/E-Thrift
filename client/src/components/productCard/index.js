@@ -9,7 +9,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import CardHeader from '@mui/material/CardHeader';
 import IconButton from '@mui/material/IconButton';
 import { BsFillGeoAltFill } from 'react-icons/bs'
-import { Mapbox, NavBar, CatBar, SearchBar } from '../../components';
+import { Mapbox, NavBar, CatBar, SearchBar } from '../index';
 import "./productCard.css"
 
 export default function ProductCard({ category, map, mapboxgl }) {
@@ -21,19 +21,18 @@ export default function ProductCard({ category, map, mapboxgl }) {
 
   useEffect(() => {
     const fetchData = async () => {
-
       setImage(category.image)
       document.querySelectorAll(".mapboxgl-marker").forEach(map => {
         map.remove()
       })
     }
-    
-
     fetchData()
   }, [category])
 
   let set = new Set()
   let list = []
+
+
   const catMap = category.data?.map((cat, key) => {
     
     const getCoordinates = async () => {
@@ -73,7 +72,7 @@ export default function ProductCard({ category, map, mapboxgl }) {
 
 
     return (
-      <div key={key}>
+      <div key={key} role='product-card'>
         <Card sx={{ maxWidth: 345 }}>
 
           <CardMedia
