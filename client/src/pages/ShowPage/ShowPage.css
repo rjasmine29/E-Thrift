@@ -45,6 +45,12 @@
 .ShowPage > div:nth-of-type(2) > p:nth-of-type(1) {
     cursor: pointer;
 }
+.claimed{
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+}
 
 .ShowPage > div:nth-of-type(2) > p:nth-of-type(1):hover {
 

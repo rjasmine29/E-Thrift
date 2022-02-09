@@ -205,7 +205,7 @@ const ShowPage = () => {
                 <p onClick={() => navigate(`/profile/` + data.created_by)}><span>Username:</span> {data.seller}</p>
                 <p><span>Location:</span> {data.address}</p>
 
-                {!data.sold && data.seller !== localStorage.getItem("username") && localStorage.getItem("username") && localStorage.getItem("authTokens")
+                {!data.is_claimed && data.seller !== localStorage.getItem("username") && localStorage.getItem("username") && localStorage.getItem("authTokens")
                     ?
                     <div className="button-list">
                         <form onSubmit={claimItem}>
@@ -223,9 +223,11 @@ const ShowPage = () => {
                         }
                     </div>
                     :
-                    null
+                    <div>
+                        <p className='claimed'>This item has already been claimed :(</p>
+                    </div>
                 }
-                {data.sold && data.claimed_by === localStorage.getItem("username")
+                {data.is_claimed === localStorage.getItem("username")
                     ?
                     <div>
                         <p style={{fontWeight: "bold", textAlign: "center"}}>Congrats, you've claimed this item! Please contact the current owner to arrange picking up your new item. </p>
