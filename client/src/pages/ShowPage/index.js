@@ -6,6 +6,7 @@ import './ShowPage.css'
 const ShowPage = () => {
     const [data, setData] = useState([])
     const [error, setError] = useState()
+    const [image, setImage] = useState([])
     const [error2, setError2] = useState()
     const [success, setSuccess] = useState()
     const [success2, setSuccess2] = useState()
@@ -24,13 +25,15 @@ const ShowPage = () => {
 
         const getById = async () => {
             const data = await fetch(`http://127.0.0.1:8000/items/get_by_id/${id}`);
+            console.log(data)
 
             if (data.status === 500) {
                 navigate("/")
             }
             const dataJson = await data.json();
-
+            console.log(dataJson)
             setData(dataJson.data)
+            setImage(dataJson.photo)
         }
 
         getById()
@@ -38,8 +41,10 @@ const ShowPage = () => {
 
     useEffect(() => {
         const getCoordinates = async () => {
-            let datas = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${data.location}.json?types=address&access_token=pk.eyJ1IjoiamFraXJ1bGZ4IiwiYSI6ImNreXhrMTZucTA1aTYycXVvbnRyaDR3NGgifQ.zvjCM2eXQNf6ntofj0cwbQ`)
+            console.log(data.address)
+            let datas = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${data.address}.json?types=address&access_token=pk.eyJ1IjoiamFraXJ1bGZ4IiwiYSI6ImNreXhrMTZucTA1aTYycXVvbnRyaDR3NGgifQ.zvjCM2eXQNf6ntofj0cwbQ`)
             const jsons = await datas.json();
+            console.log(jsons.features[0].geometry.coordinates)
             return jsons.features[0].geometry.coordinates
         }
         (async () => {
@@ -120,13 +125,24 @@ const ShowPage = () => {
             setTimeout(() => window.location.reload(), 500)
         }
     }
+
+    let imageString
     return (
         <div className="ShowPage">
             <div>
                 <h1>{data.name}</h1>
-                {data.image != null
+                {image && image.length
                     ?
-                    <img src={`https://res.cloudinary.com/deizaqii7/` + data.image} />
+                    image && image.map((image, key) => {
+                        
+                          imageString = `https://res.cloudinary.com/deizaqii7/${image.img_url}`
+                          return (
+                            <div key={key}>
+                              <img src={"https://res.cloudinary.com/deizaqii7/" + image.img_url} />
+                            </div>
+                          )
+                        
+                      })
                     :
                     <img src="https://upload.wikimedia.org/wikipedia/commons/e/ea/No_image_preview.png" />
                 }

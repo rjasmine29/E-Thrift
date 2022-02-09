@@ -7,3 +7,8 @@
 .productCard > div > div > img {
     height: 200px;
 }
+
+.productCard {
+    display: flex;
+    flex-wrap: wrap;
+}

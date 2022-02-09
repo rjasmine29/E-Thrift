@@ -19,7 +19,7 @@ function ActiveItemCard({ id, name, price, category, description, image_url, ima
       <CardMedia
         component="img"
         height="140"
-        image="https://static.wikia.nocookie.net/ssb-tourney/images/2/2e/Oogway-white.png"
+        image={`https://res.cloudinary.com/deizaqii7/${image_url}`}
         alt="item-image"
       />
       <CardContent>

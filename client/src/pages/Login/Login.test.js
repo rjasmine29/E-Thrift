@@ -6,7 +6,11 @@
 
 // import * as helpers from '../../helpers/requests';
 
+<<<<<<< HEAD
 // jest.mock("jwt-decode");
+=======
+jest.mock("jwt-decode", () => jest.fn());
+>>>>>>> upstream/main
 
 // const mockNavigate = jest.fn();
 
@@ -14,10 +18,19 @@
 //     useNavigate: () => mockNavigate
 // }));
 
+<<<<<<< HEAD
 // const mockLoginResponse = {
 //     "accessToken": "gjreogjiperog",
 //     "refreshToken": "ewiogjwopiegj"
 // }
+=======
+const mockLoginResponse = {
+    data: {
+        access: 'jreogjiperog',
+        refresh: 'ewiogjwopiew'
+    }
+}
+>>>>>>> upstream/main
 
 // describe('Login', () => {
 //     test('it renders the page', () => {
@@ -26,6 +39,7 @@
 //         expect(heading.textContent).toMatch("Sign-in");
 //     });
 
+<<<<<<< HEAD
 //     test('it allows a user to make a log in request', async () => {
 //         render(<Login />, { wrapper: ReactRouterDom.MemoryRouter });
 //         const submitBtn = screen.getByRole("button", { name: "Sign In" });
@@ -36,6 +50,22 @@
 //         await waitFor(() => {
 //             expect(jwt_decode).toHaveBeenCalled();
 //         })
+=======
+    test('it allows a user to make a log in request', async () => {
+        render(<Login />, { wrapper: ReactRouterDom.MemoryRouter });
+        const submitBtn = screen.getByRole("button", { name: "Sign In" });
+        const loginSpy = jest.spyOn(helpers, 'postLogin');
+        loginSpy.mockResolvedValue(mockLoginResponse);
+        userEvent.click(submitBtn);
+
+        await waitFor(() => {
+            expect(loginSpy).toHaveBeenCalled();
+        });
+
+        await waitFor(() => {
+            expect(jwt_decode).toHaveBeenCalled();
+        });
+>>>>>>> upstream/main
 
 //         await waitFor(() => {
 //             expect(mockNavigate).toHaveBeenCalled();

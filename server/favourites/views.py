@@ -29,8 +29,13 @@ def add_favourite(request, username, item_id):
     try:
         user = User.objects.get(username=username)
         item = Item.objects.get(id=item_id)
-        creation = Favourite.objects.create(user_id=user, item_id=item)
-        return Response({"Success": f"Successfully added a favourite: {creation.id}"})
+        check_existing = Favourite.objects.filter(user_id=user, item_id=item)
+        print("check existing = ", check_existing)
+        if not check_existing:
+            creation = Favourite.objects.create(user_id=user, item_id=item)
+            return Response({"Success": f"Successfully added a favourite: {creation.id}"})
+        else:
+            return Response({'Error': 'Could not add a favourite'})
     except Exception as err:
         return Response({"Error": f"Could not add a favourite - {err}"})
 

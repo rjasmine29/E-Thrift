@@ -18,71 +18,86 @@ const Profile = () => {
     const [activeItems, setActiveItems] = useState([]);
     const [claimedItems, setClaimedItems] = useState([]);
     const [messages, setMessages] = useState([]);
-    const [username, setUsername] = useState();
+    const [username, setUsername] = useState('');
     const [firstName, setFirstName] = useState();
     const [lastName, setLastName] = useState();
     const [phoneNumber, setPhoneNumber] = useState();
     const [avatarUrl, setAvatarUrl] = useState();
-    const [bio, setBio] = useState();
     const [rating, setRating] = useState();
     const [ratingCount, setRatingCount] = useState();
+    const [email, setEmail] = useState()
 
     const isMounted = useRef(true);
     const params = useParams();
     const currentUser = params.currentUser;
-
     useEffect(() => {
+        console.log(`page load`)
+        isMounted.current = true;
+
         if(isMounted) {
             const getProfileData = async () => {
-                setIsLoading(true);
-                setUsername(localStorage.getItem('username'));
-                const user = await getProfile(username);
-                const fetchedRating = await getRating(username);
-                setFirstName(user.firstName);
-                setLastName(user.lastName);
-                setPhoneNumber(user.phoneNumber);
-                setAvatarUrl(user.avatarUrl);
-                setBio(user.bio);
-                setRating(fetchedRating.rating);
-                setRatingCount(fetchedRating.count);
-                setIsLoading(false);
-            }
-            getProfileData();
-        }
-        return(() => {
-            isMounted.current = false;
-        })
-    });
+                if(typeof window !== 'undefined'){
+                    const name = localStorage.getItem('username')
 
-    useEffect(() => {
-        if (isMounted) {
-            const fetchFragmentData = async () => {
-                switch (activeFragment) {
-                    case 'active':
-                        setIsLoadingActiveItems(true);
-                        const activeItems = await getActiveItems(username);
-                        setActiveItems(activeItems);
-                        setIsLoadingActiveItems(false);
-                        return;
-                    case 'claimed':
-                        setIsLoadingClaimedItems(true);
-                        const claimedItems = await getClaimedItems(username);
-                        setClaimedItems(claimedItems);
-                        setIsLoadingClaimedItems(false);
-                        return;
-                    case 'messages':
-                        setIsloadingMessages(true);
-                        // TODO: messages
-                        // const messages = await getMessages(username)
-                        setIsloadingMessages(false);
-                        return;
-                    default:
-                        return;
+                    setIsLoading(true);
+                    setEmail(localStorage.getItem('email'));
+                    const user = await getProfile(name);
+                    const fetchedRating = await getRating(name);
+                    console.log(user)
+                    setFirstName(user.first_name);
+                    setLastName(user.last_name);
+                    setPhoneNumber(user.phone_number);
+                    setAvatarUrl(user.avatar_url);
+                    setRating(fetchedRating.average_rating);
+                    setRatingCount(fetchedRating.total);
+                    setIsLoading(false);
                 }
             }
-            fetchFragmentData();
+                getProfileData();
         }
-    }, [activeFragment, username])
+            return(() => {
+            isMounted.current = false;
+        })
+    },[]);
+
+    useEffect(() => {
+        isMounted.current = true;
+        console.log(`changes active fragment. ${activeFragment}`)
+        if (isMounted) {
+            const fetchFragmentData = async () => {
+                if(typeof window !== 'undefined'){
+                    const name = localStorage.getItem('username')
+                    switch (activeFragment) {
+                        case '':
+                            return;
+                        case 'active':
+                            setIsLoadingActiveItems(true);
+                            const activeItems = await getActiveItems(name);
+                            setActiveItems(activeItems);
+                            setIsLoadingActiveItems(false);
+                            return;
+                        case 'claimed':
+                            setIsLoadingClaimedItems(true);
+                            const claimedItems = await getClaimedItems(name);
+                            setClaimedItems(claimedItems);
+                            setIsLoadingClaimedItems(false);
+                            return;
+                        case 'messages':
+                            setIsloadingMessages(true);
+                            // TODO: messages
+                            // const messages = await getMessages(username)
+                            setIsloadingMessages(false);
+                            return;
+                        default:
+                            return;
+                    }
+            }
+        }
+        fetchFragmentData();
+
+        return(() => { isMounted.current = false });
+    }}, [activeFragment])
+
     return (
         <div className='profile-page'>
             {isLoading &&
@@ -90,6 +105,7 @@ const Profile = () => {
                     ...loading
                 </div>
             }
+
             {!isLoading && activeFragment === '' &&
                 <div className='profile-container'>
                     <div className='header'>
@@ -100,27 +116,24 @@ const Profile = () => {
                         <Rating ratingValue={rating} />
                         <span>{ratingCount}</span>
                     </div>
-                    <div className="bio-container">
-                        <p>{bio}</p>
-                    </div>
 
                     <div className="profile-options">
-                        <div className="options-container" onClick={setActiveFragment('messages')}>
+                        <div className="options-container" onClick={() => setActiveFragment('messages')}>
                             <img src={MessageIcon} alt='Messages'/>
                             <span>Messages</span>
                         </div>
                         <div className="options-container">
-                            <img src={CurrentlyListedIcon} alt='Active listings' onClick={setActiveFragment('active')}/>
+                            <img src={CurrentlyListedIcon} alt='Active listings' onClick={() => setActiveFragment('active')}/>
                             <span>Active Listings</span>
                         </div>
                     </div>
                     {currentUser === 'true' &&
                         <div className="your-profile-options">
-                            <div className="options-container" onClick={setActiveFragment('claimed')}>
+                            <div className="options-container" onClick={() => setActiveFragment('claimed')}>
                                 <img src={ClaimedIcon} alt='Claimed items'/>
                                 <span>Claimed Items</span>
                             </div>
-                            <div className="options-container" onClick={(setActiveFragment('edit'))}>
+                            <div className="options-container" onClick={() => setActiveFragment('edit')}>
                                 <img src={EditIcon} alt='Edit profile'/>
                                 <span>Edit Profile</span>
                             </div>
@@ -131,23 +144,28 @@ const Profile = () => {
             {activeFragment === 'messages' &&
                 <Messages 
                     isLoading={isLoadingMessages}
+                    setActiveFragment={setActiveFragment}
                     messages={messages}
                 />
             }
             {activeFragment === 'active' &&
                 <ActiveListings 
                     isLoading={isLoadingActiveItems} 
+                    setActiveFragment={setActiveFragment}
                     activeItems={activeItems}
                 />
             }
             {activeFragment === 'claimed' &&
                 <ClaimedItems 
-                    isLoading={isLoadingClaimedItems} 
+                    isLoading={isLoadingClaimedItems}
+                    setActiveFragment={setActiveFragment}
                     claimedItems={claimedItems}
                 />
             }
             {activeFragment === 'edit' &&
                 <EditProfile 
+                    setActiveFragment={setActiveFragment}
+                    email={email}
                     firstName={firstName} 
                     setFirstName={setFirstName}
                     lastName={lastName}
@@ -158,8 +176,6 @@ const Profile = () => {
                     setPhoneNumber={setPhoneNumber}
                     avatarUrl={avatarUrl}
                     setAvatarUrl={setAvatarUrl}
-                    bio={bio}
-                    setBio={setBio}
                 />
             }
         </div>
