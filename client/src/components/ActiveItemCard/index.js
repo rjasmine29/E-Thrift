@@ -11,7 +11,7 @@ function ActiveItemCard({ id, name, price, category, description, image_url, ima
     const navigate = useNavigate();
 
     const handleCardClick = () => {
-        navigate(`/product-show/:${id}`)
+        navigate(`/view/${id}`)
     }
 
   return (
