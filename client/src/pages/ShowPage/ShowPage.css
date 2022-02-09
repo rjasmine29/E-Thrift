@@ -148,6 +148,23 @@
 
 }
 
+.message-btn{
+    margin-top: 15px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 0.5em;
+    background-color: #45a33e;
+    font-weight: bold;
+    color: white;
+}
+
+.hide{
+    display:none;
+  }
+.show{
+display:block;
+}
+
 
 
 

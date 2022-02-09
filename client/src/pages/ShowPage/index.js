@@ -10,6 +10,8 @@ const ShowPage = () => {
     const [error2, setError2] = useState()
     const [success, setSuccess] = useState()
     const [success2, setSuccess2] = useState()
+    const [isActive, setIsActive] = useState(false)
+    const [contactDetails, setContactDetails] = useState([])
     const { id } = useParams()
     const navigate = useNavigate()
 
@@ -19,6 +21,8 @@ const ShowPage = () => {
     const [lng, setLng] = useState(0.1276);
     const [lat, setLat] = useState(51.5072);
     const [zoom, setZoom] = useState(10);
+
+    
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
@@ -42,7 +46,23 @@ const ShowPage = () => {
         }
 
         getById()
+
+        
+        
     }, [])
+
+    useEffect(() => {
+        const getContactDetails = async () => {
+            console.log(data)
+            console.log(data.seller)
+            const details = await fetch(`http://127.0.0.1:8000/user/get_by_username/${data.seller}`);
+            const detailsJson = await details.json();
+            console.log(detailsJson)
+            setContactDetails(detailsJson)
+            
+        }
+        getContactDetails()
+    }, [data])
 
     useEffect(() => {
         const getCoordinates = async () => {
@@ -103,6 +123,10 @@ const ShowPage = () => {
         }
 
     }
+{
+    const handleToggle = () =>{
+        setIsActive(!isActive)
+    }
 
     const claimItem = async (e) => {
         e.preventDefault();
@@ -117,18 +141,22 @@ const ShowPage = () => {
             headers: { "Content-type": "application/json" },
         };
 
-        const claim = await fetch(`http://127.0.0.1:8000/products/claim/${data.id}`, options)
+        const claim = await fetch(`http://127.0.0.1:8000/items/claim/${data.id}`, options)
         const claimJson = await claim.json();
         console.log(claimJson)
         if (claimJson.Error) {
             setSuccess2()
             setError2("Cannot claim this item")
         } else {
-            setSuccess2("Successfully claimed item")
+            setSuccess2("Successfully claimed item, please contact the current owner to arrange picking up your new item.")
             setError2();
-            setTimeout(() => window.location.reload(), 500)
+            // setTimeout(() => window.location.reload(), 500)
         }
     }
+
+  
+   
+
 
     let imageString
     return (
@@ -185,21 +213,22 @@ const ShowPage = () => {
                         </form>
                         {localStorage.getItem("username")
                             ?
-                                <button>Message Seller</button>
+                                <div>
+                                    <button className='message-btn' onClick={handleToggle}>Message Seller</button>
+                                    <input className={isActive ? "show" : "hide"} type='text' id='textInput' disabled value={'email: '+contactDetails.email + "\t" + 'Phone number: '+contactDetails.phone_number }
+                                     />
+                                </div>
                             :
                                 null
                         }
                     </div>
                     :
                     null
-                    // <h5>To claim this item please  
-                    //     <a className='log/sign' onClick={() => navigate(`/login`)}> Login</a>/
-                    //     <a className='log/sign' onClick={() => navigate(`/register`)}>Sign Up</a></h5>
                 }
                 {data.sold && data.claimed_by === localStorage.getItem("username")
                     ?
                     <div>
-                        <p style={{fontWeight: "bold", textAlign: "center"}}>Congrats, you've claimed this item!</p>
+                        <p style={{fontWeight: "bold", textAlign: "center"}}>Congrats, you've claimed this item! Please contact the current owner to arrange picking up your new item. </p>
                     </div>
                     :
                     null
@@ -227,6 +256,7 @@ const ShowPage = () => {
             </div>
         </div>
     )
+}
 }
 
 export default ShowPage;
