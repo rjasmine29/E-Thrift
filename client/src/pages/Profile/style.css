@@ -11,11 +11,20 @@
 }
 
 .profile-options-grid > * {
-    margin-top: 1rem;
+    margin-top: 2rem;
 }
 
 .profile-options-text {
     margin-left: 10px;
+}
+
+.avatar-container {
+    background-color: lightcoral;
+    padding-bottom: 1rem;
+}
+
+.avatar-container > h1 {
+    font-size: 25px;
 }
 
 .avatar-img {
@@ -31,7 +40,7 @@
 }
 
 .ratings-text {
-    color: darkgrey;
+    color: black
 }
 
 .message-icon {
@@ -66,7 +75,13 @@
 
 @media screen and (max-width: 620px) {
     .profile-options-grid {
+        margin-top: 1rem;
         grid-template-columns: 1fr;
+        gap: .5rem
+    }
+
+    .profile-options-grid > * {
+        margin-top: .5rem;
     }
     
 }
