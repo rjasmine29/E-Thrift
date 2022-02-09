@@ -20,7 +20,6 @@
  global.fetch = require('jest-fetch-mock');
 
  import axios from 'axios';
-import { hasUncaughtExceptionCaptureCallback } from 'process';
  jest.mock('axios');
 
 
