@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { AiFillSkin, AiFillShopping, AiTwotoneCustomerService, AiTwotoneExperiment, AiTwotoneGift } from 'react-icons/ai';
+import axios from 'axios';
 
 export const CatBar = ({setCategory}) => {
 
@@ -12,15 +13,23 @@ export const CatBar = ({setCategory}) => {
         const getCategory = async () => {
 
             if (cat == 'All') {
-                const cat = await fetch(`http://127.0.0.1:8000/items`)
-                const jsonCat = await cat.json();
-                return jsonCat
+                try{
+                    const {data} = await axios.get(`http://127.0.0.1:8000/items`)
+                    return data
+                }
+                catch(e){
+                    console.warn(e)
+                }
+
                 // setCat(jsonCat)
                
             } else {
-                const cate = await fetch(`http://127.0.0.1:8000/items/get_by_category/${cat}/`)
-                const jsonCat = await cate.json();
-                return jsonCat
+                try{
+                    const {data} = await axios.get(`http://127.0.0.1:8000/items/get_by_category/${cat}/`)
+                    return data
+                }catch(e){
+                    console.warn(e)
+                }
                 // setCat(jsonCat)
             }
         }
