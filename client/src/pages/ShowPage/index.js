@@ -24,8 +24,13 @@ const ShowPage = () => {
         if (map.current) return; // initialize map only once
 
         const getById = async () => {
-            const data = await fetch(`http://127.0.0.1:8000/items/get_by_id/${id}`);
-            console.log(data)
+            let data;
+            if (!localStorage.getItem("username")) {
+                data = await fetch(`http://127.0.0.1:8000/items/get_by_id/${id}`);
+            } else {
+                data = await fetch(`http://127.0.0.1:8000/items/get_by_id/${id}?username=${localStorage.getItem("username")}`);
+            }
+            
 
             if (data.status === 500) {
                 navigate("/")
@@ -41,7 +46,6 @@ const ShowPage = () => {
 
     useEffect(() => {
         const getCoordinates = async () => {
-            console.log(data.address)
             let datas = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${data.address}.json?types=address&access_token=pk.eyJ1IjoiamFraXJ1bGZ4IiwiYSI6ImNreXhrMTZucTA1aTYycXVvbnRyaDR3NGgifQ.zvjCM2eXQNf6ntofj0cwbQ`)
             const jsons = await datas.json();
             console.log(jsons.features[0].geometry.coordinates)
@@ -69,9 +73,9 @@ const ShowPage = () => {
     const removePost = async (e) => {
         e.preventDefault();
         if (window.confirm("Are you sure you want to delete this post?") === true) {
-
+            console.log('pressed delete')
             const data = {
-                "id": e.target[0].name
+                "id": id
             }
 
             let options = {
@@ -80,7 +84,7 @@ const ShowPage = () => {
                 headers: { "Content-type": "application/json" },
             };
 
-            const datas = await fetch("http://127.0.0.1:8000/products/delete", options)
+            const datas = await fetch("http://127.0.0.1:8000/items/delete", options)
             const jsons = await datas.json();
 
             if (jsons.Success) {
@@ -88,7 +92,7 @@ const ShowPage = () => {
                 setSuccess("Successfully deleted a post!")
                 setTimeout(() => {
 
-                    navigate("/")
+                    navigate("/search")
                 }, 900)
 
 
@@ -147,7 +151,7 @@ const ShowPage = () => {
                     <img src="https://upload.wikimedia.org/wikipedia/commons/e/ea/No_image_preview.png" />
                 }
 
-                {data.created_by === localStorage.getItem("username")
+                {data.seller === localStorage.getItem("username")
                     ?
                     <div className="buttons">
                         <button onClick={() => navigate(`/update/${data.id}`)}>Update Listing</button>
@@ -166,21 +170,31 @@ const ShowPage = () => {
 
 
             </div>
-
+                
+                
             <div>
-                <p onClick={() => navigate(`/profile/` + data.created_by)}><span>Username:</span> {data.created_by}</p>
-                <p><span>Location:</span> {data.location}</p>
 
-                {!data.sold && data.created_by !== localStorage.getItem("username") && localStorage.getItem("username") && localStorage.getItem("authTokens")
+                <p onClick={() => navigate(`/profile/` + data.created_by)}><span>Username:</span> {data.seller}</p>
+                <p><span>Location:</span> {data.address}</p>
+
+                {!data.sold && data.seller !== localStorage.getItem("username") && localStorage.getItem("username") && localStorage.getItem("authTokens")
                     ?
                     <div className="button-list">
                         <form onSubmit={claimItem}>
                             <button type="submit">Claim Item</button>
                         </form>
-                        <button>Message Seller</button>
+                        {localStorage.getItem("username")
+                            ?
+                                <button>Message Seller</button>
+                            :
+                                null
+                        }
                     </div>
                     :
                     null
+                    // <h5>To claim this item please  
+                    //     <a className='log/sign' onClick={() => navigate(`/login`)}> Login</a>/
+                    //     <a className='log/sign' onClick={() => navigate(`/register`)}>Sign Up</a></h5>
                 }
                 {data.sold && data.claimed_by === localStorage.getItem("username")
                     ?
@@ -189,6 +203,16 @@ const ShowPage = () => {
                     </div>
                     :
                     null
+                }
+                {localStorage.getItem("username")===null
+                    ?
+                    <h5>To claim this item please  
+                        <a className='log/sign' onClick={() => navigate(`/login`)}> Login</a>/
+                        <a className='log/sign' onClick={() => navigate(`/register`)}>Sign Up</a>
+                    </h5>
+                    :
+                    null
+
                 }
 
 
@@ -199,7 +223,7 @@ const ShowPage = () => {
 
 
                 <div ref={mapContainer} className="map-container" />
-
+                
             </div>
         </div>
     )
