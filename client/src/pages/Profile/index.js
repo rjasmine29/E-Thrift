@@ -82,12 +82,12 @@ const Profile = () => {
                             setClaimedItems(claimedItems);
                             setIsLoadingClaimedItems(false);
                             return;
-                        // case 'messages':
-                        //     setIsloadingMessages(true);
-                        //     // TODO: messages
-                        //     // const messages = await getMessages(username)
-                        //     setIsloadingMessages(false);
-                        //     return;
+                        case 'messages':
+                            setIsloadingMessages(true);
+                            // TODO: messages
+                            // const messages = await getMessages(username)
+                            setIsloadingMessages(false);
+                            return;
                         default:
                             return;
                     }
@@ -118,10 +118,10 @@ const Profile = () => {
                     </div>
 
                     <div className="profile-options">
-                        {/* <div className="options-container" onClick={() => setActiveFragment('messages')}>
+                        <div className="options-container" onClick={() => setActiveFragment('messages')}>
                             <img src={MessageIcon} alt='Messages'/>
                             <span>Messages</span>
-                        </div> */}
+                        </div>
                         <div className="options-container">
                             <img src={CurrentlyListedIcon} alt='Active listings' onClick={() => setActiveFragment('active')}/>
                             <span>Active Listings</span>
@@ -141,13 +141,13 @@ const Profile = () => {
                     }
                 </div>
             }
-            {/* {activeFragment === 'messages' &&
+            {activeFragment === 'messages' &&
                 <Messages 
                     isLoading={isLoadingMessages}
                     setActiveFragment={setActiveFragment}
                     messages={messages}
                 />
-            } */}
+            }
             {activeFragment === 'active' &&
                 <ActiveListings 
                     isLoading={isLoadingActiveItems} 

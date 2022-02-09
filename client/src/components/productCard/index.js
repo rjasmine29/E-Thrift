@@ -3,7 +3,7 @@ import { Card, CardActions, CardContent, CardMedia, Button, Typography, CardHead
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { BsFillGeoAltFill } from 'react-icons/bs'
 
-import { LikeButton } from '../likeButton';
+//import { LikeButton } from '../likeButton';
 import "./productCard.css"
 
 export default function ProductCard({ category, map, mapboxgl }) {
