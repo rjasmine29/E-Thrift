@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import defaultProfileImg from "../../assets/default-profile.png";
@@ -20,21 +19,11 @@ const EditProfile = ({
   avatarUrl,
   setAvatarUrl,
 }) => {
-  const [previewImg, setPreviewImg] = useState();
-  const [avatarImg, setAvatarImg] = useState(defaultProfileImg);
+  const [avatarImg, setAvatarImg] = useState(null);
 
-  const fileInputRef = useRef();
   const isMounted = useRef(true);
-  /**
-   * Opens the file explorer to select an image.
-   * Triggers the fileInput element using a reference of it with useRef.
-   *
-   * @param {Click event belonging to element calling the method} e
-   */
-  const openFiles = (e) => {
-    e.preventDefault();
-    fileInputRef.current.click();
-  };
+  const fileInputRef = useRef();
+  const currentImg = useRef(avatarUrl); // the user's current img
 
   /**
    * Processes the selected file, asserting that it is a suitable image
@@ -47,16 +36,17 @@ const EditProfile = ({
     // assert that selected file is an image
     if (file && file.type.substr(0, 5) === "image") {
       setAvatarImg(file);
-    } else {
-      // sets the avatarImg to null if no image is chosen
-      setAvatarImg(null);
     }
   };
 
-  const removeSelectedImage = (e) => {
+  const removeCurrentImage = (e) => {
+    e.preventDefault();
     if (avatarImg !== null) {
       setAvatarImg(null);
-      setPreviewImg(defaultProfileImg);
+      fileInputRef.current.value = "";
+    } else if (currentImg.current.includes("cloudinary")) {
+      setAvatarUrl(defaultProfileImg);
+      fileInputRef.current.value = "";
     }
   };
 
@@ -68,6 +58,24 @@ const EditProfile = ({
       isMounted.current = false;
     };
   });
+
+  /**
+   * Sets the preview image whenever the selected image (avatarImg)
+   * is changed by the user.
+   */
+  useEffect(() => {
+    if (avatarImg && avatarImg !== null && isMounted) {
+      const reader = new FileReader();
+      // set the preview image once avatarImg url has been read
+      reader.onloadend = () => {
+        setAvatarUrl(reader.result);
+        currentImg.current = "changed";
+      };
+      reader.readAsDataURL(avatarImg);
+    } else if (!currentImg.current.includes("cloudinary")) {
+      setAvatarUrl(defaultProfileImg);
+    }
+  }, [avatarImg, setAvatarUrl]);
 
   const submitEditProfile = async (e) => {
     try {
@@ -97,80 +105,86 @@ const EditProfile = ({
 
   return (
     <div className="edit-profile-container">
-      <h1>Register</h1>
+      <div className="edit-profile-header">
+        <ArrowBackIcon
+          className="go-back-btn"
+          onClick={() => setActiveFragment("")}
+        />
+        <h2>Edit Profile</h2>
+      </div>
+
       <form onSubmit={submitEditProfile} aria-label="form">
-        <div className="profile-image-container">
-          <CancelOutlinedIcon
-            className="cancel-icon"
-            aria-label="remove-image"
-            onClick={removeSelectedImage}
+        <div>
+          <label label="first-name" aria-label="first-name">
+            First name
+          </label>
+          <input
+            type="text"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            aria-label="first-name-input"
+            required
           />
-          <img
-            className="profile-img"
-            src={previewImg}
-            alt="Profile"
-            onClick={(e) => openFiles(e)}
+        </div>
+        <div>
+          <label label="last-name" aria-label="last-name">
+            Last name
+          </label>
+          <input
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            aria-label="last-name-input"
+            required
           />
+        </div>
+        <div>
+          <label label="username" aria-label="username">
+            Username
+          </label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            aria-label="username-input"
+            required
+          />
+        </div>
+        <div>
+          <label label="email" aria-label="email">
+            Email
+          </label>
+          <input type="email" value={email} aria-label="email-input" disabled />
+        </div>
+        <div>
+          <label label="phone-number" aria-label="phone-number">
+            Phone number
+          </label>
+          <input
+            type="text"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            aria-label="phone-number-input"
+            required
+          />
+        </div>
+        <div className="change-image-container">
+          <button
+            className="remove-profile-btn"
+            onClick={removeCurrentImage}
+            disabled={avatarUrl === defaultProfileImg}
+          >
+            Remove Current Image
+          </button>
           <input
             type="file"
             accept="image/*"
             ref={fileInputRef}
             aria-label="profile-input"
             name="image"
-            hidden={true}
             onChange={(e) => onFileSelected(e)}
           />
         </div>
-
-        <label label="first-name" aria-label="first-name">
-          First name
-        </label>
-        <input
-          type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          aria-label="first-name-input"
-          required
-        />
-
-        <label label="last-name" aria-label="last-name">
-          Last name
-        </label>
-        <input
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          aria-label="last-name-input"
-          required
-        />
-
-        <label label="username" aria-label="username">
-          Username
-        </label>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          aria-label="username-input"
-          required
-        />
-
-        <label label="email" aria-label="email">
-          Email
-        </label>
-        <input type="text" value={email} aria-label="email-input" disabled />
-
-        <label label="phone-number" aria-label="phone-number">
-          Phone number
-        </label>
-        <input
-          type="text"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-          aria-label="phone-number-input"
-          required
-        />
-
         <input
           type="submit"
           id="register-btn"
@@ -178,7 +192,6 @@ const EditProfile = ({
           input="Create your E-Thrift account"
         />
       </form>
-      <ArrowBackIcon onClick={setActiveFragment("")} />
     </div>
   );
 };
