@@ -3,15 +3,39 @@
     margin: 0 auto;
 }
 
-.active-items-fragment > h1 {
-    font-size: 32px;
+.active-items-header {
+    width: fit-content;
+    position: relative;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+}
+
+.active-items-header > h2 {
+    font-size: 20px;
     display: block;
     margin: 2rem 0 2rem 0;
 }
 
+.go-back-btn {
+    position: absolute;
+    top: 32px;
+    left: -35px;
+    cursor: pointer !important;
+    transition: opacity .5s ease-out !important;
+    -moz-transition: opacity .5s ease-out !important;
+    -webkit-transition: opacity .5s ease-out !important;
+    -o-transition: opacity .5s ease-out !important;
+}
+
+.go-back-btn:hover {
+    opacity: .5 !important;
+}
+
 .active-listings-container {
-    justify-content: center;
-    align-content: center;
+    justify-content: center !important;
+    align-content: center !important;
     gap: 4px;
     margin: 0 auto;
     display: grid;
