@@ -42,7 +42,6 @@ const Profile = () => {
   const params = useParams();
   const isCurrentUser = params.isCurrentUser;
 
-  console.log("params", params);
   useEffect(() => {
     console.log(`page load`);
     isMounted.current = true;
@@ -53,14 +52,15 @@ const Profile = () => {
           const name = localStorage.getItem("username");
 
           setIsLoading(true);
-          setEmail(localStorage.getItem("email"));
           const user = await getProfile(name);
           const fetchedRating = await getRating(name);
           console.log(user);
           setFirstName(user.first_name);
           setLastName(user.last_name);
+          setUsername(user.username);
+          setEmail(user.email);
           setPhoneNumber(user.phone_number);
-          setAvatarUrl(user.avatar_url);
+          setAvatarUrl(`https://res.cloudinary.com/deizaqii7/${user.avatar_url}`);
           setRating(fetchedRating.average_rating);
           setRatingCount(fetchedRating.total);
           setIsLoading(false);
@@ -69,6 +69,7 @@ const Profile = () => {
       getProfileData();
     }
     return () => {
+      console.log("unmounting");
       isMounted.current = false;
     };
   }, []);
@@ -102,15 +103,14 @@ const Profile = () => {
               setIsloadingMessages(false);
               return;
             default:
+              console.log("default");
               return;
           }
         }
       };
-      fetchFragmentData();
-
-      return () => {
-        isMounted.current = false;
-      };
+      if (activeFragment !== "edit") {
+        fetchFragmentData();
+      }
     }
   }, [activeFragment]);
 
@@ -118,71 +118,74 @@ const Profile = () => {
     <div className="profile-page">
       {isLoading && <div className="loading">...loading</div>}
 
-      {!isLoading && activeFragment === "" && (
+      {!isLoading && (
         <div className="profile-container">
-          <div className="header">
-            <h1>{username}</h1>
-          </div>
           <div className="avatar-container">
             <img
-              src={`https://res.cloudinary.com/deizaqii7/${avatarUrl}`}
+              src={avatarUrl}
               alt="Profile"
               className="avatar-img"
             />
+            <h1>{username}</h1>
             <div className="rating-container">
               <Rating ratingValue={rating * 20} readonly />
               <span className="ratings-text">{ratingCount} ratings</span>
             </div>
           </div>
-
-          <div className="profile-options-grid">
-            <div
-              className="options-container"
-              onClick={() => setActiveFragment("messages")}
-            >
-              <img src={MessageIcon} alt="Messages" className="message-icon" />
-              <span className="profile-options-text">Messages</span>
-            </div>
-            <div
-              className="options-container"
-              onClick={() => setActiveFragment("active")}
-            >
-              <img
-                className="active-listings-icon"
-                src={CurrentlyListedIcon}
-                alt="Active listings"
-              />
-              <span className="profile-options-text">Active Listings</span>
-            </div>
-            {isCurrentUser === "true" && (
-              // display claimed items option if profile belongs to current user
+          {activeFragment === "" && (
+            <div className="profile-options-grid">
               <div
                 className="options-container"
-                onClick={() => setActiveFragment("claimed")}
+                onClick={() => setActiveFragment("messages")}
               >
                 <img
-                  className="claimed-items-icon"
-                  src={ClaimedIcon}
-                  alt="Claimed items"
+                  src={MessageIcon}
+                  alt="Messages"
+                  className="message-icon"
                 />
-                <span className="profile-options-text">Claimed Items</span>
+                <span className="profile-options-text">Messages</span>
               </div>
-            )}
-            {isCurrentUser === "true" && (
-              // display edit profile option if profile belongs to current user
               <div
                 className="options-container"
-                onClick={() => setActiveFragment("edit")}
+                onClick={() => setActiveFragment("active")}
               >
                 <img
-                  className="edit-profile-icon"
-                  src={EditIcon}
-                  alt="Edit profile"
+                  className="active-listings-icon"
+                  src={CurrentlyListedIcon}
+                  alt="Active listings"
                 />
-                <span className="profile-options-text">Edit Profile</span>
+                <span className="profile-options-text">Active Listings</span>
               </div>
-            )}
-          </div>
+              {isCurrentUser === "true" && (
+                // display claimed items option if profile belongs to current user
+                <div
+                  className="options-container"
+                  onClick={() => setActiveFragment("claimed")}
+                >
+                  <img
+                    className="claimed-items-icon"
+                    src={ClaimedIcon}
+                    alt="Claimed items"
+                  />
+                  <span className="profile-options-text">Claimed Items</span>
+                </div>
+              )}
+              {isCurrentUser === "true" && (
+                // display edit profile option if profile belongs to current user
+                <div
+                  className="options-container"
+                  onClick={() => setActiveFragment("edit")}
+                >
+                  <img
+                    className="edit-profile-icon"
+                    src={EditIcon}
+                    alt="Edit profile"
+                  />
+                  <span className="profile-options-text">Edit Profile</span>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
       {activeFragment === "messages" && (
