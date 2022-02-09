@@ -50,7 +50,6 @@ const EditListing = () => {
             }
             if (checkedCount > 1) {
                 e.target.deleteImages.forEach((image => {
-                    console.log(image.value, image.checked, image.id)
 
                     let formData2 = new FormData(e.target);
                     formData2.append("id", image.id)
@@ -64,7 +63,6 @@ const EditListing = () => {
                             
                             let fetching = await fetch("http://127.0.0.1:8000/images/delete/", options1);
                             let jsonfetch = await fetching.json();
-                            console.log("deleting111 =>", jsonfetch)
                             
                         })()
                     }
