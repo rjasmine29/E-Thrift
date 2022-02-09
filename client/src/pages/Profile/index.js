@@ -43,6 +43,8 @@ const Profile = () => {
   const isCurrentUser = params.isCurrentUser;
   console.log(isCurrentUser)
 
+
+  console.log(isCurrentUser)
   useEffect(() => {
     console.log(`page load`);
     isMounted.current = true;

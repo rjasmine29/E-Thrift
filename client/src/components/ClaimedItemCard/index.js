@@ -12,7 +12,7 @@ function CLaimedItemCard({ id, name, seller, price, category, description, image
     const navigate = useNavigate;
 
     const handleShowDetails = () => {
-        navigate(`/product-show/:${id}`)
+        navigate(`/view/${id}`)
     }
 
   return (
