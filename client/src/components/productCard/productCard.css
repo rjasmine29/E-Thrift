@@ -1,6 +1,7 @@
 .productCard {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 20px;
 }
 
@@ -8,7 +9,11 @@
     height: 200px;
 }
 
-.productCard {
-    display: flex;
-    flex-wrap: wrap;
+.cardStyle > div > div > div > a {
+    cursor: pointer;
 }
+
+.cardStyle > div > div > div > a:hover {
+    font-weight: bold;
+}
+

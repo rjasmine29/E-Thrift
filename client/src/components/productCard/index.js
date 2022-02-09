@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography, CardHeader, ToggleButtonGroup, IconGroup, IconButton, Grid  } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { BsFillGeoAltFill } from 'react-icons/bs'
+import { TwitterShareButton, TwitterIcon } from "react-share";
 
 import { LikeButton } from '../likeButton';
 import "./productCard.css"
@@ -14,6 +16,7 @@ export default function ProductCard({ category, map, mapboxgl }) {
   const [click, setClick] = useState(false)
   const [prodId, setProdId] = useState()
   const [favData, setFavData] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -112,7 +115,7 @@ export default function ProductCard({ category, map, mapboxgl }) {
           <CardContent>
 
             <Typography gutterBottom variant="h5" component="div">
-              {cat.name}
+              <a onClick={() => navigate(`/view/${cat.id}`)}>{cat.name}</a>
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {cat.description}
@@ -130,8 +133,12 @@ export default function ProductCard({ category, map, mapboxgl }) {
             {/* <LikeButton /> */}
 
 
-            <Button size="small">Share</Button>
-            <Button size="small">More Details</Button>
+            <Button size="small"><TwitterShareButton
+                children={"SHARE TO TWITTER"}
+                url={`http://localhost:3000/view/${cat.id}`}
+                title={'Check out this '+cat.name+'!'}
+              /></Button>
+            <Button size="small" onClick={() => navigate(`/view/${cat.id}`)}>More Details</Button>
           </CardActions>
         </Card >
        
