@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css'
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import './Mapbox.css'
 
 const Mapbox = ({setMap, setMapboxGl}) => {
@@ -76,7 +76,7 @@ const Mapbox = ({setMap, setMapboxGl}) => {
 
     }, []);
     return (
-        <div>
+        <div aria-label='map-container'>
             <div ref={mapContainer} className="map-container" />
         </div>
 

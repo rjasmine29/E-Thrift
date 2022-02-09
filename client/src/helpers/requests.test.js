@@ -1,14 +1,12 @@
-
 /**
  * @jest-environment jsdom
  */
 
  import { render, screen } from '@testing-library/react';
  import userEvent from '@testing-library/user-event'
- import ActiveListings from '.';
  import React, {useState} from 'react';
 
- import { CatBar } from '.';
+ import { SearchBar } from '../index';
  
  const mockedUsedNavigate = jest.fn();
  
@@ -17,11 +15,12 @@
    useNavigate: () => mockedUsedNavigate,
  }));
 
+ import axios from 'axios'
+ jest.mock('axios')
 
- describe('claimed item card', ()=>{
-     test('renders card', ()=>{
-         const mockData = {
-             
-         }
-     })
+ describe('helper functions', ()=>{
+
+    test('postLogin', ()=>{
+        
+    })
  })

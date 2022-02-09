@@ -5,7 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { BsFillGeoAltFill } from 'react-icons/bs'
 import { TwitterShareButton, TwitterIcon } from "react-share";
 
-import { LikeButton } from '../likeButton';
+//import { LikeButton } from '../likeButton';
 import "./productCard.css"
 
 export default function ProductCard({ category, map, mapboxgl }) {
@@ -103,7 +103,9 @@ export default function ProductCard({ category, map, mapboxgl }) {
     return (
       <div key={key} className="cardStyle"> 
       
-        <Card >
+        <Card 
+           sx={{ maxWidth: 345, height: 'Auto' }}
+           >
 
           <CardMedia
             component="img"
