@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
+import {useNavigate} from 'react-router-dom'
 import defaultProfileImg from "../../assets/default-profile.png";
 import "./style.css";
 import { postEditProfile } from "../../helpers/requests";
@@ -20,7 +20,7 @@ const EditProfile = ({
   setAvatarUrl,
 }) => {
   const [avatarImg, setAvatarImg] = useState(null);
-
+  const navigate = useNavigate()
   const isMounted = useRef(true);
   const fileInputRef = useRef();
   const currentImg = useRef(avatarUrl); // the user's current img
@@ -97,16 +97,13 @@ const EditProfile = ({
           data.append("avatar_url", null);
         }
 
-        // const data2 = {
-        //   "first_name": firstName,
-        //   "last_name": lastName,
-        //   "current_username": localStorage.getItem("username"),
-        //   "phone_number": phoneNumber
-
-        // }
+     
         
         // make a request to edit the user
         await postEditProfile(data);
+        
+        window.location.reload()
+        
       }
     } catch (err) {
       console.warn(`Error editing user: ${username}`);

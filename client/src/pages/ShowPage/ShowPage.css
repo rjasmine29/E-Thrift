@@ -73,7 +73,12 @@
     color: white;
 }
 
-.ShowPage > div > .button-list > form > button {
+.ShowPage > div > .button-list > div {
+    display: flex;
+    gap: 15px;
+}
+
+.ShowPage > div > .button-list > div > form  > button {
     border: none;
     padding: 10px 20px;
     border-radius: 0.5em;
@@ -155,7 +160,6 @@
 }
 
 .message-btn{
-    margin-top: 15px;
     border: none;
     padding: 10px 20px;
     border-radius: 0.5em;

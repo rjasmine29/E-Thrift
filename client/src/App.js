@@ -39,7 +39,6 @@ const App = () => {
 
   useEffect(() => {
     const storageEventHandler = () => {
-      console.log("storage updated");
       setUsername(localStorage.getItem("username") || null);
     };
 

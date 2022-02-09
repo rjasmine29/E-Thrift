@@ -41,12 +41,9 @@ const Profile = () => {
   const isMounted = useRef(true);
   const params = useParams();
   const isCurrentUser = params.isCurrentUser;
-  console.log(isCurrentUser)
 
 
-  console.log(isCurrentUser)
   useEffect(() => {
-    console.log(`page load`);
     isMounted.current = true;
 
     if (isMounted) {
@@ -57,7 +54,6 @@ const Profile = () => {
           setIsLoading(true);
           const user = await getProfile(name);
           const fetchedRating = await getRating(name);
-          console.log(user);
           setFirstName(user.first_name);
           setLastName(user.last_name);
           setUsername(user.username);
@@ -72,14 +68,12 @@ const Profile = () => {
       getProfileData();
     }
     return () => {
-      console.log("unmounting");
       isMounted.current = false;
     };
   }, []);
 
   useEffect(() => {
     isMounted.current = true;
-    console.log(`changes active fragment. ${activeFragment}`);
     if (isMounted) {
       const fetchFragmentData = async () => {
         if (typeof window !== "undefined") {
@@ -106,7 +100,6 @@ const Profile = () => {
               setIsloadingMessages(false);
               return;
             default:
-              console.log("default");
               return;
           }
         }
