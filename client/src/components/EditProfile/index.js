@@ -183,13 +183,13 @@ const EditProfile = ({
           />
         </div>
         <div className="change-image-container">
-          <button
+          {/* <button
             className="remove-profile-btn"
             onClick={removeCurrentImage}
             disabled={avatarUrl === defaultProfileImg}
           >
             Remove Current Image
-          </button>
+          </button> */}
           <div className="image-input-wrapper">
             <label htmlFor="image">Change Profile Picture</label>
             <input
