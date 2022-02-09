@@ -170,6 +170,7 @@ const EditProfile = ({
         </div>
         <div className="change-image-container">
           <button
+            aria-label='remove-img-btn'
             className="remove-profile-btn"
             onClick={removeCurrentImage}
             disabled={avatarUrl === defaultProfileImg}

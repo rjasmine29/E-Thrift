@@ -5,10 +5,9 @@
 
  import { render, screen } from '@testing-library/react';
  import userEvent from '@testing-library/user-event'
- import ActiveListings from '.';
  import React, {useState} from 'react';
 
- import { CatBar } from '.';
+ import { CatBar } from '../index';
  
  const mockedUsedNavigate = jest.fn();
  
@@ -27,7 +26,7 @@
     
     beforeEach(()=> {fetch.resetMocks()})
 
-    test('existance', ()=>{
+    test('existance', async ()=>{
         const mockSet = jest.fn()
 
         const mockData = {
@@ -49,7 +48,7 @@
                 }]
 
         }
-        fetch.mockResolvedValue(mockData)
+        await axios.mockResolvedValue(mockData)
         render(<CatBar setCategory={mockSet}/>)
         // const container = screen.getByLabelText('cat_container')
         // expect(container).toBeTruthy()

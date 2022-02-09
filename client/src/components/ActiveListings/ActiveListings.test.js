@@ -5,7 +5,7 @@
 
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
-import ActiveListings from '.';
+import {ActiveListings} from '../index';
 import React, {useState} from 'react';
 
 const mockedUsedNavigate = jest.fn();

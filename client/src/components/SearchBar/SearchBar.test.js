@@ -28,8 +28,8 @@
         render(<SearchBar setCategory={setCategory} />)
         const form = screen.getByRole('form-submit')
         const category = screen.getByRole('cat-select')
-        userEvent.selectOptions(category, ['Clothes'])
-        expect(category).toBe('Clothes')
+        userEvent.selectOptions(category, ['All'])
+        expect(category).toBe('All')
         userEvent.click(form)
 
     })

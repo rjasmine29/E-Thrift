@@ -7,7 +7,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-function CLaimedItemCard({ id, name, seller, price, category, description, image_url, image_id }) {
+function ClaimedItemCard({ id, name, seller, price, category, description}) {
     const [showDetails, setShowDetails] = useState(false);
     const navigate = useNavigate;
 
@@ -16,7 +16,7 @@ function CLaimedItemCard({ id, name, seller, price, category, description, image
     }
 
   return (
-    <Card sx={{ maxWidth: 345 }} onClick={handleShowDetails}>
+    <Card role ='card' sx={{ maxWidth: 345 }} onClick={handleShowDetails}>
       <CardMedia
         component="img"
         height="140"
@@ -50,5 +50,5 @@ function CLaimedItemCard({ id, name, seller, price, category, description, image
   );
 }
 
-export default CLaimedItemCard;
+export default ClaimedItemCard;
 
