@@ -50,11 +50,14 @@ describe('EditListring', ()=>{
                 }
             ]
         }
-        await axios.get.mockResolvedValue({data: {mock}})
+        await axios.get.mockResolvedValue({data: mock})
         render(<EditListing />)
         
-        const submit = screen.getAllByLabelText('submit')
+        await waitFor(()=> expect(screen.getByLabelText('submit')).toBeTruthy())
+        //const submit = screen.getAllByLabelText('submit')
+        await axios.get.mockResolvedValue({data: mock})
         userEvent.click(submit)
+
 
     })
 })
