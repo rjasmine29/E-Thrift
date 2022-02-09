@@ -8,12 +8,12 @@ function NavBar({ username, logOut }) {
   return (
     <Navbar aria-label='navbar' expand="lg" bg="dark" variant="dark">
       
-      <Nav.Link as={NavLink} style={{color: "white"}}   to="">Logo</Nav.Link>
+      <Nav.Link as={NavLink} style={{color: "white"}}   to="">E-Thrift</Nav.Link>
       {username !== null && (
         <>
           <Nav.Link as={NavLink} to="/search">Find Products</Nav.Link>
           <Nav.Link as={NavLink} to="/create">Create Listing</Nav.Link>
-          <Nav.Link as={NavLink} to={`/profile/:true`}>Profile</Nav.Link>
+          <Nav.Link as={NavLink} to={`/profile/true`}>Profile</Nav.Link>
           <Nav.Link onClick={logOut} as={NavLink} to='/'>Sign Out</Nav.Link>
         </>
       )}

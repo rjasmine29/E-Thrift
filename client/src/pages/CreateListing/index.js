@@ -69,22 +69,7 @@ const CreateListing = () => {
             const jsondata = await data2.json()
             console.log("data =>", jsondata)
 
-            // if (jsons.Success) {
-            //     setError()
-            //     setSuccess(jsons.Success)
-            //     let split = JSON.stringify(jsons.Success).split("id: ")
-
-            //     setTimeout(() => {
-            //         navigate(`/view/${split[1].split('"')[0]}`)
-            //     }, 500)
-            // } else {
-            //     setSuccess()
-            //     setError(jsons.Error)
-
-            //     setTimeout(() => {
-            //         navigate("/create")
-            //     }, 500)
-            // }
+            navigate("/search")
 
         }
     }

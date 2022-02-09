@@ -25,6 +25,11 @@
   margin-left: 15px;
   color: rgb(0, 0, 0);
 }
+
+.home-container > button {
+  margin-left: 20px;
+}
+
 @media screen and (max-width: 800px){
 .home-container{
   background-image: url("../public/images/homeImage.png");

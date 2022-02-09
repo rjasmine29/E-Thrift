@@ -253,7 +253,16 @@ def recently_viewed_by_username(req, username):
         user = User.objects.get(username=username)
         all = RecentlyViewed.objects.filter(user_id=user)
         serialized = RecentlyViewedSerializer(all, many=True)
-        data = {'data': serialized.data}
+        print(all.values('item_id'))
+        
+            
+        photos = Images.objects.filter(item_id__in=all.values('item_id'))
+        print(photos)
+           
+        
+        serializer_img = ImagesSerializer(photos, many=True)
+
+        data = {'data': serialized.data, 'image': serializer_img.data}
         return Response(data)
     except Exception as e:
         return Response({'Error': f'Cannot get all recently viewed items - {e}'})

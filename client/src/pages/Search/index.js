@@ -27,7 +27,7 @@ function Search() {
         <SearchBar setCategory={setCategory} />
        
         <CatBar setCategory={setCategory} />
-        <h3>Number of results goes here - {length}</h3>
+        <h3>Results count - {length}</h3>
         <ProductCard category={category} map={map} mapboxgl={mapboxgl}/>
     </div>
     );

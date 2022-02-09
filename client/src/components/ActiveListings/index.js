@@ -33,12 +33,14 @@ const ActiveListings = ({ setActiveFragment, activeItems, isLoading }) => {
 
   return (
     <div className="active-items-fragment">
-      <h1>Active Items</h1>
+      <div className="active-items-header">
+        <ArrowBackIcon className="go-back-btn" onClick={() => setActiveFragment("")} />
+        <h2>Active Items</h2>
+      </div>
       {isLoading && <div className="loading-listings">...loading</div>}
       {!isLoading && (
         <div className="active-listings-container">{renderItems}</div>
       )}
-      <ArrowBackIcon aria-label='arrowback' onClick={() => setActiveFragment("")} />
     </div>
   );
 };
