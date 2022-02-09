@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ActiveItemCard from '../ActiveItemCard';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -32,6 +32,10 @@ const ActiveListings = ({ setActiveFragment, activeItems, isLoading }) => {
     //         />
     //     )
     // });
+
+    useEffect(()=>{
+        activeItems.map(item => console.log(item))
+    }, [activeItems])
 
     return (
         <>
