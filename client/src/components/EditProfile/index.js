@@ -76,17 +76,20 @@ const EditProfile = ({
       setAvatarUrl(defaultProfileImg);
     }
   }, [avatarImg, setAvatarUrl]);
-
+  
   const submitEditProfile = async (e) => {
     try {
+
       if (isMounted) {
         e.preventDefault();
-        let data = new FormData(e.target);
-
+        
+        let data = new FormData();
         data.append("first_name", firstName);
         data.append("last_name", lastName);
+        data.append("current_username", localStorage.getItem("username"))
         data.append("username", username);
         data.append("phone_number", phoneNumber);
+        
 
         if (e.target.image.files.length > 0) {
           data.append("avatar_url", e.target.image.files[0]);
@@ -94,9 +97,16 @@ const EditProfile = ({
           data.append("avatar_url", null);
         }
 
+        // const data2 = {
+        //   "first_name": firstName,
+        //   "last_name": lastName,
+        //   "current_username": localStorage.getItem("username"),
+        //   "phone_number": phoneNumber
+
+        // }
+        
         // make a request to edit the user
         await postEditProfile(data);
-        console.log("edited profile with data: ", data);
       }
     } catch (err) {
       console.warn(`Error editing user: ${username}`);
@@ -113,7 +123,7 @@ const EditProfile = ({
         <h2>Edit Profile</h2>
       </div>
 
-      <form onSubmit={submitEditProfile} aria-label="form">
+      <form onSubmit={submitEditProfile} aria-label="form" id="editform">
         <div>
           <label label="first-name" aria-label="first-name">
             First name
@@ -123,6 +133,7 @@ const EditProfile = ({
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             aria-label="first-name-input"
+            name="first_name"
             required
           />
         </div>
@@ -135,6 +146,7 @@ const EditProfile = ({
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             aria-label="last-name-input"
+            name="last_name"
             required
           />
         </div>
@@ -147,6 +159,8 @@ const EditProfile = ({
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             aria-label="username-input"
+            disabled
+            name="username"
             required
           />
         </div>
@@ -154,7 +168,7 @@ const EditProfile = ({
           <label label="email" aria-label="email">
             Email
           </label>
-          <input type="email" value={email} aria-label="email-input" disabled />
+          <input type="email" value={email} aria-label="email-input" name="email" disabled />
         </div>
         <div>
           <label label="phone-number" aria-label="phone-number">
@@ -165,17 +179,19 @@ const EditProfile = ({
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             aria-label="phone-number-input"
+            name="phone_number"
             required
           />
         </div>
         <div className="change-image-container">
-          <button
+          {/* <button
             className="remove-profile-btn"
             onClick={removeCurrentImage}
             disabled={avatarUrl === defaultProfileImg}
           >
             Remove Current Image
-          </button>
+          </button> */}
+          <label htmlFor="image">Change profile picture</label>
           <input
             type="file"
             accept="image/*"

@@ -98,7 +98,6 @@ const App = () => {
           <Route path="/update/:id" element={<EditListing />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/view/:id" element={<ShowPage />}></Route>
-          <Route path="/profile/:username" element={<Profile />}></Route>
           <Route path="/profile/:isCurrentUser" element={<Profile />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/search" element={<Search />}></Route>
