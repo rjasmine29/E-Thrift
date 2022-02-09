@@ -26,7 +26,7 @@ const Login = () => {
         email,
         password,
       });
-      console.log(data);
+      
       const user = jwt_decode(data.access);
       localStorage.setItem("authTokens", JSON.stringify(data));
       localStorage.setItem("username", user.username);

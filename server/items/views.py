@@ -52,7 +52,8 @@ def get_unclaimed_items(req):
 @api_view(['GET'])
 def claimed_by_username(req, username):
     try:
-        items = Item.objects.filter(buyer=username)
+        user = User.objects.get(username=username)
+        items = Item.objects.filter(buyer=user)
         serializer = ItemSerializer(items, many=True)
 
         lists = []
