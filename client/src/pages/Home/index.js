@@ -55,7 +55,7 @@ function Home() {
         <div className='home-container'>
             <h1>THRIFT & DONATE.</h1>
             <p> Sell your items here...</p>
-            <button onClick={() => navigate('/search')} class="btn btn-success">Find products now</button>
+            <button onClick={() => navigate('/search')} className="btn btn-success">Find products now</button>
             <img src="../../images/homeImage.png" alt="frontimage" className='homeI' />
             <div className="description">
                 <p> Description: E-THRIFT is a....</p>
@@ -90,6 +90,7 @@ function Home() {
                     {images.map(image => {
                         return (
                             <Image
+                                key={image}
                                 draggable={false}
                                 style={{ width: "100%", height: "100%" }}
                                 src={image}
