@@ -107,7 +107,7 @@ function Home() {
                             return (
                                 <Image
                                     draggable={false}
-                                    style={{ width: "100%", height: "100%" }}
+                                    style={{ width: "100%", height: "80%" }}
                                     src = {`https://res.cloudinary.com/deizaqii7/${img.img_url}`}
                                     onClick={() => navigate(`/view/${img.item_id}`)}
                                 />

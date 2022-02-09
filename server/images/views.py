@@ -5,7 +5,7 @@ from .models import Images
 from users.models import User
 from items.models import Item
 from .serializer import ImagesSerializer
-
+import time
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import cloudinary
@@ -50,7 +50,9 @@ def add(req, item_id):
 def delete(req):
     try:
         item = Item.objects.get(pk=req.data['id'])
+        time.sleep(1)
         images = Images.objects.get(item=item, img_url=req.data["image"])
+        print(req.data["image"])
         cloudinary.uploader.destroy(images.img_url.public_id)
         images.delete()
         return Response({'Success': 'Image deletion successful'})

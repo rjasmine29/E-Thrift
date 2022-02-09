@@ -4,6 +4,7 @@ import jwt_decode from "jwt-decode";
 import { NavBar } from "./components";
 import {
   CreateListing,
+  EditListing,
   Home,
   Login,
   Product,
@@ -93,7 +94,8 @@ const App = () => {
         <NavBar username={username} logOut={logOut} />
         <Routes>
           <Route path="/create" element={<CreateListing />}></Route>
-          <Route exact path="/" element={<Home />}></Route>
+          <Route path="/" exact element={<Home />}></Route>
+          <Route path="/update/:id" element={<EditListing />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/product" element={<Product />}></Route>
           <Route path="/profile/:isCurrentUser" element={<Profile />}></Route>
