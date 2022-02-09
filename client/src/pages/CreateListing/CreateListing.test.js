@@ -32,9 +32,12 @@ describe('CreateListring', ()=>{
         const loc = screen.getByLabelText('loc')
         const sub = screen.getByLabelText('sub')
 
-        await waitFor(() => userEvent.type(name, 'hello'))
-        await waitFor(() => userEvent.type(desc, 'diss'))
-        await waitFor(() => userEvent.type(loc, 'loc'))
+        userEvent.type(name,'hello')
+        await waitFor(() => expect(name.textContent).toBe('hello'))
+        userEvent.type(desc, 'diss')
+        await waitFor(() => expect(desc.textContent).toBe('diss'))
+        userEvent.type(loc, 'loc')
+        await waitFor(() => expect(loc.textContent).toBe('loc'))
         
         await waitFor(()=>userEvent.click(sub))
         

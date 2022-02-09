@@ -4,7 +4,7 @@
  import axios from 'axios';
  jest.mock('axios');
  
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
 
 import {Home} from '../index';
@@ -42,7 +42,6 @@ describe('Home', ()=>{
 
         await axios.get.mockResolvedValue({data: recent})
         render(<Home />)
-        const carousel = screen.getByLabelText('carousel')
-        expect(carousel).toBetruthy()
+        await waitFor(()=> expect(screen.getByLabelText('carousel').toBeTruthy()))
     })
 })

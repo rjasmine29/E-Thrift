@@ -9,11 +9,19 @@ import * as helpers from '../../helpers/requests';
 jest.mock("jwt-decode", () => jest.fn());
 
 const mockNavigate = jest.fn();
+const mockContext = jest.fn()
+
 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
     useNavigate: () => mockNavigate
 }));
+
+jest.mock('react', ()=>({
+    ...jest.requireActual('react'),
+    useContext: ()=> mockContext
+}));
+
 
 const mockLoginResponse = {
     data: {
@@ -24,13 +32,13 @@ const mockLoginResponse = {
 
 describe('Login', () => {
     test('it renders the page', () => {
-        render(<Login />, { wrapper: ReactRouterDom.MemoryRouter });
+        render(<Login />);
         const heading = screen.getByRole("heading");
         expect(heading.textContent).toMatch("Sign-in");
     });
 
     test('it allows a user to make a log in request', async () => {
-        render(<Login />, { wrapper: ReactRouterDom.MemoryRouter });
+        render(<Login />);
         const submitBtn = screen.getByRole("button", { name: "Sign In" });
         const loginSpy = jest.spyOn(helpers, 'postLogin');
         loginSpy.mockResolvedValue(mockLoginResponse);
@@ -50,7 +58,7 @@ describe('Login', () => {
     });
 
     test('it navigates to the register page on button click', async () => {
-        render(<Login />, { wrapper: ReactRouterDom.MemoryRouter });
+        render(<Login />);
         const registerBtn = screen.getByRole("button", { name: "Register" });
         userEvent.click(registerBtn);
 
@@ -60,14 +68,14 @@ describe('Login', () => {
     });
 
     test('it allows users to input email', () => {
-        render(<Login />, { wrapper: ReactRouterDom.MemoryRouter });
+        render(<Login />);
         const emailInput = screen.getByLabelText("email-input");
         fireEvent.change(emailInput, { target: { value: "test@email.com"} });
         expect(emailInput.value).toBe("test@email.com");
     });
 
     test('it allows users to input password', () => {
-        render(<Login />, { wrapper: ReactRouterDom.MemoryRouter });
+        render(<Login />);
         const passwordInput = screen.getByLabelText("password-input");
         fireEvent.change(passwordInput, { target: { value: "test password"} });
         expect(passwordInput.value).toBe("test password");

@@ -48,7 +48,7 @@
                 }]
 
         }
-        await axios.mockResolvedValue(mockData)
+        await axios.get.mockResolvedValue(mockData)
         render(<CatBar setCategory={mockSet}/>)
         // const container = screen.getByLabelText('cat_container')
         // expect(container).toBeTruthy()

@@ -3,7 +3,7 @@
  * @jest-environment jsdom
  */
 
- import { render, screen } from '@testing-library/react';
+ import { render, screen, waitFor } from '@testing-library/react';
  import userEvent from '@testing-library/user-event'
  import React, {useState} from 'react';
 
@@ -26,18 +26,34 @@
         //     render(<EditProfile />)
         // })
         
-        test('fill form', ()=>{
+        test('fill form', async ()=>{
             
         const setActiveFragment = jest.fn()
         const setUsername = jest.fn()
         const setPhoneNumber = jest.fn()
         const setAvatarUrl = jest.fn()
+        const setFirstName = jest.fn()
+        const setLastName = jest.fn()
         // const email = 'test'
         // const firstname = 'test'
         // const firstname = 'test'
+        const data = {
+           setActiveFragment: setActiveFragment,
+           emai: 'test',
+           firstName: 'first',
+           setFirstName: setFirstName,
+           lastName: setLastName,
+           username: 'test',
+           setUsername: setUsername,
+           phoneNumber: '123',
+           setPhoneNumber: setPhoneNumber,
+           avatarUrl: 'test',
+           setAvatarUrl: setAvatarUrl
+
+        }
 
 
-        render(<EditProfile />)
+        render(<EditProfile value = {data}/>)
         const testFile = new File(['test'], 'test.png', { type: 'image/png' });
         const profileInput = screen.getByLabelText("profile-input");
         const name = screen.getAllByLabelText('first-name-input')
@@ -50,6 +66,7 @@
         userEvent.type(user, 'Hello')
         userEvent.type(email, 'Hello')
         userEvent.type(phone, 25120)
+        await waitFor(()=> expect(name.textContent).toBe('Hello'))
         userEvent.upload(profileInput, testFile);
     })
  })
