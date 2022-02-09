@@ -72,8 +72,6 @@ const CreateListing = () => {
         }
     }
 
-
-
     return (
         <div className="CreateListing">
 
@@ -82,17 +80,17 @@ const CreateListing = () => {
                 <h1>Create a new listing</h1>
                 <div>
                     <label htmlFor="name">Item name</label>
-                    <input type="text" name="name" required placeholder="E.g. Used iPhone 5S" />
+                    <input aria-label='name' type="text" name="name" required placeholder="E.g. Used iPhone 5S" />
                 </div>
 
                 <div>
                     <label htmlFor="description">Description</label>
-                    <textarea name="description" required placeholder="E.g. This phone is in working condition but has light scratches on the edges"></textarea>
+                    <textarea aria-label='desc' name="description" required placeholder="E.g. This phone is in working condition but has light scratches on the edges"></textarea>
                 </div>
 
                 <div>
                     <label htmlFor="location">Location</label>
-                    <input type="text" name="location" required placeholder="E.g. London, United Kingdom" />
+                    <input aria-label='loc' type="text" name="location" required placeholder="E.g. London, United Kingdom" />
                 </div>
 
                 <div>
@@ -112,7 +110,7 @@ const CreateListing = () => {
                     <input type="file" id="img" name="image" accept="image/*" multiple />
                 </div>
 
-                <input type="submit" value="Create new listing" />
+                <input aria-label='sub' type="submit" value="Create new listing" />
             </form>
             <p className="error">{error}</p>
             <p className="success">{success}</p>
