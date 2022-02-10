@@ -86,7 +86,7 @@ function Home() {
                         <Card cardImage="https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
                         
                     </Carousel> */}
-                    <p>testing</p>
+
                     <Carousel
                         swipeable={false}
                         draggable={false}
@@ -99,7 +99,6 @@ function Home() {
                         customTransition="all .5"
                         transitionDuration={500}
                         containerClass="carousel-container"
-                        removeArrowOnDeviceType={["tablet", "mobile"]}
                         dotListClass="custom-dot-list-style"
                         itemClass="carousel-item-padding-40-px"
                     >
