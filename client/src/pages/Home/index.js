@@ -8,6 +8,7 @@ import { Image } from "semantic-ui-react";
 import Card from '../../components/Card';
 import "../../App.css"
 import { breakpoints } from '@mui/system';
+import axios from 'axios';
 
 function Home() {
 
@@ -23,10 +24,9 @@ function Home() {
 
     useEffect(() => {
         const getRecentlyViewed = async () => {
-            const data = await fetch(`http://127.0.0.1:8000/items/recently_viewed/${localStorage.getItem("username")}/`)
-            const jsonData = await data.json();
-            setData(jsonData.data)
-            setImg(jsonData.image)
+            const {data} = await axios.get(`http://127.0.0.1:8000/items/recently_viewed/${localStorage.getItem("username")}/`)
+            setData(data.data)
+            setImg(data.image)
         }
 
         getRecentlyViewed()
@@ -88,6 +88,7 @@ function Home() {
                     </Carousel> */}
 
                     <Carousel
+                        aria-label = 'carousel'
                         swipeable={false}
                         draggable={false}
                         showDots={true}
@@ -99,7 +100,6 @@ function Home() {
                         customTransition="all .5"
                         transitionDuration={500}
                         containerClass="carousel-container"
-                        removeArrowOnDeviceType={["tablet", "mobile"]}
                         dotListClass="custom-dot-list-style"
                         itemClass="carousel-item-padding-40-px"
                     >

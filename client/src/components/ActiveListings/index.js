@@ -9,10 +9,13 @@ const ActiveListings = ({ setActiveFragment, activeItems, isLoading }) => {
 
   if (renderItems === null) {
     if (activeItems.data) {
+      //console.log(activeItems)
       const items = activeItems.data.map((item, index) => {
+        console.log(item)
         const img = activeItems.image.find(
           (image) => image.item_id === item.id
         );
+        console.log(img)
 
         return (
           <ActiveItemCard
@@ -22,7 +25,7 @@ const ActiveListings = ({ setActiveFragment, activeItems, isLoading }) => {
             price={item.price}
             category={item.category}
             description={item.description}
-            image_url={img.img_url}
+            image_url={img ? img.img_url : null}
             image_id={item.image_id}
           />
         );

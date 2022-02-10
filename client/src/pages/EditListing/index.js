@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import "./EditListing.css"
 
+import axios from 'axios';
+
 const EditListing = () => {
     const [data, setData] = useState([])
     const [photo, setPhoto] = useState([])
@@ -16,8 +18,9 @@ const EditListing = () => {
         }
 
         const getById = async () => {
-            const data = await fetch(`http://127.0.0.1:8000/items/get_by_id/${id}`);
-            const dataJson = await data.json();
+            const {data} = await axios.get(`http://127.0.0.1:8000/items/get_by_id/${id}`);
+            const dataJson = data;
+
             if (dataJson.Error || localStorage.getItem("username") !== dataJson.data.seller) {
                 navigate("/")
             }
@@ -164,11 +167,6 @@ const EditListing = () => {
             
         }
 
-
-
-
-
-
     }
 
     return (
@@ -213,9 +211,10 @@ const EditListing = () => {
                         }
                     </div>
 
-                    <input type="submit" value="Update Listing" />
+                    <input aria-label='submit' type="submit" value="Update Listing" />
                     <p className="error">{error}</p>
                     <p className="success">{success}</p>
+
                 </form>
                 
 
