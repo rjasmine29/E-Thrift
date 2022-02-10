@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -9,7 +10,8 @@ import Typography from '@mui/material/Typography';
 import { TwitterShareButton, TwitterIcon } from "react-share";
 import axios from 'axios'
 
-function CLaimedItemCard({ id, name, seller, price, category, description, image }) {
+
+export default function ClaimedItemCard({ id, name, seller, price, category, description, image }) {
 
   const [showDetails, setShowDetails] = useState(false);
   const [contactDetails, setContactDetails] = useState([])
@@ -27,27 +29,26 @@ function CLaimedItemCard({ id, name, seller, price, category, description, image
     getContactDetails()
 }, [id])
 
+const handleShowDetails = () => {
+  navigate(`/view/${id}`)
+}
 
-  const handleShowDetails = () => {
-    navigate(`/view/${id}`)
+let set = new Set()
+
+let imageString;
+
+image && image.map((image, key) => {
+
+  if (image.item_id === id && !set.has(image.item_id)) {
+    set.add(image)
+    imageString = `https://res.cloudinary.com/deizaqii7/${image.img_url}`
+    return (
+      <div key={key}>
+        {"https://res.cloudinary.com/deizaqii7/" + image.img_url}
+      </div>
+    )
   }
-
-  let set = new Set()
-
-  let imageString;
-
-  image && image.map((image, key) => {
-
-    if (image.item_id === id && !set.has(image.item_id)) {
-      set.add(image)
-      imageString = `https://res.cloudinary.com/deizaqii7/${image.img_url}`
-      return (
-        <div key={key}>
-          {"https://res.cloudinary.com/deizaqii7/" + image.img_url}
-        </div>
-      )
-    }
-  })
+})
 
   const rateSeller = async (e) => {
     e.preventDefault()
@@ -57,9 +58,10 @@ function CLaimedItemCard({ id, name, seller, price, category, description, image
     console.log(data)
   }
 
-  return (
 
-    <Card sx={{ maxWidth: 345 }} >
+  return (
+    <div>
+      <Card sx={{ maxWidth: 345 }} >
       <CardMedia
         component="img"
         height="140"
@@ -109,8 +111,6 @@ function CLaimedItemCard({ id, name, seller, price, category, description, image
         {/* <Button size="small" onClick={() => { setShowDetails(!showDetails) }}>More Details</Button> */}
       </CardActions>
     </Card>
-  );
+    </div>
+  )
 }
-
-export default CLaimedItemCard;
-
