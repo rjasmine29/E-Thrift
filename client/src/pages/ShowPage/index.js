@@ -203,7 +203,7 @@ const ShowPage = () => {
                             <div key={key}>
                                 <Image 
                                     draggable={true}
-                                    style={{ width: "80%%", height: "80%" }}
+                                    style={{ width: "80%", height: "80%" }}
                                     src={"https://res.cloudinary.com/deizaqii7/" + image.img_url}
                                 />
                                     {/* <img src={"https://res.cloudinary.com/deizaqii7/" + image.img_url} /> */}
