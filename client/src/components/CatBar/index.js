@@ -13,23 +13,14 @@ export const CatBar = ({setCategory}) => {
         const getCategory = async () => {
 
             if (cat == 'All') {
-                try{
-                    const {data} = await axios.get(`http://127.0.0.1:8000/items`)
-                    return data
-                }
-                catch(e){
-                    console.warn(e)
-                }
-
+                const {data} = await axios.get(`http://127.0.0.1:8000/items/get_unclaimed/`)
+                return data
                 // setCat(jsonCat)
                
             } else {
-                try{
-                    const {data} = await axios.get(`http://127.0.0.1:8000/items/get_by_category/${cat}/`)
-                    return data
-                }catch(e){
-                    console.warn(e)
-                }
+                const {data} = await axios.get(`http://127.0.0.1:8000/items/get_by_category_unsold/${cat}/`)
+                return data
+
                 // setCat(jsonCat)
             }
         }

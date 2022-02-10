@@ -21,7 +21,7 @@ function ActiveItemCard({
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/product-show/:${id}`);
+    navigate(`/view/:${id}`);
   };
 
   return (

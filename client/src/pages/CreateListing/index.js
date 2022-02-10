@@ -101,6 +101,7 @@ const CreateListing = () => {
                         <option value="Entertainment">Entertainment</option>
                         <option value="Mischelaneous">Mischelaneous</option>
                         <option value="Ornaments">Ornaments</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
 

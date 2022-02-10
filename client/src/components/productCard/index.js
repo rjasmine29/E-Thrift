@@ -59,7 +59,7 @@ export default function ProductCard({ category, map, mapboxgl }) {
       new mapboxgl.Marker()
         .setLngLat(value)
         .setPopup(new mapboxgl.Popup({ offset: 25 })
-          .setHTML(`<h3>${cat.name}</h3><p>${cat.description}</p>`))
+          .setHTML(`<h3>${cat.name}</h3><p>${cat.description}</p><a href="http://localhost:3000/view/${cat.id}">Go to listing</a>`))
         .addTo(map.current);
 
 
