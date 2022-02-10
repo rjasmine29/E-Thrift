@@ -9,11 +9,6 @@ import { useNavigate } from "react-router-dom";
 
 import './style.css';
 
-<<<<<<< HEAD
-    const handleCardClick = () => {
-        navigate(`/view/${id}`)
-    }
-=======
 function ActiveItemCard({
   id,
   name,
@@ -28,7 +23,6 @@ function ActiveItemCard({
   const handleCardClick = () => {
     navigate(`/product-show/:${id}`);
   };
->>>>>>> upstream/staging
 
   return (
     <div className="active-card-wrapper">
