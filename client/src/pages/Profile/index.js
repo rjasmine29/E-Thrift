@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ClaimedIcon from "../../assets/claimed_icon.png";
 import CurrentlyListedIcon from "../../assets/currently_listed_icon.png";
 import EditIcon from "../../assets/edit_icon.svg.png";
@@ -194,13 +194,17 @@ const Profile = () => {
           )}
         </div>
       )}
-      {/* {activeFragment === "messages" && (
-        <Messages
-          isLoading={isLoadingMessages}
-          setActiveFragment={setActiveFragment}
-          messages={messages}
-        />
-      )} */}
+      {activeFragment === "messages" && (
+        // <Messages
+        //   isLoading={isLoadingMessages}
+        //   setActiveFragment={setActiveFragment}
+        //   messages={messages}
+        // />
+       <div  className="active-items-header">
+          <ArrowBackIcon className="go-back-btn" onClick={() => setActiveFragment("")} />
+          <h2>Coming soon....</h2>
+       </div>
+      )}
       {activeFragment === "active" && (
         <ActiveListings
           isLoading={isLoadingActiveItems}
