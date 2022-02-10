@@ -69,10 +69,10 @@ function Home() {
         <div className='home-container'>
             <h1>THRIFT & DONATE.</h1>
             <p> Sell your items here...</p>
-            <button onClick={() => navigate('/search')} className="btn btn-success">Find products now</button>
+            <button onClick={() => navigate('/search')} className="btn btn-warning">Find products now</button>
             <img src="../../images/homeImage.png" alt="frontimage" className='homeI' />
             <div className="description">
-                <p> Description: E-THRIFT is a....</p>
+                <p>E-Thrift is an online platform to allow our users to find loving new homes for their unwanted items. It is our mission to help reduce domestic waste by allowing items to be free-cycled, instead of thrown away. We encourage our users to connect with eachother locally to be in-line with our eco-conscious mission.</p>
             </div>
             {localStorage.getItem("username")
                 ?

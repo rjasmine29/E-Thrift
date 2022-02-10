@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 
 import './style.css';
 
-
 function ActiveItemCard({
   id,
   name,
@@ -22,7 +21,7 @@ function ActiveItemCard({
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/view/:${id}`);
+    navigate(`/view/${id}`);
   };
 
   return (

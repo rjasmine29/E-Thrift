@@ -8,6 +8,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { TwitterShareButton, TwitterIcon } from "react-share";
+import axios from 'axios'
 
 
 export default function ClaimedItemCard({ id, name, seller, price, category, description, image }) {
@@ -49,9 +50,12 @@ image && image.map((image, key) => {
   }
 })
 
-const handleToggle = () =>{
-  setIsActive(!isActive)
-}
+  const rateSeller = async (e) => {
+    e.preventDefault()
+
+    const {data} = await axios.post(`http://127.0.0.1:8000/user/rating/${seller}/${e.target.rating.value}`)
+    console.log(data)
+  }
 
 
   return (
@@ -90,6 +94,17 @@ const handleToggle = () =>{
           title={'Check out this ' + name + '!'}
         /></Button> */}
         <button onClick={() => navigate(`/view/${id}`)}>View Item</button>
+        <form onSubmit={rateSeller}>
+          <select name="rating">
+            <option value="5">5</option>
+            <option value="4">4</option>
+            <option value="3">3</option>
+            <option value="2">2</option>
+            <option value="1">1</option>
+
+          </select>
+          <input type="submit" value="Submit rating" />
+        </form>
         <button  onClick={() => window.location = `mailto:`+contactDetails.email}>Email Seller</button>
         
         {/* <Button size="small" onClick={() => { setShowDetails(!showDetails) }}>More Details</Button> */}

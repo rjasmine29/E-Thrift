@@ -100,7 +100,7 @@ def get_claimed_by_seller(req,seller):
 def get_by_username(req, username):
     try:
         user = User.objects.get(username=username)
-        items = Item.objects.filter(seller=user)
+        items = Item.objects.filter(seller=user, is_claimed=False)
         serializer = ItemSerializer(items, many=True)
         
         lists = []
@@ -122,6 +122,27 @@ def get_by_username(req, username):
 def get_by_category(req, category):
     try:
         items = Item.objects.filter(category=category)
+        serializer = ItemSerializer(items, many=True)
+        
+        lists = []
+        for item in items:
+            
+            photos = Images.objects.filter(item_id=item)
+            
+            for photo in photos:
+                print(photo)
+                lists.append(photo)
+        
+        serializer_img = ImagesSerializer(lists, many=True)
+        data = {'data': serializer.data, 'image': serializer_img.data}
+        return Response(data)
+    except Exception as e:
+        return Response({'Error': f'Provided username doesnt exist - {e}'})
+
+@api_view(['GET'])
+def get_by_category_unsold(req, category):
+    try:
+        items = Item.objects.filter(category=category, is_claimed=False)
         serializer = ItemSerializer(items, many=True)
         
         lists = []
