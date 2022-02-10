@@ -23,6 +23,7 @@ function NavBar({ username, logOut }) {
           <Nav.Link as={NavLink} style={{color: "white"}} to="/login">Login </Nav.Link>
         </>
       )}
+      </ Navbar.Collapse> 
     </Navbar>
   );
 }

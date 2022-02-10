@@ -45,7 +45,6 @@ const Profile = () => {
 
   console.log(isCurrentUser);
   useEffect(() => {
-    console.log(`page load`);
     isMounted.current = true;
 
     if (isMounted) {
@@ -82,14 +81,12 @@ const Profile = () => {
       getProfileData();
     }
     return () => {
-      console.log("unmounting");
       isMounted.current = false;
     };
   }, []);
 
   useEffect(() => {
     isMounted.current = true;
-    console.log(`changes active fragment. ${activeFragment}`);
     if (isMounted) {
       const fetchFragmentData = async () => {
         if (typeof window !== "undefined") {
@@ -117,7 +114,6 @@ const Profile = () => {
             //   setIsloadingMessages(false);
             //   return;
             default:
-              console.log("default");
               return;
           }
         }
