@@ -105,7 +105,9 @@ def edit_account(request):
             user_acc.last_name = request.data['last_name']
             # user_acc.username = request.data["body"]['username']
             user_acc.phone_number = request.data['phone_number']
-            user_acc.avatar_url = request.data['avatar_url']
+            
+            if request.data["avatar_url"] != 'null':
+                user_acc.avatar_url = request.data['avatar_url']
             user_acc.save()
             return Response({'Success': f'Successfully edited a profile'})
 

@@ -44,7 +44,6 @@ const ShowPage = () => {
                 navigate("/")
             }
             const dataJson = await data.json();
-            console.log(dataJson)
             setData(dataJson.data)
             setImage(dataJson.photo)
         }
@@ -57,11 +56,9 @@ const ShowPage = () => {
 
     useEffect(() => {
         const getContactDetails = async () => {
-            console.log(data)
-            console.log(data.seller)
+            if (data.seller == undefined) return
             const details = await fetch(`http://127.0.0.1:8000/user/get_by_username/${data.seller}`);
             const detailsJson = await details.json();
-            console.log(detailsJson)
             setContactDetails(detailsJson)
             
         }
@@ -72,7 +69,6 @@ const ShowPage = () => {
         const getCoordinates = async () => {
             let datas = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${data.address}.json?types=address&access_token=pk.eyJ1IjoiamFraXJ1bGZ4IiwiYSI6ImNreXhrMTZucTA1aTYycXVvbnRyaDR3NGgifQ.zvjCM2eXQNf6ntofj0cwbQ`)
             const jsons = await datas.json();
-            console.log(jsons.features[0].geometry.coordinates)
             return jsons.features[0].geometry.coordinates
         }
         (async () => {
@@ -97,7 +93,6 @@ const ShowPage = () => {
     const removePost = async (e) => {
         e.preventDefault();
         if (window.confirm("Are you sure you want to delete this post?") === true) {
-            console.log('pressed delete')
             const data = {
                 "id": id
             }
@@ -147,7 +142,6 @@ const ShowPage = () => {
 
         const claim = await fetch(`http://127.0.0.1:8000/items/claim/${data.id}`, options)
         const claimJson = await claim.json();
-        console.log(claimJson)
         if (claimJson.Error) {
             setSuccess2()
             setError2("Cannot claim this item")
@@ -241,32 +235,63 @@ const ShowPage = () => {
 
             </div>
                 
+            
                 
             <div>
 
                 <p onClick={() => navigate(`/profile/` + data.created_by)}><span>Username:</span> {data.seller}</p>
                 <p><span>Location:</span> {data.address}</p>
 
-                {!data.is_claimed && data.seller !== localStorage.getItem("username") && localStorage.getItem("username") && localStorage.getItem("authTokens")
+                {!data.is_claimed && localStorage.getItem("username") && localStorage.getItem("authTokens")
                     ?
                     <div className="button-list">
-                        <form onSubmit={claimItem}>
-                            <button type="submit">Claim Item</button>
-                        </form>
-                        {localStorage.getItem("username")
+                        
+                        {data.seller !== localStorage.getItem("username") 
                             ?
+                            
                                 <div>
-                                    <button className='message-btn' onClick={handleToggle}>Message Seller</button>
-                                    <input className={isActive ? "show" : "hide"} type='text' id='textInput' disabled value={'email: '+contactDetails.email + "\t" + 'Phone number: '+contactDetails.phone_number }
-                                     />
+                                    <form onSubmit={claimItem}>
+                                        <button type="submit">Claim Item</button>
+                                    </form>
+                                    
+                                    {localStorage.getItem("username")
+                                        ?
+                                            <div>
+                                                <button className='message-btn' onClick={handleToggle}>Message Seller</button>
+                                                <input className={isActive ? "show" : "hide"} type='text' id='textInput' disabled value={'email: '+contactDetails.email + "\t" + 'Phone number: '+contactDetails.phone_number }
+                                                />
+                                            </div>
+                                        :
+                                            null
+                                    }
                                 </div>
                             :
                                 null
-                        }
+                            }
                     </div>
                     :
                     <div>
-                        <p className='claimed'>This item has already been claimed :(</p>
+                        {
+                            localStorage.getItem("username")
+                                ?
+                                
+                                    data.buyer !== localStorage.getItem("username")
+                                        ? 
+                                            <div>
+                                                <p className='claimed'>This item has already been claimed :(</p>
+                                            </div>
+                                        :
+                                            <div>
+                                                <p className='claimed' style={{color: "green"}} onClick={() => navigate('/profile/true')}>Please go to your claimed page to see all your claimed items</p>
+                                                
+                                            </div>
+                                :
+                                    null
+
+                        
+                        
+                        }
+                        
                     </div>
                 }
                 {data.is_claimed === localStorage.getItem("username")
@@ -277,7 +302,7 @@ const ShowPage = () => {
                     :
                     null
                 }
-                {localStorage.getItem("username")===null
+                {!localStorage.getItem("username") && !data.is_claimed
                     ?
                     <h5>To claim this item please  
                         <a className='log/sign' onClick={() => navigate(`/login`)}> Login</a>/
