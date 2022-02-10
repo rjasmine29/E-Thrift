@@ -201,12 +201,12 @@ const ShowPage = () => {
                           return (
                               
                             <div key={key}>
-                                {/* <Image 
+                                <Image 
                                     draggable={true}
                                     style={{ width: "100%", height: "80%" }}
                                     src={"https://res.cloudinary.com/deizaqii7/" + image.img_url}
-                                /> */}
-                                    <img src={"https://res.cloudinary.com/deizaqii7/" + image.img_url} />
+                                />
+                                    {/* <img src={"https://res.cloudinary.com/deizaqii7/" + image.img_url} /> */}
                             </div>
                             
                           )

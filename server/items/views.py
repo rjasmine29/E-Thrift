@@ -100,7 +100,7 @@ def get_claimed_by_seller(req,seller):
 def get_by_username(req, username):
     try:
         user = User.objects.get(username=username)
-        items = Item.objects.filter(seller=user)
+        items = Item.objects.filter(seller=user, is_claimed=False)
         serializer = ItemSerializer(items, many=True)
         
         lists = []
