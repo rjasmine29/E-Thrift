@@ -8,6 +8,7 @@ function NavBar({ username, logOut }) {
   return (
 
     <Navbar aria-label='navbar' expand="lg" bg="dark" variant="dark">
+      <Navbar.Toggle />
        <Navbar.Collapse>
       <Nav.Link as={NavLink} style={{color: "white"}}   to="">E-Thrift</Nav.Link>
 

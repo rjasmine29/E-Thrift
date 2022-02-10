@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 
 import './style.css';
 
-
 function ActiveItemCard({
   id,
   name,
