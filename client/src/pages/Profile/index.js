@@ -86,7 +86,7 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    isMounted.current = true;
+    
     if (isMounted) {
       const fetchFragmentData = async () => {
         if (typeof window !== "undefined") {
