@@ -7,6 +7,7 @@ import { getSearch } from '../../helpers/requests';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import './searchbar.css';
 
 const SearchBar = ({setCategory}) => {
     const query = useRef();
@@ -41,7 +42,7 @@ const SearchBar = ({setCategory}) => {
             style={{ margin: 8 }}
             placeholder='Search for stuff'
             required={true}
-            fullWidth
+            sx={{width: 5 / 6,}}
             margin='normal'
             InputProps={{
                 startAdornment: (
@@ -51,14 +52,20 @@ const SearchBar = ({setCategory}) => {
                 ), 
                 endAdornment: (
                     <InputAdornment position='end'>
-                        <InputLabel id='cat-selector-label'>Category</InputLabel>
+                        <InputLabel 
+                        id='cat-selector-label'
+                        className='cat-sel-label'
+                        // sx={{ m: 1 }}
+                        >Category:</InputLabel>
                         <Select 
+                            className='cat-select'
                             role='cat-select'
                             labelId='cat-selector-label'
                             id = 'cat-selector'
                             value={category}
                             label="Category"
                             onChange={handleChange}
+                            sx={{ mr: 2, ml: 0.5, px: 1.5}}
                         >
                             
                            <MenuItem value='All'>All</MenuItem>
@@ -66,7 +73,8 @@ const SearchBar = ({setCategory}) => {
                            <MenuItem value='Furniture'>Furniture</MenuItem> 
                            <MenuItem value='Entertainment'>Entertainment</MenuItem> 
                            <MenuItem value='Mischelaneous'>Mischelaneous</MenuItem> 
-                           <MenuItem value='Ornaments'>Ornaments</MenuItem> 
+                           <MenuItem value='Ornaments'>Ornaments</MenuItem>
+                           <MenuItem value='Other'>Other</MenuItem>  
 
  
                         </Select>

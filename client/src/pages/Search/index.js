@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Mapbox, NavBar, CatBar,  SearchBar } from '../../components';
 import ProductCard from '../../components/productCard';
 import { getSearch } from "../../helpers/requests";
+import './style.css'
 
 function Search() {
   const [category, setCategory] = useState([])
@@ -24,9 +25,11 @@ function Search() {
     <div>
         {/* <NavBar /> */}
         <Mapbox setMap={handleMap} setMapboxGl={setMapboxGl}/>
-        <SearchBar setCategory={setCategory} />
+        <SearchBar className='search-bar' setCategory={setCategory} />
        
-        <CatBar setCategory={setCategory} />
+        <CatBar 
+        setCategory={setCategory}
+         />
         <h3>Results count - {length}</h3>
         <ProductCard category={category} map={map} mapboxgl={mapboxgl}/>
     </div>
