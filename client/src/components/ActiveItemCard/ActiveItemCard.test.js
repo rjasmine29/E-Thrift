@@ -3,11 +3,12 @@ import { screen, render, fireEvent, waitFor } from '@testing-library/react';
 import * as ReactRouterDom from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
-import ActiveItemCard from '.';
+import {ActiveItemCard} from '../index';
 
 const mockNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
     useNavigate: () => mockNavigate
 }));
 

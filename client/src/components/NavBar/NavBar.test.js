@@ -13,6 +13,7 @@
     let mockFunction;
     beforeEach(() => {
       mockFunction = jest.fn();
+      // eslint-disable-next-line testing-library/no-render-in-setup
       render(
         
           <NavBar />,
