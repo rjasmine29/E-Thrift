@@ -67,13 +67,13 @@ function Home() {
 
     return (
         <div className='home-container'>
-            <h1>THRIFT & DONATE.</h1>
-            <p> Sell your items here...</p>
+            <h1>THRIFT IT.</h1>
+            <p>The new age of thrifting.</p>
             <button onClick={() => navigate('/search')} className="btn btn-success">Find products now</button>
             <img src="../../images/homeImage.png" alt="frontimage" className='homeI' />
-            <div className="description">
+            {/* <div className="description">
                 <p> Description: E-THRIFT is a....</p>
-            </div>
+            </div> */}
             {localStorage.getItem("username")
                 ?
                     <div className='carousel'>
