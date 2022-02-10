@@ -57,6 +57,9 @@ The website can be viewed in this link: https://e-thrift.netlify.app/
 ## Pitch Gist
 https://gist.github.com/Jakirul/87e34fea143bf6c759840babf4766684
 
+## ER Diagram
+![image](https://user-images.githubusercontent.com/8548957/153509813-13d7f94f-3417-4799-b8fd-411337d676e0.png)
+
 ## Figma Design
 ![image](https://user-images.githubusercontent.com/8548957/153509070-99671f51-d81e-4ddc-8e7a-ce4b33c2f285.png)
 
