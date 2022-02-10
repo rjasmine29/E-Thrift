@@ -2,6 +2,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import './ShowPage.css'
+import Carousel from "react-multi-carousel";
+import { Image } from "semantic-ui-react";
+
+
 
 const ShowPage = () => {
     const [data, setData] = useState([])
@@ -148,7 +152,23 @@ const ShowPage = () => {
         }
     }
 
-  
+    const responsive = {
+        desktop: {
+            breakpoint: { max: 3000, min: 1024 },
+            items: 3,
+            slidesToSlide: 3 // optional, default to 1.
+        },
+        tablet: {
+            breakpoint: { max: 1024, min: 464 },
+            items: 2,
+            slidesToSlide: 2 // optional, default to 1.
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
+            items: 1,
+            slidesToSlide: 1 // optional, default to 1.
+        }
+    };
    
 
 
@@ -157,21 +177,43 @@ const ShowPage = () => {
         <div className="ShowPage">
             <div>
                 <h1>{data.name}</h1>
+                <Carousel
+                        swipeable={false}
+                        draggable={false}
+                        showDots={true}
+                        responsive={responsive}
+                        ssr={true} // means to render carousel on server-side.
+                        infinite={true}
+                        autoPlaySpeed={1000}
+                        keyBoardControl={true}
+                        customTransition="all .5"
+                        transitionDuration={500}
+                        containerClass="carousel-container"
+                        removeArrowOnDeviceType={["tablet", "mobile"]}
+                        dotListClass="custom-dot-list-style"
+                        itemClass="carousel-item-padding-40-px"
+                    >
                 {image && image.length
                     ?
+                    
                     image && image.map((image, key) => {
-                        
                           imageString = `https://res.cloudinary.com/deizaqii7/${image.img_url}`
                           return (
                             <div key={key}>
-                              <img src={"https://res.cloudinary.com/deizaqii7/" + image.img_url} />
+                                {/* <Image 
+                                    draggable={true}
+                                    style={{ width: "100%", height: "80%" }}
+                                    src={"https://res.cloudinary.com/deizaqii7/" + image.img_url}
+                                /> */}
+                                    <img src={"https://res.cloudinary.com/deizaqii7/" + image.img_url} />
                             </div>
+                            
                           )
-                        
+                          
                       })
                     :
                     <img src="https://upload.wikimedia.org/wikipedia/commons/e/ea/No_image_preview.png" />
-                }
+                }</Carousel>
 
                 {data.seller === localStorage.getItem("username")
                     ?
