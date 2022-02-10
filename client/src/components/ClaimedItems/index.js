@@ -11,13 +11,7 @@ const ClaimedItems = ({ setActiveFragment, claimedItems, isLoading }) => {
   
   
   useEffect(() => {
-    const fetchData = async () => {
-
-      setImage(claimedItems.image)
-      
-    }
-
-    fetchData()
+    setImage(claimedItems.image)
   }, [claimedItems])
 
     const renderItems = claimedItems.data && claimedItems.data.map((item, key) => { 
