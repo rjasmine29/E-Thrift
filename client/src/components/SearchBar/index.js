@@ -53,6 +53,7 @@ const SearchBar = ({setCategory}) => {
                     <InputAdornment position='end'>
                         <InputLabel id='cat-selector-label'>Category</InputLabel>
                         <Select 
+                            role='cat-select'
                             labelId='cat-selector-label'
                             id = 'cat-selector'
                             value={category}
@@ -69,7 +70,7 @@ const SearchBar = ({setCategory}) => {
 
  
                         </Select>
-                        <Button className='search-btn' variant='contained' type='submit'>
+                        <Button role='form-submit' className='search-btn' variant='contained' type='submit'>
                             Search
                         </Button>
                     </InputAdornment>

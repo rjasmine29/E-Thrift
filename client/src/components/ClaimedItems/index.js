@@ -1,19 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import CLaimedItemCard from '../ClaimedItemCard';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
 import './style.css';
-
 const ClaimedItems = ({ setActiveFragment, claimedItems, isLoading }) => {
-
     
     const [image, setImage] = useState([])
   
   
   useEffect(() => {
-    setImage(claimedItems.image)
-  }, [claimedItems])
 
+    setImage(claimedItems.image)
+
+  }, [claimedItems])
+  
     const renderItems = claimedItems.data && claimedItems.data.map((item, key) => { 
         
         return (
@@ -29,7 +28,6 @@ const ClaimedItems = ({ setActiveFragment, claimedItems, isLoading }) => {
             />
         )
     });
-
     return (
         <>
             <div className="active-items-header">
@@ -52,5 +50,4 @@ const ClaimedItems = ({ setActiveFragment, claimedItems, isLoading }) => {
         </>
     )
 }
-
 export default ClaimedItems;

@@ -76,7 +76,7 @@ const Mapbox = ({setMap, setMapboxGl}) => {
 
     }, []);
     return (
-        <div>
+        <div aria-label='map-container'>
             <div ref={mapContainer} className="map-container" />
         </div>
 
