@@ -37,7 +37,7 @@ export const CatBar = ({setCategory}) => {
   return (
     <div aria-label = 'cat_container' className='cat_container' id='categories' alignItems='center'>
 
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 1, sm: 2, md: 4 }}>
+        <Stack direction='row' direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 1, sm: 2, md: 4 }}>
                 <Button aria-label='all' variant='text' onClick={() => setCat("All")}><AiFillShopping/>All</Button>
                 <Button aria-label='clothes' variant='text'  onClick={() => setCat("Clothes")}><AiFillSkin/>Clothes</Button>
                 <Button aria-label='furniture' variant='text' onClick={() => setCat("Furniture")}><ChairIcon fontSize='small'/>Furniture</Button>
