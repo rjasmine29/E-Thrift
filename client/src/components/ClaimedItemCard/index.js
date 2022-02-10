@@ -52,7 +52,6 @@ image && image.map((image, key) => {
 
   const rateSeller = async (e) => {
     e.preventDefault()
-    console.log(e.target.rating.value, seller)
 
     const {data} = await axios.post(`http://127.0.0.1:8000/user/rating/${seller}/${e.target.rating.value}`)
     console.log(data)
