@@ -199,6 +199,7 @@ const ShowPage = () => {
                     image && image.map((image, key) => {
                           imageString = `https://res.cloudinary.com/deizaqii7/${image.img_url}`
                           return (
+                              
                             <div key={key}>
                                 {/* <Image 
                                     draggable={true}

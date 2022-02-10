@@ -6,9 +6,11 @@ import {Nav, Navbar} from 'react-bootstrap';
 
 function NavBar({ username, logOut }) {
   return (
+
     <Navbar aria-label='navbar' expand="lg" bg="dark" variant="dark">
        <Navbar.Collapse>
       <Nav.Link as={NavLink} style={{color: "white"}}   to="">E-Thrift</Nav.Link>
+
       {username !== null && (
         <>
        
