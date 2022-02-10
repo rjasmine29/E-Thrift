@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import './ShowPage.css'
+import { Carousel } from 'react-responsive-carousel';
 
 const ShowPage = () => {
     const [data, setData] = useState([])
@@ -156,14 +157,18 @@ const ShowPage = () => {
         <div className="ShowPage">
             <div>
                 <h1>{data.name}</h1>
+               
                 {image && image.length
                     ?
                     image && image.map((image, key) => {
                         
                           imageString = `https://res.cloudinary.com/deizaqii7/${image.img_url}`
                           return (
+                              
                             <div key={key}>
+                                
                               <img src={"https://res.cloudinary.com/deizaqii7/" + image.img_url} />
+                            
                             </div>
                           )
                         
@@ -171,6 +176,7 @@ const ShowPage = () => {
                     :
                     <img src="https://upload.wikimedia.org/wikipedia/commons/e/ea/No_image_preview.png" />
                 }
+                
 
                 {data.seller === localStorage.getItem("username")
                     ?
