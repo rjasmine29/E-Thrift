@@ -191,14 +191,14 @@ def search_term(req, search_term, category):
     try:
         if category == 'All':
             if len(search_term.strip()) == 0:
-                item = Item.objects.all()
+                item = Item.objects.filter(is_claimed=False)
             else:
-                item = Item.objects.filter(name__icontains=search_term.strip())
+                item = Item.objects.filter(name__icontains=search_term.strip(), is_claimed=False)
         else:
             if len(search_term.strip()) == 0:
-                item = Item.objects.filter(category=category)
+                item = Item.objects.filter(category=category, is_claimed=False)
             else:
-                item = Item.objects.filter(name__icontains=search_term.strip(), category=category)
+                item = Item.objects.filter(name__icontains=search_term.strip(), category=category, is_claimed=False)
         
         lists = []
         for ite in item:
