@@ -228,7 +228,7 @@ const ShowPage = () => {
                     null
                 }
                 <p>Description</p>
-                <textarea defaultValue={data.description} readOnly disabled></textarea>
+                <textarea className='description-box' defaultValue={data.description} readOnly disabled></textarea>
                 <p className="error">{error}</p>
                 <p className="success">{success}</p>
 

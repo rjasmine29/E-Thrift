@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import { AiFillSkin, AiFillShopping, AiTwotoneCustomerService, AiTwotoneExperiment, AiTwotoneGift } from 'react-icons/ai';
 import ChairIcon from '@mui/icons-material/Chair';
 import axios from 'axios';
+import Divider from '@mui/material/Divider';
 
 export const CatBar = ({setCategory}) => {
 
@@ -34,7 +35,7 @@ export const CatBar = ({setCategory}) => {
     
 
   return (
-    <div aria-label = 'cat_container' className='cat_container' id='categories'>
+    <div aria-label = 'cat_container' className='cat_container' id='categories' alignItems='center'>
 
         <Stack direction='row' direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 1, sm: 2, md: 4 }}>
                 <Button aria-label='all' variant='text' onClick={() => setCat("All")}><AiFillShopping/>All</Button>
@@ -43,6 +44,7 @@ export const CatBar = ({setCategory}) => {
                 <Button aria-label='entertainment' variant='text' onClick={() => setCat("Entertainment")}><AiTwotoneCustomerService/>Entertainment</Button>
                 <Button aria-label='mis' variant='text' onClick={() => setCat("Mischelaneous")}><AiTwotoneExperiment/>Mischelaneous</Button>
                 <Button aria-label='orn' variant='text' onClick={() => setCat("Ornaments")}><AiTwotoneGift/>Ornaments</Button>
+                <Button aria-label='orn' variant='text' onClick={() => setCat("Other")}><AiTwotoneGift/>Other</Button>
         </Stack>
 
 
