@@ -12,13 +12,13 @@ export const CatBar = ({setCategory}) => {
         const getCategory = async () => {
 
             if (cat == 'All') {
-                const cat = await fetch(`http://127.0.0.1:8000/items`)
+                const cat = await fetch(`http://127.0.0.1:8000/items/get_unclaimed/`)
                 const jsonCat = await cat.json();
                 return jsonCat
                 // setCat(jsonCat)
                
             } else {
-                const cate = await fetch(`http://127.0.0.1:8000/items/get_by_category/${cat}/`)
+                const cate = await fetch(`http://127.0.0.1:8000/items/get_by_category_unsold/${cat}/`)
                 const jsonCat = await cate.json();
                 return jsonCat
                 // setCat(jsonCat)
