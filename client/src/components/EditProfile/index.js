@@ -4,6 +4,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import defaultProfileImg from "../../assets/default-profile.png";
 import "./style.css";
 import { postEditProfile } from "../../helpers/requests";
+import { useNavigate } from "react-router-dom";
 
 const EditProfile = ({
   setActiveFragment,
@@ -13,7 +14,6 @@ const EditProfile = ({
   lastName,
   setLastName,
   username,
-  setUsername,
   phoneNumber,
   setPhoneNumber,
   avatarUrl,
@@ -21,6 +21,7 @@ const EditProfile = ({
 }) => {
   const [avatarImg, setAvatarImg] = useState(null);
 
+  const navigate = useNavigate();
   const isMounted = useRef(true);
   const fileInputRef = useRef();
   const currentImg = useRef(avatarUrl); // the user's current img
@@ -54,6 +55,10 @@ const EditProfile = ({
    * Clean up component after unmounting to avoid memory leaks.
    */
   useEffect(() => {
+    if (!localStorage.getItem("username") || !localStorage.getItem("authTokens")) {
+      navigate("/")
+  }
+
     return () => {
       isMounted.current = false;
     };
@@ -85,8 +90,6 @@ const EditProfile = ({
         let data = new FormData();
         data.append("first_name", firstName);
         data.append("last_name", lastName);
-        data.append("current_username", localStorage.getItem("username"));
-        data.append("username", username);
         data.append("phone_number", phoneNumber);
 
         if (e.target.image.files.length > 0) {
@@ -147,7 +150,6 @@ const EditProfile = ({
           <input
             type="text"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
             aria-label="username-input"
             disabled
             name="username"
