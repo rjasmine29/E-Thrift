@@ -8,6 +8,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { TwitterShareButton, TwitterIcon } from "react-share";
+import { Rating } from 'react-simple-star-rating'
 import axios from 'axios'
 
 
@@ -16,6 +17,7 @@ export default function ClaimedItemCard({ id, name, seller, price, category, des
   const [showDetails, setShowDetails] = useState(false);
   const [contactDetails, setContactDetails] = useState([])
   const [isActive, setIsActive] = useState(false)
+  const [rating, setRating] = useState(0) 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,11 +51,14 @@ image && image.map((image, key) => {
     )
   }
 })
+  const handleRating = (rate) => {
+    setRating(rate / 20)
+    // other logic
+  }
 
   const rateSeller = async (e) => {
     e.preventDefault()
-
-    const {data} = await axios.post(`http://127.0.0.1:8000/user/rating/${seller}/${e.target.rating.value}`)
+    const {data} = await axios.post(`http://127.0.0.1:8000/user/rating/${seller}/${rating}`)
     console.log(data)
   }
 
@@ -95,14 +100,7 @@ image && image.map((image, key) => {
         /></Button> */}
         <button onClick={() => navigate(`/view/${id}`)}>View Item</button>
         <form onSubmit={rateSeller}>
-          <select name="rating">
-            <option value="5">5</option>
-            <option value="4">4</option>
-            <option value="3">3</option>
-            <option value="2">2</option>
-            <option value="1">1</option>
-
-          </select>
+        <Rating onClick={handleRating} ratingValue={rating} name="rating" />
           <input type="submit" value="Submit rating" />
         </form>
         <button  onClick={() => window.location = `mailto:`+contactDetails.email}>Email Seller</button>

@@ -18,8 +18,23 @@
     margin-left: 10px;
 }
 
+.go-back-btn {
+    position: absolute;
+    top: 32px;
+    left: -35px;
+    cursor: pointer !important;
+    transition: opacity .5s ease-out !important;
+    -moz-transition: opacity .5s ease-out !important;
+    -webkit-transition: opacity .5s ease-out !important;
+    -o-transition: opacity .5s ease-out !important;
+}
+
+.go-back-btn:hover {
+    opacity: .5 !important;
+}
+
 .avatar-container {
-    background-color: lightcoral;
+    background-color: #88aaddb2;
     padding-bottom: 1rem;
 }
 

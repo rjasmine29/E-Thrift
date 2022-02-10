@@ -6,8 +6,9 @@
     gap: 20px;
 }
 
-.claimed-items-container > div > div > button {
+.claimed-items-container > div > div > div > button, .claimed-items-container > div > div > div > form > input[type='submit'] {
     border: none;
+    margin: 10px;
     padding: 10px 20px;
     border-radius: 0.5em;
     background-color: #45a33e;
@@ -15,9 +16,11 @@
     color: white;
 }
 
-.claimed-items-container > div {
-    width: 400px;
+.claimed-items-container > div > div {
+    max-width: 450px;
 }
+
+
 
 .claimed-items-container > div > div > button {
     margin: 0 auto;
