@@ -53,6 +53,7 @@ const ShowPage = () => {
 
     useEffect(() => {
         const getContactDetails = async () => {
+            if (data.seller == undefined) return
             const details = await fetch(`http://127.0.0.1:8000/user/get_by_username/${data.seller}`);
             const detailsJson = await details.json();
             setContactDetails(detailsJson)
@@ -234,17 +235,27 @@ const ShowPage = () => {
                     </div>
                     :
                     <div>
-                        {data.buyer !== localStorage.getItem("username")
-                            ? 
-                                <div>
-                                    <p className='claimed'>This item has already been claimed :(</p>
-                                </div>
-                            :
-                                <div>
-                                    <p className='claimed' style={{color: "green"}} onClick={() => navigate('/profile/true')}>Please go to your claimed page to see all your claimed items</p>
-                                </div>
+                        {
+                            localStorage.getItem("username")
+                                ?
+                                
+                                    data.buyer !== localStorage.getItem("username")
+                                        ? 
+                                            <div>
+                                                <p className='claimed'>This item has already been claimed :(</p>
+                                            </div>
+                                        :
+                                            <div>
+                                                <p className='claimed' style={{color: "green"}} onClick={() => navigate('/profile/true')}>Please go to your claimed page to see all your claimed items</p>
+                                                
+                                            </div>
+                                :
+                                    null
 
+                        
+                        
                         }
+                        
                     </div>
                 }
                 {data.is_claimed === localStorage.getItem("username")
@@ -255,7 +266,7 @@ const ShowPage = () => {
                     :
                     null
                 }
-                {localStorage.getItem("username")===null
+                {!localStorage.getItem("username") && !data.is_claimed
                     ?
                     <h5>To claim this item please  
                         <a className='log/sign' onClick={() => navigate(`/login`)}> Login</a>/

@@ -53,6 +53,8 @@ export const CatBar = ({setCategory}) => {
             {/* </Link>
             <Link to='/categories/ornaments'> */}
                 <Button variant='text' onClick={() => setCat("Ornaments")}><AiTwotoneGift/>Ornaments</Button>
+
+                <Button variant='text' onClick={() => setCat("Other")}><AiTwotoneGift/>Other</Button>
             {/* </Link> */}
         </Stack>
 

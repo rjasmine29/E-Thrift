@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -11,7 +11,21 @@ import { TwitterShareButton, TwitterIcon } from "react-share";
 function CLaimedItemCard({ id, name, seller, price, category, description, image }) {
 
   const [showDetails, setShowDetails] = useState(false);
+  const [contactDetails, setContactDetails] = useState([])
+  const [isActive, setIsActive] = useState(false)
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getContactDetails = async () => {
+        if (seller == undefined) return
+        const details = await fetch(`http://127.0.0.1:8000/user/get_by_username/${seller}`);
+        const detailsJson = await details.json();
+        setContactDetails(detailsJson)
+        
+    }
+    getContactDetails()
+}, [id])
+
 
   const handleShowDetails = () => {
     navigate(`/view/${id}`)
@@ -34,9 +48,13 @@ function CLaimedItemCard({ id, name, seller, price, category, description, image
     }
   })
 
+  const handleToggle = () =>{
+    setIsActive(!isActive)
+}
+
   return (
 
-    <Card sx={{ maxWidth: 345 }} onClick={handleShowDetails} >
+    <Card sx={{ maxWidth: 345 }} >
       <CardMedia
         component="img"
         height="140"
@@ -64,12 +82,15 @@ function CLaimedItemCard({ id, name, seller, price, category, description, image
       </CardContent>
       <CardActions >
        
-        <Button size="small"><TwitterShareButton
+        {/* <Button size="small"><TwitterShareButton
           children={"SHARE TO TWITTER"}
           url={`http://localhost:3000/view/${id}`}
           title={'Check out this ' + name + '!'}
-        /></Button>
-        <Button size="small" onClick={() => { setShowDetails(!showDetails) }}>More Details</Button>
+        /></Button> */}
+        <button onClick={() => navigate(`/view/${id}`)}>View Item</button>
+        <button  onClick={() => window.location = `mailto:`+contactDetails.email}>Email Seller</button>
+        
+        {/* <Button size="small" onClick={() => { setShowDetails(!showDetails) }}>More Details</Button> */}
       </CardActions>
     </Card>
   );
